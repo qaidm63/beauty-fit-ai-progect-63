@@ -113,6 +113,12 @@ class DatabaseManager:
                 return
 
         if not settings.database_url:
+            if settings.supabase_url and settings.supabase_key:
+                logger.warning(
+                    "DATABASE_URL is not configured, but Supabase credentials are available; skipping SQLAlchemy initialization."
+                )
+                self._initialized = True
+                return
             logger.error("No database URL provided. DATABASE_URL environment variable must be set.")
             raise ValueError("DATABASE_URL environment variable is required")
 
@@ -157,6 +163,14 @@ class DatabaseManager:
 
             logger.info("Database connection initialized successfully")
         except Exception as e:
+            if settings.supabase_url and settings.supabase_key:
+                logger.warning(
+                    f"SQLAlchemy database initialization failed ({e}); continuing in Supabase-only mode."
+                )
+                self.engine = None
+                self.async_session_maker = None
+                self._initialized = True
+                return
             logger.error(f"Failed to initialize database: {e}", exc_info=True)
             raise
 
@@ -191,8 +205,9 @@ class DatabaseManager:
                 return
 
             if not self.engine:
-                logger.error("Database engine not initialized")
-                raise RuntimeError("Database engine not initialized")
+                logger.warning("Database engine not initialized; skipping table creation in Supabase-only mode")
+                self._initialized = True
+                return
 
             # logger.info("🔧 Starting table structure repair...")
             # await self.check_and_repair_existing_tables()

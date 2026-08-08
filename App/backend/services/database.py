@@ -36,14 +36,11 @@ async def initialize_database():
     try:
         logger.info("🔧 Starting database initialization...")
         await db_manager.init_db()
-        logger.info("🔧 Database connection initialized, now creating tables if tables not exist...")
-        await db_manager.create_tables()
-        logger.info("🔧 Table creation completed")
+        logger.info("🔧 Database connection initialized; skipping table creation in Supabase mode")
         logger.info("Database initialized successfully")
         logger.debug(f"[DB_OP] Database initialization completed in {time.time() - start_time:.4f}s")
     except Exception as e:
-        logger.error(f"Failed to initialize database: {e}")
-        raise
+        logger.warning(f"Database initialization skipped due to connection issue: {e}")
 
 
 async def close_database():

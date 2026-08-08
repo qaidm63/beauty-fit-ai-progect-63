@@ -1,0 +1,425 @@
+2026-08-08 15:21:37,879 - main - INFO - === Logging system initialized ===
+2026-08-08 15:21:37,879 - main - INFO - Log file: logs/app_20260808_152137.log
+2026-08-08 15:21:37,879 - main - INFO - Log level: INFO
+2026-08-08 15:21:37,879 - main - INFO - Timestamp: 20260808_152137
+2026-08-08 15:21:40,907 - main - INFO - Included router: routers.aihub.router
+2026-08-08 15:21:40,916 - main - INFO - Included router: routers.auth.router
+2026-08-08 15:21:40,927 - main - INFO - Included router: routers.face_analysis.router
+2026-08-08 15:21:40,928 - main - INFO - Included router: routers.health.router
+2026-08-08 15:21:41,026 - routers.lipsticks - INFO - Loaded 6190 lipstick records from /workspaces/beauty-fit-ai-progect-63/App/backend/data/lipstick_enriched.json
+2026-08-08 15:21:41,044 - main - INFO - Included router: routers.lipsticks.router
+2026-08-08 15:21:41,094 - main - INFO - Included router: routers.payments.router
+2026-08-08 15:21:41,109 - services.pro_tutorial - INFO - [GeminiKeyManager] Initialized with 1 API key(s).
+2026-08-08 15:21:41,112 - main - INFO - Included router: routers.pro_tutorial.router
+2026-08-08 15:21:41,122 - main - INFO - Included router: routers.settings.router
+2026-08-08 15:21:41,141 - main - INFO - Included router: routers.storage.router
+2026-08-08 15:21:41,145 - main - INFO - Included router: routers.user.router
+2026-08-08 15:21:41,190 - main - INFO - === Application startup initiated ===
+2026-08-08 15:21:41,190 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-08 15:21:41,190 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-08 15:21:41,190 - core.database - INFO - Starting database initialization...
+2026-08-08 15:21:41,190 - core.database - INFO - Normalizing database URL for async compatibility...
+2026-08-08 15:21:41,191 - core.database - WARNING - Adjusted database URL driver for async compatibility
+2026-08-08 15:21:41,191 - core.database - INFO - Creating async database engine...
+2026-08-08 15:21:41,191 - core.database - INFO - Using QueuePool with connection pooling for non-Lambda environment
+2026-08-08 15:21:41,230 - core.database - INFO - Database engine created successfully
+2026-08-08 15:21:41,230 - core.database - INFO - Creating async session maker...
+2026-08-08 15:21:41,230 - core.database - INFO - Async session maker created successfully
+2026-08-08 15:21:41,230 - core.database - INFO - Database connection initialized successfully
+2026-08-08 15:21:41,230 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-08 15:21:41,230 - services.database - INFO - Database initialized successfully
+2026-08-08 15:21:41,230 - services.database - DEBUG - [DB_OP] Database initialization completed in 0.0405s
+2026-08-08 15:21:41,231 - services.mock_data - INFO - mock_data directory not found, skipping mock initialization
+2026-08-08 15:21:41,231 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-08 15:21:41,231 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-08 15:21:41,231 - core.database - INFO - Starting database initialization...
+2026-08-08 15:21:41,231 - core.database - INFO - Database already initialized
+2026-08-08 15:21:41,231 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-08 15:21:41,231 - services.database - INFO - Database initialized successfully
+2026-08-08 15:21:41,231 - services.database - DEBUG - [DB_OP] Database initialization completed in 0.0006s
+2026-08-08 15:21:41,231 - services.auth - WARNING - Admin user ID or email not configured, skipping admin initialization
+2026-08-08 15:21:41,231 - main - INFO - === Application startup completed successfully ===
+2026-08-08 15:26:15,628 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/auth/me
+2026-08-08 15:26:30,603 - services.face_analysis - INFO - [BeautyFit v2.1] img=450x800 Metrics: face_ratio=1.124, jaw_angle=144.5, jaw_ratio=1.426, forehead_ratio=0.947, chin_ratio=0.292, EAR=0.4124, eye_aspect_ratio=2.325, eye_tilt_angle=0.11, lid_visibility=0.538, nose_bridge_height=0.0281, lip_height_ratio=0.0982, cupid_bow_ratio=0.095
+2026-08-08 15:26:42,970 - routers.pro_tutorial - INFO - Generating pro tutorial (testing mode): style=sweet
+2026-08-08 15:26:42,971 - services.style_guide_parser - INFO - [style_guide_parser] Found style guides dir at: /workspaces/beauty-fit-ai-progect-63/App/backend/assets/uploads
+2026-08-08 15:26:42,971 - services.style_guide_parser - INFO - [style_guide_parser] Found style guides dir at: /workspaces/beauty-fit-ai-progect-63/App/backend/assets/uploads
+2026-08-08 15:26:42,972 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Sweet' from file: BeautyFit_Sweet_Style_Guide (1).docx
+2026-08-08 15:26:43,106 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Natural' from file: BeautyFit_Natural_Style_Guide.docx
+2026-08-08 15:26:43,183 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Sexy' from file: BeautyFit_Sexy_Style_Guide (1).docx
+2026-08-08 15:26:43,254 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Androgynous' from file: BeautyFit_Androgynous_Style_Guide.docx
+2026-08-08 15:26:43,306 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Elegant' from file: BeautyFit_Elegant_Style_Guide (1).docx
+2026-08-08 15:26:43,349 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Mature' from file: BeautyFit_Mature_Style_Guide (1).docx
+2026-08-08 15:26:43,399 - services.style_guide_parser - INFO - [style_guide_parser] loaded catalog from docx for 6 styles: {'sweet': 5, 'natural': 5, 'sexy': 5, 'androgynous': 5, 'elegant': 5, 'mature': 5}
+2026-08-08 15:26:43,399 - services.pro_tutorial - INFO - [pro_tutorial] start style=sweet sub_styles=5
+2026-08-08 15:26:44,099 - openai._base_client - DEBUG - Request options: {'method': 'post', 'url': '/chat/completions', 'files': None, 'idempotency_key': 'stainless-python-retry-8793fe13-3beb-4e3b-8afd-c25dbad69bcb', 'content': None, 'json_data': {'messages': [{'role': 'system', 'content': "You are a senior professional makeup artist. Given a user's facial profile and the candidate sub-styles within a target makeup style, pick the ONE sub-style that best fits the user, and write a short, warm personalized explanation. Always return STRICT JSON — no markdown, no prose outside JSON."}, {'role': 'user', 'content': 'USER FACIAL PROFILE:\nTarget style: Sweet\nUser\'s match score for this style: 66.2/100\nFace shape: ROUND\nEye traits: DOUBLE_LID, ALMOND_EYE, ROUND_EYE, WIDE_SET\nFacial traits: HIGH_NOSE_BRIDGE, FULL_LIP, WIDE_LIP\nKey metrics: {"face_ratio": 1.124, "jaw_ratio": 1.426, "jaw_angle": 144.5, "eye_aspect_ratio": 2.325, "eye_tilt_angle": 0.11, "eye_spacing_ratio": 0.44, "lid_visibility": 0.538, "nose_bridge_height": 0.028, "alar_width_ratio": 0.284, "lip_width_ratio": 0.413, "lip_height_ratio": 0.098, "cupid_bow_ratio": 0.095, "forehead_ratio": 0.947, "chin_ratio": 0.292}\n\nCANDIDATE SUB-STYLES WITHIN Sweet:\n- Japanese Kawaii (日系可爱)\n- Korean Dewy (韩系水光)\n- Strawberry Girl (草莓少女)\n- Glazed Donut (镜面水光)\n- Romantic Floral (浪漫花园)\n\nTASK: Pick the single best-matching sub-style for this user and write the personalization text.\n\nOUTPUT FORMAT:\nReturn a JSON object with EXACTLY these fields:\n{\n  "overview": "2-3 sentences describing the style for this user at a high level",\n  "personalized_analysis": "4-6 sentences connecting the user\'s face shape, eye tags, facial tags and key metrics to why this style works for them and which sub-style suits them best",\n  "recommended_sub_style": one of ["Japanese Kawaii (日系可爱)" | "Korean Dewy (韩系水光)" | "Strawberry Girl (草莓少女)" | "Glazed Donut (镜面水光)" | "Romantic Floral (浪漫花园)"]\n}\nDo not include any other fields.'}], 'model': 'deepseek-chat', 'max_tokens': 4096, 'stream': False, 'temperature': 0.7}}
+2026-08-08 15:26:44,100 - openai._base_client - DEBUG - Sending HTTP Request: POST https://api.deepseek.com/v1/chat/completions
+2026-08-08 15:26:44,100 - httpcore.connection - DEBUG - connect_tcp.started host='api.deepseek.com' port=443 local_address=None timeout=5.0 socket_options=None
+2026-08-08 15:26:44,116 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4aeb8920>
+2026-08-08 15:26:44,116 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7a2a4b5051d0> server_hostname='api.deepseek.com' timeout=5.0
+2026-08-08 15:26:44,130 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a516bf9e0>
+2026-08-08 15:26:44,130 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:44,131 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:44,131 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:44,131 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:44,131 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:44,601 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Content-Type', b'application/json'), (b'Content-Length', b'111'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 08 Aug 2026 15:26:44 GMT'), (b'Server', b'elb'), (b'vary', b'origin, access-control-request-method, access-control-request-headers'), (b'access-control-allow-credentials', b'true'), (b'x-ds-trace-id', b'0f51510f6321ae6e61e5387da5df7b68'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'X-Content-Type-Options', b'nosniff'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 6a6fb35fc4ddde57de000fbf6b6265da.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'BOM54-P1'), (b'X-Amz-Cf-Id', b'EhEPGnVRSWITQM5axW5hGDSBwOrZjKclJSruIya4wsfCNsBYom07Dg==')])
+2026-08-08 15:26:44,601 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-08-08 15:26:44,602 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:44,602 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:44,602 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:44,602 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:44,602 - openai._base_client - DEBUG - HTTP Response: POST https://api.deepseek.com/v1/chat/completions "402 Payment Required" Headers({'content-type': 'application/json', 'content-length': '111', 'connection': 'keep-alive', 'date': 'Sat, 08 Aug 2026 15:26:44 GMT', 'server': 'elb', 'vary': 'origin, access-control-request-method, access-control-request-headers', 'access-control-allow-credentials': 'true', 'x-ds-trace-id': '0f51510f6321ae6e61e5387da5df7b68', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'x-content-type-options': 'nosniff', 'x-cache': 'Error from cloudfront', 'via': '1.1 6a6fb35fc4ddde57de000fbf6b6265da.cloudfront.net (CloudFront)', 'x-amz-cf-pop': 'BOM54-P1', 'x-amz-cf-id': 'EhEPGnVRSWITQM5axW5hGDSBwOrZjKclJSruIya4wsfCNsBYom07Dg=='})
+2026-08-08 15:26:44,603 - openai._base_client - DEBUG - request_id: None
+2026-08-08 15:26:44,603 - openai._base_client - DEBUG - Encountered httpx.HTTPStatusError
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/_base_client.py", line 1646, in request
+    response.raise_for_status()
+  File "/home/codespace/.local/lib/python3.12/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '402 Payment Required' for url 'https://api.deepseek.com/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-08-08 15:26:44,606 - openai._base_client - DEBUG - Not retrying
+2026-08-08 15:26:44,606 - openai._base_client - DEBUG - Re-raising status error
+2026-08-08 15:26:44,607 - services.aihub - ERROR - gentxt error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-08-08 15:26:44,607 - services.pro_tutorial - ERROR - [pro_tutorial] personalization gentxt failed: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+Traceback (most recent call last):
+  File "/workspaces/beauty-fit-ai-progect-63/App/backend/services/pro_tutorial.py", line 272, in _personalize
+    raw = await asyncio.wait_for(service.gentxt(gentxt_req), timeout=30.0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/workspaces/beauty-fit-ai-progect-63/App/backend/services/aihub.py", line 168, in gentxt
+    response = await client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 2678, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/_base_client.py", line 1881, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/_base_client.py", line 1666, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-08-08 15:26:44,615 - services.pro_tutorial - INFO - [pro_tutorial] using default personalization (LLM unavailable/failed)
+2026-08-08 15:26:44,733 - services.pro_tutorial - INFO - [stylize] Tier 1: Attempting Gemini Model [1/2]: imagen-3.0-generate-001
+2026-08-08 15:26:44,737 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-08-08 15:26:44,740 - httpcore.connection - DEBUG - connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+2026-08-08 15:26:44,751 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4b08faa0>
+2026-08-08 15:26:44,752 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7a2a4a5d93d0> server_hostname='generativelanguage.googleapis.com' timeout=None
+2026-08-08 15:26:44,760 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4affff50>
+2026-08-08 15:26:44,761 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:44,761 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:44,762 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:44,764 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:44,764 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:45,221 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'X-Gemini-Service-Tier', b'standard'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Type', b'application/json; charset=UTF-8'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 08 Aug 2026 15:26:45 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=455'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+2026-08-08 15:26:45,222 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-08-08 15:26:45,222 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:45,222 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:45,222 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:45,222 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:45,223 - services.aihub - ERROR - genimg error: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 14.788456889s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '14s'}]}}
+2026-08-08 15:26:45,223 - services.pro_tutorial - WARNING - [GeminiKeyManager] Rotation requested but only 1 or 0 keys configured.
+2026-08-08 15:26:45,423 - services.pro_tutorial - INFO - [stylize] Tier 1: Attempting Gemini Model [2/2]: imagen-3.0-fast-generate-001
+2026-08-08 15:26:45,424 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-08-08 15:26:45,425 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:45,426 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:45,426 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:45,426 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:45,426 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:45,694 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'X-Gemini-Service-Tier', b'standard'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Type', b'application/json; charset=UTF-8'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 08 Aug 2026 15:26:45 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=264'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+2026-08-08 15:26:45,695 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-08-08 15:26:45,695 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:45,696 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:45,696 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:45,696 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:45,697 - services.aihub - ERROR - genimg error: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 14.315679885s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '14s'}]}}
+2026-08-08 15:26:45,697 - services.pro_tutorial - WARNING - [GeminiKeyManager] Rotation requested but only 1 or 0 keys configured.
+2026-08-08 15:26:45,898 - services.pro_tutorial - INFO - [stylize] Tier 1 exhausted. Proceeding to Tier 2 (OpenRouter)...
+2026-08-08 15:26:45,938 - services.pro_tutorial - INFO - [stylize] Tier 2: Attempting OpenRouter model: black-forest-labs/flux-1-schnell
+2026-08-08 15:26:45,939 - httpcore.connection - DEBUG - connect_tcp.started host='openrouter.ai' port=443 local_address=None timeout=45.0 socket_options=None
+2026-08-08 15:26:45,947 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4b28b2f0>
+2026-08-08 15:26:45,948 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7a2a4a5db250> server_hostname='openrouter.ai' timeout=45.0
+2026-08-08 15:26:45,956 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4b32a0f0>
+2026-08-08 15:26:45,956 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:45,957 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:45,957 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:45,957 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:45,958 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:46,449 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'Date', b'Sat, 08 Aug 2026 15:26:46 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Generation-Id,X-Provider-Name,cf-ray'), (b'set-cookie', b'__cf_bm=J5FYhjxEp4H_M.moMHV1g.aczeC0YrVdD6dFax89Nco-1786202805.9812624-1.0.1.1-QszRcW.X3OvwKkGsStTTH2ZId8XHBk7ur4zDBpneWLyRBRX48PPiWepSX0lfDn8eXXL7YUuJlISfrV91nRa5Z0s68y3yw.HGdyk81_gA7r0vOooY3XwcBEZqsa4AnCnk; HttpOnly; SameSite=None; Secure; Path=/; Domain=openrouter.ai; Expires=Sat, 08 Aug 2026 15:56:46 GMT'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'a27f8a916c5cffa3-BOM')])
+2026-08-08 15:26:46,450 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-08-08 15:26:46,450 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:46,451 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:46,451 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:46,451 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:46,451 - services.pro_tutorial - INFO - [stylize] Tier 2: Attempting OpenRouter model: stabilityai/stable-diffusion-3-5-large
+2026-08-08 15:26:46,452 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:46,452 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:46,452 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:46,453 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:46,453 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:46,465 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'Date', b'Sat, 08 Aug 2026 15:26:46 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Generation-Id,X-Provider-Name,cf-ray'), (b'x-clerk-auth-message', b'Invalid JWT form. A JWT consists of three parts separated by dots. (reason=token-invalid, token-carrier=header)'), (b'x-clerk-auth-reason', b'token-invalid'), (b'x-clerk-auth-status', b'signed-out'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'a27f8a947c9fffa3-BOM')])
+2026-08-08 15:26:46,466 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-08-08 15:26:46,466 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:46,467 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:46,467 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:46,467 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:46,467 - httpcore.connection - DEBUG - close.started
+2026-08-08 15:26:46,467 - httpcore.connection - DEBUG - close.complete
+2026-08-08 15:26:46,467 - services.pro_tutorial - INFO - [stylize] Tier 2 exhausted. Proceeding to Tier 3 (Pollinations AI)...
+2026-08-08 15:26:46,584 - services.pro_tutorial - INFO - [stylize] generated local preview for style=sweet sub_style=Japanese Kawaii (日系可爱)
+2026-08-08 15:26:46,585 - services.pro_tutorial - INFO - [pro_tutorial] done style=sweet chosen=Japanese Kawaii (日系可爱) elapsed=3.61s
+2026-08-08 15:26:46,586 - httpcore.connection - DEBUG - close.started
+2026-08-08 15:26:46,589 - httpcore.connection - DEBUG - close.complete
+2026-08-08 15:26:50,087 - routers.pro_tutorial - INFO - Generating pro tutorial (testing mode): style=sweet
+2026-08-08 15:26:50,087 - services.pro_tutorial - INFO - [pro_tutorial] start style=sweet sub_styles=5
+2026-08-08 15:26:50,183 - openai._base_client - DEBUG - Request options: {'method': 'post', 'url': '/chat/completions', 'files': None, 'idempotency_key': 'stainless-python-retry-14ded9ee-2d85-49e1-bb7b-d197abaa26cd', 'content': None, 'json_data': {'messages': [{'role': 'system', 'content': "You are a senior professional makeup artist. Given a user's facial profile and the candidate sub-styles within a target makeup style, pick the ONE sub-style that best fits the user, and write a short, warm personalized explanation. Always return STRICT JSON — no markdown, no prose outside JSON."}, {'role': 'user', 'content': 'USER FACIAL PROFILE:\nTarget style: Sweet\nUser\'s match score for this style: 66.2/100\nFace shape: ROUND\nEye traits: DOUBLE_LID, ALMOND_EYE, ROUND_EYE, WIDE_SET\nFacial traits: HIGH_NOSE_BRIDGE, FULL_LIP, WIDE_LIP\nKey metrics: {"face_ratio": 1.124, "jaw_ratio": 1.426, "jaw_angle": 144.5, "eye_aspect_ratio": 2.325, "eye_tilt_angle": 0.11, "eye_spacing_ratio": 0.44, "lid_visibility": 0.538, "nose_bridge_height": 0.028, "alar_width_ratio": 0.284, "lip_width_ratio": 0.413, "lip_height_ratio": 0.098, "cupid_bow_ratio": 0.095, "forehead_ratio": 0.947, "chin_ratio": 0.292}\n\nCANDIDATE SUB-STYLES WITHIN Sweet:\n- Japanese Kawaii (日系可爱)\n- Korean Dewy (韩系水光)\n- Strawberry Girl (草莓少女)\n- Glazed Donut (镜面水光)\n- Romantic Floral (浪漫花园)\n\nTASK: Pick the single best-matching sub-style for this user and write the personalization text.\n\nOUTPUT FORMAT:\nReturn a JSON object with EXACTLY these fields:\n{\n  "overview": "2-3 sentences describing the style for this user at a high level",\n  "personalized_analysis": "4-6 sentences connecting the user\'s face shape, eye tags, facial tags and key metrics to why this style works for them and which sub-style suits them best",\n  "recommended_sub_style": one of ["Japanese Kawaii (日系可爱)" | "Korean Dewy (韩系水光)" | "Strawberry Girl (草莓少女)" | "Glazed Donut (镜面水光)" | "Romantic Floral (浪漫花园)"]\n}\nDo not include any other fields.'}], 'model': 'deepseek-chat', 'max_tokens': 4096, 'stream': False, 'temperature': 0.7}}
+2026-08-08 15:26:50,184 - openai._base_client - DEBUG - Sending HTTP Request: POST https://api.deepseek.com/v1/chat/completions
+2026-08-08 15:26:50,184 - httpcore.connection - DEBUG - connect_tcp.started host='api.deepseek.com' port=443 local_address=None timeout=5.0 socket_options=None
+2026-08-08 15:26:50,199 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4a5f7e90>
+2026-08-08 15:26:50,199 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7a2a4a5d9350> server_hostname='api.deepseek.com' timeout=5.0
+2026-08-08 15:26:50,207 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4a5f7da0>
+2026-08-08 15:26:50,207 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:50,207 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:50,207 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:50,208 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:50,208 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:50,674 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Content-Type', b'application/json'), (b'Content-Length', b'111'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 08 Aug 2026 15:26:50 GMT'), (b'Server', b'elb'), (b'vary', b'origin, access-control-request-method, access-control-request-headers'), (b'access-control-allow-credentials', b'true'), (b'x-ds-trace-id', b'8d92c2b0eaadb4ad767d6a5522c3b04a'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'X-Content-Type-Options', b'nosniff'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 1dd6f08fb93545a8d6cac36f521d0678.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'BOM78-P3'), (b'X-Amz-Cf-Id', b'LkG7NOANyAVvlddZugHoBw9Bs_H7tNwAcwb6vKUfjQIQnf9u9WijXg==')])
+2026-08-08 15:26:50,674 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-08-08 15:26:50,674 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:50,674 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:50,675 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:50,675 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:50,675 - openai._base_client - DEBUG - HTTP Response: POST https://api.deepseek.com/v1/chat/completions "402 Payment Required" Headers({'content-type': 'application/json', 'content-length': '111', 'connection': 'keep-alive', 'date': 'Sat, 08 Aug 2026 15:26:50 GMT', 'server': 'elb', 'vary': 'origin, access-control-request-method, access-control-request-headers', 'access-control-allow-credentials': 'true', 'x-ds-trace-id': '8d92c2b0eaadb4ad767d6a5522c3b04a', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'x-content-type-options': 'nosniff', 'x-cache': 'Error from cloudfront', 'via': '1.1 1dd6f08fb93545a8d6cac36f521d0678.cloudfront.net (CloudFront)', 'x-amz-cf-pop': 'BOM78-P3', 'x-amz-cf-id': 'LkG7NOANyAVvlddZugHoBw9Bs_H7tNwAcwb6vKUfjQIQnf9u9WijXg=='})
+2026-08-08 15:26:50,675 - openai._base_client - DEBUG - request_id: None
+2026-08-08 15:26:50,675 - openai._base_client - DEBUG - Encountered httpx.HTTPStatusError
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/_base_client.py", line 1646, in request
+    response.raise_for_status()
+  File "/home/codespace/.local/lib/python3.12/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '402 Payment Required' for url 'https://api.deepseek.com/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-08-08 15:26:50,676 - openai._base_client - DEBUG - Not retrying
+2026-08-08 15:26:50,676 - openai._base_client - DEBUG - Re-raising status error
+2026-08-08 15:26:50,676 - services.aihub - ERROR - gentxt error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-08-08 15:26:50,676 - services.pro_tutorial - ERROR - [pro_tutorial] personalization gentxt failed: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+Traceback (most recent call last):
+  File "/workspaces/beauty-fit-ai-progect-63/App/backend/services/pro_tutorial.py", line 272, in _personalize
+    raw = await asyncio.wait_for(service.gentxt(gentxt_req), timeout=30.0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/workspaces/beauty-fit-ai-progect-63/App/backend/services/aihub.py", line 168, in gentxt
+    response = await client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 2678, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/_base_client.py", line 1881, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/_base_client.py", line 1666, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-08-08 15:26:50,677 - services.pro_tutorial - INFO - [pro_tutorial] using default personalization (LLM unavailable/failed)
+2026-08-08 15:26:50,775 - services.pro_tutorial - INFO - [stylize] Tier 1: Attempting Gemini Model [1/2]: imagen-3.0-generate-001
+2026-08-08 15:26:50,775 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-08-08 15:26:50,779 - httpcore.connection - DEBUG - close.started
+2026-08-08 15:26:50,780 - httpcore.connection - DEBUG - connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+2026-08-08 15:26:50,782 - httpcore.connection - DEBUG - close.complete
+2026-08-08 15:26:50,787 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4dd140e0>
+2026-08-08 15:26:50,788 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7a2a4aebd1d0> server_hostname='generativelanguage.googleapis.com' timeout=None
+2026-08-08 15:26:50,794 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4dd14c50>
+2026-08-08 15:26:50,794 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:50,794 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:50,794 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:50,795 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:50,795 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:51,048 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'X-Gemini-Service-Tier', b'standard'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Type', b'application/json; charset=UTF-8'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 08 Aug 2026 15:26:51 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=249'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+2026-08-08 15:26:51,049 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-08-08 15:26:51,049 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:51,049 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:51,049 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:51,049 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:51,050 - services.aihub - ERROR - genimg error: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 8.960700238s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '8s'}]}}
+2026-08-08 15:26:51,050 - services.pro_tutorial - WARNING - [GeminiKeyManager] Rotation requested but only 1 or 0 keys configured.
+2026-08-08 15:26:51,250 - services.pro_tutorial - INFO - [stylize] Tier 1: Attempting Gemini Model [2/2]: imagen-3.0-fast-generate-001
+2026-08-08 15:26:51,250 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-08-08 15:26:51,252 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:51,253 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:51,253 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:51,253 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:51,253 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:51,502 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'X-Gemini-Service-Tier', b'standard'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Type', b'application/json; charset=UTF-8'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 08 Aug 2026 15:26:51 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=244'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+2026-08-08 15:26:51,502 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-08-08 15:26:51,503 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:51,503 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:51,503 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:51,503 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:51,504 - services.aihub - ERROR - genimg error: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 8.507780462s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '8s'}]}}
+2026-08-08 15:26:51,504 - services.pro_tutorial - WARNING - [GeminiKeyManager] Rotation requested but only 1 or 0 keys configured.
+2026-08-08 15:26:51,704 - services.pro_tutorial - INFO - [stylize] Tier 1 exhausted. Proceeding to Tier 2 (OpenRouter)...
+2026-08-08 15:26:51,730 - services.pro_tutorial - INFO - [stylize] Tier 2: Attempting OpenRouter model: black-forest-labs/flux-1-schnell
+2026-08-08 15:26:51,730 - httpcore.connection - DEBUG - connect_tcp.started host='openrouter.ai' port=443 local_address=None timeout=45.0 socket_options=None
+2026-08-08 15:26:51,736 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4b28b440>
+2026-08-08 15:26:51,736 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7a2a4a620850> server_hostname='openrouter.ai' timeout=45.0
+2026-08-08 15:26:51,746 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4b28b2f0>
+2026-08-08 15:26:51,747 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:51,747 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:51,747 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:51,747 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:51,748 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:51,956 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'Date', b'Sat, 08 Aug 2026 15:26:51 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Generation-Id,X-Provider-Name,cf-ray'), (b'set-cookie', b'__cf_bm=YPUvdruV6F_XXiwYdg620R.XajWntXqd7vxwp4LN0_k-1786202811.7725315-1.0.1.1-sSKDq1gCTXo.gGfwJfo.HvWEo7ZYX.lV0P7HcNfX3yuZfWRfCpXZYol0xWCNcXLRuM2qXxmSeviRwM0GVgKvQtn2crG7SCKsMir_MdqzuQ_Nz0r6QTot9o4Y4tK2tNMx; HttpOnly; SameSite=None; Secure; Path=/; Domain=openrouter.ai; Expires=Sat, 08 Aug 2026 15:56:51 GMT'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'a27f8ab59cab47e3-BOM')])
+2026-08-08 15:26:51,957 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-08-08 15:26:51,957 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:51,958 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:51,958 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:51,958 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:51,958 - services.pro_tutorial - INFO - [stylize] Tier 2: Attempting OpenRouter model: stabilityai/stable-diffusion-3-5-large
+2026-08-08 15:26:51,959 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:51,959 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:51,959 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:51,960 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:51,960 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:51,979 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'Date', b'Sat, 08 Aug 2026 15:26:51 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Generation-Id,X-Provider-Name,cf-ray'), (b'x-clerk-auth-message', b'Invalid JWT form. A JWT consists of three parts separated by dots. (reason=token-invalid, token-carrier=header)'), (b'x-clerk-auth-reason', b'token-invalid'), (b'x-clerk-auth-status', b'signed-out'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'a27f8ab6eda547e3-BOM')])
+2026-08-08 15:26:51,979 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-08-08 15:26:51,979 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:51,980 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:51,980 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:51,980 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:51,980 - httpcore.connection - DEBUG - close.started
+2026-08-08 15:26:51,980 - httpcore.connection - DEBUG - close.complete
+2026-08-08 15:26:51,981 - services.pro_tutorial - INFO - [stylize] Tier 2 exhausted. Proceeding to Tier 3 (Pollinations AI)...
+2026-08-08 15:26:52,106 - services.pro_tutorial - INFO - [stylize] generated local preview for style=sweet sub_style=Japanese Kawaii (日系可爱)
+2026-08-08 15:26:52,106 - services.pro_tutorial - INFO - [pro_tutorial] done style=sweet chosen=Japanese Kawaii (日系可爱) elapsed=2.02s
+2026-08-08 15:26:59,125 - routers.pro_tutorial - INFO - Generating pro tutorial (testing mode): style=natural
+2026-08-08 15:26:59,126 - services.pro_tutorial - INFO - [pro_tutorial] start style=natural sub_styles=5
+2026-08-08 15:26:59,225 - httpcore.connection - DEBUG - close.started
+2026-08-08 15:26:59,227 - httpcore.connection - DEBUG - close.complete
+2026-08-08 15:26:59,227 - openai._base_client - DEBUG - Request options: {'method': 'post', 'url': '/chat/completions', 'files': None, 'idempotency_key': 'stainless-python-retry-5876ad0c-1d54-4745-82fa-aa8ae7416126', 'content': None, 'json_data': {'messages': [{'role': 'system', 'content': "You are a senior professional makeup artist. Given a user's facial profile and the candidate sub-styles within a target makeup style, pick the ONE sub-style that best fits the user, and write a short, warm personalized explanation. Always return STRICT JSON — no markdown, no prose outside JSON."}, {'role': 'user', 'content': 'USER FACIAL PROFILE:\nTarget style: Natural\nUser\'s match score for this style: 56.0/100\nFace shape: ROUND\nEye traits: DOUBLE_LID, ALMOND_EYE, ROUND_EYE, WIDE_SET\nFacial traits: HIGH_NOSE_BRIDGE, FULL_LIP, WIDE_LIP\nKey metrics: {"face_ratio": 1.124, "jaw_ratio": 1.426, "jaw_angle": 144.5, "eye_aspect_ratio": 2.325, "eye_tilt_angle": 0.11, "eye_spacing_ratio": 0.44, "lid_visibility": 0.538, "nose_bridge_height": 0.028, "alar_width_ratio": 0.284, "lip_width_ratio": 0.413, "lip_height_ratio": 0.098, "cupid_bow_ratio": 0.095, "forehead_ratio": 0.947, "chin_ratio": 0.292}\n\nCANDIDATE SUB-STYLES WITHIN Natural:\n- Clean Girl\n- No-Makeup Makeup\n- Sun-Kissed / Bronzed\n- Skinimalism\n- Dewy Flush\n\nTASK: Pick the single best-matching sub-style for this user and write the personalization text.\n\nOUTPUT FORMAT:\nReturn a JSON object with EXACTLY these fields:\n{\n  "overview": "2-3 sentences describing the style for this user at a high level",\n  "personalized_analysis": "4-6 sentences connecting the user\'s face shape, eye tags, facial tags and key metrics to why this style works for them and which sub-style suits them best",\n  "recommended_sub_style": one of ["Clean Girl" | "No-Makeup Makeup" | "Sun-Kissed / Bronzed" | "Skinimalism" | "Dewy Flush"]\n}\nDo not include any other fields.'}], 'model': 'deepseek-chat', 'max_tokens': 4096, 'stream': False, 'temperature': 0.7}}
+2026-08-08 15:26:59,228 - openai._base_client - DEBUG - Sending HTTP Request: POST https://api.deepseek.com/v1/chat/completions
+2026-08-08 15:26:59,230 - httpcore.connection - DEBUG - connect_tcp.started host='api.deepseek.com' port=443 local_address=None timeout=5.0 socket_options=None
+2026-08-08 15:26:59,242 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4de63260>
+2026-08-08 15:26:59,243 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7a2a4a6206d0> server_hostname='api.deepseek.com' timeout=5.0
+2026-08-08 15:26:59,250 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4b3ab7d0>
+2026-08-08 15:26:59,250 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:59,251 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:59,251 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:59,251 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:59,251 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:59,717 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Content-Type', b'application/json'), (b'Content-Length', b'111'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 08 Aug 2026 15:26:59 GMT'), (b'Server', b'elb'), (b'vary', b'origin, access-control-request-method, access-control-request-headers'), (b'access-control-allow-credentials', b'true'), (b'x-ds-trace-id', b'82740d8c6ce123b28c932794193cf125'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'X-Content-Type-Options', b'nosniff'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 1dd6f08fb93545a8d6cac36f521d0678.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'BOM78-P3'), (b'X-Amz-Cf-Id', b'T_AVREY7JK0vE5co32SQleuehAoPCMabE16jJFytfN-PNX3cBGfqtQ==')])
+2026-08-08 15:26:59,717 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-08-08 15:26:59,717 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:26:59,717 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:26:59,718 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:26:59,718 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:26:59,718 - openai._base_client - DEBUG - HTTP Response: POST https://api.deepseek.com/v1/chat/completions "402 Payment Required" Headers({'content-type': 'application/json', 'content-length': '111', 'connection': 'keep-alive', 'date': 'Sat, 08 Aug 2026 15:26:59 GMT', 'server': 'elb', 'vary': 'origin, access-control-request-method, access-control-request-headers', 'access-control-allow-credentials': 'true', 'x-ds-trace-id': '82740d8c6ce123b28c932794193cf125', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'x-content-type-options': 'nosniff', 'x-cache': 'Error from cloudfront', 'via': '1.1 1dd6f08fb93545a8d6cac36f521d0678.cloudfront.net (CloudFront)', 'x-amz-cf-pop': 'BOM78-P3', 'x-amz-cf-id': 'T_AVREY7JK0vE5co32SQleuehAoPCMabE16jJFytfN-PNX3cBGfqtQ=='})
+2026-08-08 15:26:59,718 - openai._base_client - DEBUG - request_id: None
+2026-08-08 15:26:59,718 - openai._base_client - DEBUG - Encountered httpx.HTTPStatusError
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/_base_client.py", line 1646, in request
+    response.raise_for_status()
+  File "/home/codespace/.local/lib/python3.12/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '402 Payment Required' for url 'https://api.deepseek.com/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-08-08 15:26:59,719 - openai._base_client - DEBUG - Not retrying
+2026-08-08 15:26:59,719 - openai._base_client - DEBUG - Re-raising status error
+2026-08-08 15:26:59,719 - services.aihub - ERROR - gentxt error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-08-08 15:26:59,719 - services.pro_tutorial - ERROR - [pro_tutorial] personalization gentxt failed: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+Traceback (most recent call last):
+  File "/workspaces/beauty-fit-ai-progect-63/App/backend/services/pro_tutorial.py", line 272, in _personalize
+    raw = await asyncio.wait_for(service.gentxt(gentxt_req), timeout=30.0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/workspaces/beauty-fit-ai-progect-63/App/backend/services/aihub.py", line 168, in gentxt
+    response = await client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 2678, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/_base_client.py", line 1881, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/openai/_base_client.py", line 1666, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-08-08 15:26:59,720 - services.pro_tutorial - INFO - [pro_tutorial] using default personalization (LLM unavailable/failed)
+2026-08-08 15:26:59,865 - services.pro_tutorial - INFO - [stylize] Tier 1: Attempting Gemini Model [1/2]: imagen-3.0-generate-001
+2026-08-08 15:26:59,866 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-08-08 15:26:59,869 - httpcore.connection - DEBUG - connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+2026-08-08 15:26:59,877 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4b28a600>
+2026-08-08 15:26:59,878 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7a2a4b515a50> server_hostname='generativelanguage.googleapis.com' timeout=None
+2026-08-08 15:26:59,894 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4a5d7860>
+2026-08-08 15:26:59,894 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:26:59,895 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:26:59,895 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:26:59,895 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:26:59,895 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:27:00,163 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'X-Gemini-Service-Tier', b'standard'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Type', b'application/json; charset=UTF-8'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 08 Aug 2026 15:27:00 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=264'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+2026-08-08 15:27:00,164 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-08-08 15:27:00,164 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:27:00,165 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:27:00,167 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:27:00,168 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:27:00,168 - services.aihub - ERROR - genimg error: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 59.846480235s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '59s'}]}}
+2026-08-08 15:27:00,168 - services.pro_tutorial - WARNING - [GeminiKeyManager] Rotation requested but only 1 or 0 keys configured.
+2026-08-08 15:27:00,368 - services.pro_tutorial - INFO - [stylize] Tier 1: Attempting Gemini Model [2/2]: imagen-3.0-fast-generate-001
+2026-08-08 15:27:00,369 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-08-08 15:27:00,371 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:27:00,372 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:27:00,372 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:27:00,372 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:27:00,372 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:27:00,624 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'X-Gemini-Service-Tier', b'standard'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Type', b'application/json; charset=UTF-8'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 08 Aug 2026 15:27:00 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=248'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+2026-08-08 15:27:00,625 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-08-08 15:27:00,625 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:27:00,626 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:27:00,626 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:27:00,626 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:27:00,627 - services.aihub - ERROR - genimg error: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 59.38618448s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '59s'}]}}
+2026-08-08 15:27:00,627 - services.pro_tutorial - WARNING - [GeminiKeyManager] Rotation requested but only 1 or 0 keys configured.
+2026-08-08 15:27:00,827 - services.pro_tutorial - INFO - [stylize] Tier 1 exhausted. Proceeding to Tier 2 (OpenRouter)...
+2026-08-08 15:27:00,851 - services.pro_tutorial - INFO - [stylize] Tier 2: Attempting OpenRouter model: black-forest-labs/flux-1-schnell
+2026-08-08 15:27:00,853 - httpcore.connection - DEBUG - connect_tcp.started host='openrouter.ai' port=443 local_address=None timeout=45.0 socket_options=None
+2026-08-08 15:27:00,859 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4a5f7d10>
+2026-08-08 15:27:00,859 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7a2a4a620250> server_hostname='openrouter.ai' timeout=45.0
+2026-08-08 15:27:00,870 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7a2a4a5f58e0>
+2026-08-08 15:27:00,871 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:27:00,871 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:27:00,871 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:27:00,872 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:27:00,872 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:27:00,893 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'Date', b'Sat, 08 Aug 2026 15:27:00 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Generation-Id,X-Provider-Name,cf-ray'), (b'set-cookie', b'__cf_bm=iw.hj8kibv886PAzWUHBe.xzEWAh1.BnBkuoMxO9.A8-1786202820.8959088-1.0.1.1-twST..1cd79WQxeqkI2vdALQFdVySr1Z6oSQJKu6BmitqqmUGry8Ne7gBn9Qs3mFF4XR2_vKhvZjolYnmf4rLaD.swNtObMELERmQrf3JMF3bl5hbXUHx_ahaockHwev; HttpOnly; SameSite=None; Secure; Path=/; Domain=openrouter.ai; Expires=Sat, 08 Aug 2026 15:57:00 GMT'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'a27f8aee9c00ffa3-BOM')])
+2026-08-08 15:27:00,893 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-08-08 15:27:00,894 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:27:00,894 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:27:00,894 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:27:00,894 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:27:00,895 - services.pro_tutorial - INFO - [stylize] Tier 2: Attempting OpenRouter model: stabilityai/stable-diffusion-3-5-large
+2026-08-08 15:27:00,895 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-08 15:27:00,895 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-08 15:27:00,896 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-08 15:27:00,896 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-08 15:27:00,896 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-08 15:27:00,909 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'Date', b'Sat, 08 Aug 2026 15:27:00 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Generation-Id,X-Provider-Name,cf-ray'), (b'x-clerk-auth-message', b'Invalid JWT form. A JWT consists of three parts separated by dots. (reason=token-invalid, token-carrier=header)'), (b'x-clerk-auth-reason', b'token-invalid'), (b'x-clerk-auth-status', b'signed-out'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'a27f8aeebc60ffa3-BOM')])
+2026-08-08 15:27:00,910 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-08-08 15:27:00,910 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-08 15:27:00,910 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-08 15:27:00,910 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-08 15:27:00,910 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-08 15:27:00,911 - httpcore.connection - DEBUG - close.started
+2026-08-08 15:27:00,911 - httpcore.connection - DEBUG - close.complete
+2026-08-08 15:27:00,911 - services.pro_tutorial - INFO - [stylize] Tier 2 exhausted. Proceeding to Tier 3 (Pollinations AI)...
+2026-08-08 15:27:01,036 - services.pro_tutorial - INFO - [stylize] generated local preview for style=natural sub_style=Clean Girl
+2026-08-08 15:27:01,038 - services.pro_tutorial - INFO - [pro_tutorial] done style=natural chosen=Clean Girl elapsed=1.91s
+2026-08-08 15:28:25,978 - services.database - DEBUG - [DB_OP] Starting database close
+2026-08-08 15:28:25,978 - core.database - INFO - Database connection closed and engine disposed
+2026-08-08 15:28:25,979 - services.database - INFO - Database connections closed
+2026-08-08 15:28:25,979 - services.database - DEBUG - [DB_OP] Database close completed in 0.0009s

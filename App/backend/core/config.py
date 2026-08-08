@@ -1,19 +1,32 @@
 import logging
 import os
+from pathlib import Path
 from typing import Any
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 logger = logging.getLogger(__name__)
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=Path(__file__).resolve().parent.parent / ".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+        extra="ignore",
+    )
+
     # Application
     app_name: str = "FastAPI Modular Template"
     debug: bool = False
     version: str = "1.0.0"
     app_ai_base_url: str | None = None
     app_ai_key: str | None = None
+
+    # Database / Supabase
+    database_url: str | None = None
+    supabase_url: str | None = None
+    supabase_key: str | None = None
 
     # Server
     host: str = "0.0.0.0"
@@ -36,10 +49,6 @@ class Settings(BaseSettings):
             # Use localhost for external callbacks instead of 0.0.0.0
             display_host = "127.0.0.1" if self.host == "0.0.0.0" else self.host
             return os.environ.get("PYTHON_BACKEND_URL", f"http://{display_host}:{self.port}")
-
-    class Config:
-        case_sensitive = False
-        extra = "ignore"
 
     def __getattr__(self, name: str) -> Any:
         """

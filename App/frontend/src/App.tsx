@@ -9,7 +9,7 @@ import StyleDetailPage from './pages/StyleDetailPage';
 import ProTutorialPage from './pages/ProTutorialPage';
 import HistoryPage from './pages/HistoryPage';
 import LipstickFitPage from './pages/LipstickFitPage';
-
+import SpinWheelPage from './pages/SpinWheelPage';
 
 import CardTestPage from './pages/CardTestPage';
 import AuthCallback from './pages/AuthCallback';
@@ -34,6 +34,7 @@ const AppRoutes = () => (
     <Route path="/style/:styleId/pro/:subStyleSlug" element={<PageLayout><ProTutorialPage /></PageLayout>} />
     <Route path="/history" element={<PageLayout><HistoryPage /></PageLayout>} />
     <Route path="/lipstick-fit" element={<PageLayout><LipstickFitPage /></PageLayout>} />
+    <Route path="/spin-wheel" element={<PageLayout><SpinWheelPage /></PageLayout>} />
     <Route path="/test-supabase" element={<PageLayout><TestSupabase /></PageLayout>} />
 
 

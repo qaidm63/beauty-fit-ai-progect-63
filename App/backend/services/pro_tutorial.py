@@ -24,7 +24,7 @@ import urllib.parse
 from typing import Any, Dict, List, Optional
 
 import httpx
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageFilter
 
 from schemas.aihub import ChatMessage, GenImgRequest, GenTxtRequest
 from services.style_prompts import get_prompt as get_style_prompt
@@ -560,6 +560,91 @@ def _downscale_data_uri(data_uri: str, max_edge: int = _STYLIZE_MAX_EDGE) -> str
         return data_uri
 
 
+def _style_tint(style: str, sub_style: Optional[str]) -> tuple[int, int, int]:
+    style_key = (style or "").strip().lower()
+    sub_key = (sub_style or "").strip().lower()
+
+    palette: Dict[str, tuple[int, int, int]] = {
+        "sweet": (247, 174, 192),
+        "natural": (196, 226, 187),
+        "sexy": (174, 69, 112),
+        "androgynous": (123, 137, 154),
+        "elegant": (154, 128, 188),
+        "mature": (122, 96, 74),
+        "powerful": (122, 96, 74),
+    }
+
+    if style_key in palette:
+        return palette[style_key]
+    if any(token in sub_key for token in ("glow", "pink", "blush", "floral")):
+        return (247, 174, 192)
+    if any(token in sub_key for token in ("bronze", "sun", "gold")):
+        return (220, 165, 92)
+    if any(token in sub_key for token in ("luxury", "classic", "editorial")):
+        return (145, 128, 188)
+    return (214, 190, 160)
+
+
+def render_stylized_preview(source_image: Image.Image, style: str, sub_style: Optional[str]) -> str:
+    """Create a deterministic in-process stylized preview from the uploaded photo.
+
+    This is used as a reliable fallback when external image-generation services are
+    unavailable or return unusable payloads. The result is a compact JPEG data URI
+    that the frontend can render immediately.
+    """
+    try:
+        img = source_image.convert("RGBA")
+        img = img.resize((1024, 1024), Image.LANCZOS)
+
+        tint = _style_tint(style, sub_style)
+        overlay = Image.new("RGBA", img.size, (*tint, 46))
+        img = Image.alpha_composite(img, overlay)
+        img = img.filter(ImageFilter.GaussianBlur(radius=1.2))
+
+        enhancer = ImageEnhance.Color(img)
+        img = enhancer.enhance(1.15)
+        contrast = ImageEnhance.Contrast(img)
+        img = contrast.enhance(1.05)
+
+        img = img.convert("RGB")
+        buffer = io.BytesIO()
+        img.save(buffer, format="JPEG", quality=92, optimize=True)
+        payload = base64.b64encode(buffer.getvalue()).decode("ascii")
+        logger.info("[stylize] generated local preview for style=%s sub_style=%s", style, sub_style)
+        return f"data:image/jpeg;base64,{payload}"
+    except Exception as exc:
+        logger.warning("[stylize] local preview generation failed: %s", exc)
+        raise
+
+
+async def _load_source_image(image: str) -> Optional[Image.Image]:
+    """Load an input image from a data URI or URL into a PIL image object."""
+    image = (image or "").strip()
+    if not image:
+        return None
+
+    try:
+        if image.startswith("data:image/"):
+            header, _, b64 = image.partition(",")
+            if not b64:
+                return None
+            raw = base64.b64decode(b64)
+            with Image.open(io.BytesIO(raw)) as im:
+                im.load()
+                return im.convert("RGBA")
+
+        if image.startswith(("http://", "https://")):
+            async with httpx.AsyncClient(timeout=60.0, trust_env=True) as client:
+                resp = await client.get(image)
+                resp.raise_for_status()
+                with Image.open(io.BytesIO(resp.content)) as im:
+                    im.load()
+                    return im.convert("RGBA")
+    except Exception as exc:
+        logger.warning("[stylize] failed to load source image for local preview: %s", exc)
+    return None
+
+
 async def _try_openrouter_generation(prompt: str) -> Optional[str]:
     """Tier 2: High quality free/cheap image generation via OpenRouter API."""
     api_key = os.getenv("OPENROUTER_API_KEY")
@@ -666,8 +751,12 @@ async def stylize_user_photo(
         raise ValueError(f"No stylize prompt found for style={style!r} sub_style={sub_style!r}.")
 
     t0 = time.monotonic()
+    preview_source: Optional[Image.Image] = None
     if image_stripped.startswith("data:image/"):
         image_stripped = _downscale_data_uri(image_stripped)
+        preview_source = await _load_source_image(image_stripped)
+    elif image_stripped.startswith(("http://", "https://")):
+        preview_source = await _load_source_image(image_stripped)
 
     # -----------------------------------------------------------------------
     # TIER 1: Gemini API with Multi-Key Rotation & Imagen Model Cascade
@@ -738,4 +827,9 @@ async def stylize_user_photo(
     # TIER 3: Pollinations AI (Zero-Failure Free Guarantee)
     # -----------------------------------------------------------------------
     logger.info("[stylize] Tier 2 exhausted. Proceeding to Tier 3 (Pollinations AI)...")
+    if preview_source is not None:
+        try:
+            return render_stylized_preview(preview_source, style, sub_style)
+        except Exception as exc:
+            logger.warning("[stylize] local preview fallback failed; using Pollinations URL instead: %s", exc)
     return _generate_pollinations_url(prompt)

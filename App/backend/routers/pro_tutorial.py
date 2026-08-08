@@ -62,22 +62,26 @@ async def post_stylize(req: StylizeRequest) -> StylizeResponse:
             image=req.image,
         )
 
-        # 2. Extract base64 image string cleanly regardless of dict nested structure or string type
+        # 2. Extract a valid image reference cleanly from the stylize result.
         image_b64: Optional[str] = None
+
+        def _looks_like_image(value: Optional[str]) -> bool:
+            if not isinstance(value, str):
+                return False
+            cleaned = value.strip()
+            if not cleaned:
+                return False
+            return cleaned.startswith("data:image/") or cleaned.startswith("http://") or cleaned.startswith("https://")
 
         if isinstance(raw_result, str):
             image_b64 = raw_result.strip()
         elif isinstance(raw_result, dict):
-            # Try fetching from top-level keys first
-            candidate = (
-                raw_result.get("image")
-                or raw_result.get("url")
-                or raw_result.get("b64")
-            )
-            if isinstance(candidate, str):
-                image_b64 = candidate.strip()
-                
-            # Fallback to nested 'images' dict if top-level is empty
+            for key in ("image", "url", "b64", "b64_json", "data"):
+                candidate = raw_result.get(key)
+                if _looks_like_image(candidate):
+                    image_b64 = str(candidate).strip()
+                    break
+
             if not image_b64 and "images" in raw_result:
                 images_dict = raw_result["images"]
                 if isinstance(images_dict, dict):
@@ -86,21 +90,26 @@ async def post_stylize(req: StylizeRequest) -> StylizeResponse:
                         or images_dict.get("overall")
                         or next(iter(images_dict.values()), None)
                     )
-                    if isinstance(cand_nested, str):
-                        image_b64 = cand_nested.strip()
+                    if _looks_like_image(cand_nested):
+                        image_b64 = str(cand_nested).strip()
 
-        # 3. Format Base64 Data URI header safely only when actual content exists
+        # 3. If the payload is a plain string that is not an image URL/data URI,
+        # reject it so the frontend never receives prompt text as an image.
+        if image_b64 and not _looks_like_image(image_b64):
+            image_b64 = None
+
+        # 4. Format Base64 Data URI header safely only when actual content exists
         if image_b64:
             if image_b64.startswith("data:image/"):
                 parts = image_b64.split(",", 1)
                 if len(parts) < 2 or not parts[1].strip():
-                    image_b64 = None  # Empty base64 payload
+                    image_b64 = None
             elif image_b64.startswith("http://") or image_b64.startswith("https://"):
-                pass  # Valid HTTP URL
+                pass
             else:
                 image_b64 = f"data:image/jpeg;base64,{image_b64}"
 
-        # 4. Fail explicitly if image generation produced empty output
+        # 5. Fail explicitly if image generation produced empty output
         if not image_b64:
             logger.error("[Stylize Error] Empty or invalid image payload generated for style=%s", req.style)
             raise HTTPException(

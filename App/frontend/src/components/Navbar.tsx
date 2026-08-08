@@ -88,6 +88,19 @@ export default function Navbar() {
             )}
           </Link>
           <Link
+            to="/spin-wheel"
+            className={`relative font-body text-sm font-medium transition-colors duration-300 ${
+              isActive("/spin-wheel")
+                ? "text-[#8E9CC3]"
+                : "text-[#5C4A42] hover:text-[#8E9CC3]"
+            }`}
+          >
+            Spin Wheel
+            {isActive("/spin-wheel") && (
+              <span className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-gradient-to-r from-[#B8706A] via-[#8E9CC3] to-[#C9A96E]" />
+            )}
+          </Link>
+          <Link
             to="/history"
             className={`relative font-body text-sm font-medium transition-colors duration-300 ${
               isActive("/history")
@@ -164,28 +177,37 @@ export default function Navbar() {
             >
               Face Fit
             </Link>
-            <Link
-              to="/lipstick-fit"
-              className={`px-4 py-3 rounded-xl text-sm font-medium font-body transition-colors ${
-                isActive("/lipstick-fit")
-                  ? "bg-[#F0F2F8] text-[#8E9CC3]"
-                  : "text-[#5C4A42] hover:bg-[#F5EDE6]"
-              }`}
-            >
-              Lipstick Fit
-            </Link>
+              <Link
+                to="/lipstick-fit"
+                className={`px-4 py-3 rounded-xl text-sm font-medium font-body transition-colors ${
+                  isActive("/lipstick-fit")
+                    ? "bg-[#F0F2F8] text-[#8E9CC3]"
+                    : "text-[#5C4A42] hover:bg-[#F5EDE6]"
+                }`}
+              >
+                Lipstick Fit
+              </Link>
+              <Link
+                to="/spin-wheel"
+                className={`px-4 py-3 rounded-xl text-sm font-medium font-body transition-colors ${
+                  isActive("/spin-wheel")
+                    ? "bg-[#F0F2F8] text-[#8E9CC3]"
+                    : "text-[#5C4A42] hover:bg-[#F5EDE6]"
+                }`}
+              >
+                Spin Wheel
+              </Link>
 
-
-            <Link
-              to="/history"
-              className={`px-4 py-3 rounded-xl text-sm font-medium font-body transition-colors ${
-                isActive("/history")
-                  ? "bg-[#F0F2F8] text-[#8E9CC3]"
-                  : "text-[#5C4A42] hover:bg-[#F5EDE6]"
-              }`}
-            >
-              History
-            </Link>
+              <Link
+                to="/history"
+                className={`px-4 py-3 rounded-xl text-sm font-medium font-body transition-colors ${
+                  isActive("/history")
+                    ? "bg-[#F0F2F8] text-[#8E9CC3]"
+                    : "text-[#5C4A42] hover:bg-[#F5EDE6]"
+                }`}
+              >
+                History
+              </Link>
             <Link
               to="/blog"
               className={`px-4 py-3 rounded-xl text-sm font-medium font-body transition-colors ${
