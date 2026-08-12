@@ -1,24 +1,28 @@
 import logging
 import os
+from datetime import datetime, timezone
 from typing import Optional
 from urllib.parse import urlencode
 
 import httpx
 from core.auth import (
+    ACCESS_COOKIE_NAME,
     IDTokenValidationError,
     build_authorization_url,
     build_logout_url,
+    clear_access_token_cookie,
     generate_code_challenge,
     generate_code_verifier,
     generate_nonce,
     generate_state,
+    set_access_token_cookie,
     validate_id_token,
 )
 from core.config import settings
 from core.database import get_db
 from dependencies.auth import get_current_user
 from fastapi import APIRouter, Depends, HTTPException, Request, status
-from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from models.auth import User
 from schemas.auth import (
     PlatformTokenExchangeRequest,
@@ -91,11 +95,8 @@ async def login(request: Request, db: AsyncSession = Depends(get_db)):
     logger.info("[login] Starting OIDC flow with redirect_uri=%s", redirect_uri)
 
     auth_url = build_authorization_url(state, nonce, code_challenge, redirect_uri=redirect_uri)
-    return RedirectResponse(
-        url=auth_url,
-        status_code=status.HTTP_302_FOUND,
-        headers={"X-Request-ID": state},
-    )
+    logger.info("[login] Starting OIDC flow with redirect_uri=%s", redirect_uri)
+    return JSONResponse(content={"redirect_url": auth_url})
 
 
 @router.get("/callback")
@@ -206,9 +207,21 @@ async def callback(
 
         redirect_url = f"{backend_url}/auth/callback?{fragment}"
         logger.info("[callback] OIDC callback successful, redirecting to %s", redirect_url)
+
+        # Set the application JWT as an HttpOnly cookie so browser clients are
+        # authenticated without exposing the token to client-side JS. The token
+        # is kept in the URL fragment as well for non-cookie dev fallback.
+        secure = request.url.scheme == "https"
+        expires_in = max(int(expires_at.timestamp()) - int(datetime.now(timezone.utc).timestamp()), 0)
         redirect_response = RedirectResponse(
             url=redirect_url,
             status_code=status.HTTP_302_FOUND,
+        )
+        set_access_token_cookie(
+            redirect_response,
+            app_token,
+            secure=secure,
+            max_age_seconds=expires_in,
         )
         return redirect_response
 
@@ -315,7 +328,9 @@ async def get_current_user_info(current_user: UserResponse = Depends(get_current
 
 
 @router.get("/logout")
-async def logout():
-    """Logout user."""
+async def logout(request: Request):
+    """Logout user: clear the access-token cookie and return the OIDC logout URL."""
     logout_url = build_logout_url()
-    return {"redirect_url": logout_url}
+    response = JSONResponse(content={"redirect_url": logout_url})
+    clear_access_token_cookie(response)
+    return response

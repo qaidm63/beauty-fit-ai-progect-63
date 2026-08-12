@@ -265,3 +265,44 @@ def build_logout_url(id_token: Optional[str] = None) -> str:
 
     logout_url = f"{settings.oidc_issuer_url}/logout?" + urllib.parse.urlencode(params)
     return logout_url
+
+
+# ---------------------------------------------------------------------------
+# HttpOnly cookie helpers for the application JWT
+# ---------------------------------------------------------------------------
+
+ACCESS_COOKIE_NAME = "bf_access_token"
+
+
+def set_access_token_cookie(
+    response: Any,
+    token: str,
+    *,
+    secure: bool = False,
+    max_age_seconds: Optional[int] = None,
+) -> Any:
+    """Attach the access token as an HttpOnly cookie on a response.
+
+    HttpOnly prevents client-side JS from reading the token, mitigating XSS
+    exfiltration. SameSite=Lax keeps the cookie sent on top-level GET
+    navigations while blocking cross-site POSTs.
+    """
+    response.set_cookie(
+        key=ACCESS_COOKIE_NAME,
+        value=token,
+        max_age=max_age_seconds,
+        httponly=True,
+        secure=secure,
+        samesite="lax",
+        path="/",
+    )
+    return response
+
+
+def clear_access_token_cookie(response: Any) -> Any:
+    """Expire the access token cookie (used on logout)."""
+    response.delete_cookie(
+        key=ACCESS_COOKIE_NAME,
+        path="/",
+    )
+    return response

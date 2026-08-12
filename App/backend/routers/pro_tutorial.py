@@ -1,34 +1,58 @@
 """Pro tutorial router — personalized makeup tutorials for paid users."""
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-from fastapi import APIRouter, HTTPException, status
+from core.database import get_db
+from dependencies.auth import get_current_user
+from fastapi import APIRouter, Depends, HTTPException, status
+from schemas.auth import UserResponse
 from schemas.pro_tutorial import (
     ProTutorialRequest,
     ProTutorialResponse,
     StylizeRequest,
     StylizeResponse,
 )
+from services.entitlement import has_active_entitlement
 from services.pro_tutorial import generate_pro_tutorial, stylize_user_photo
+from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1/pro", tags=["pro-tutorial"])
 
 
+async def require_pro_entitlement(
+    current_user: UserResponse = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> UserResponse:
+    """Require an authenticated user with an active Pro entitlement."""
+    try:
+        has_pro = await has_active_entitlement(db, current_user.id)
+    except Exception as exc:
+        logger.exception("Entitlement check failed for user: %s", exc)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Unable to verify Pro access. Please try again.",
+        )
+
+    if not has_pro:
+        logger.info("Pro access denied for user (no active entitlement)")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Pro access required. Please purchase a plan to unlock this report.",
+        )
+    return current_user
+
+
 @router.post("/tutorial", response_model=ProTutorialResponse)
 async def post_pro_tutorial(
     req: ProTutorialRequest,
+    current_user: UserResponse = Depends(require_pro_entitlement),
 ) -> ProTutorialResponse:
-    """Generate a personalized Pro makeup tutorial for the given style + profile.
-
-    NOTE (testing phase): Authentication and Pro entitlement checks have been
-    temporarily removed so testers can view the complete report end-to-end.
-    Re-enable `get_current_user` dependency before production release.
-    """
+    """Generate a personalized Pro makeup tutorial for the given style + profile."""
     try:
-        logger.info("Generating pro tutorial (testing mode): style=%s", req.style)
+        logger.info("Generating pro tutorial: user=%s style=%s", current_user.id, req.style)
         return await generate_pro_tutorial(req)
     except HTTPException:
         raise
@@ -41,7 +65,10 @@ async def post_pro_tutorial(
 
 
 @router.post("/stylize", response_model=StylizeResponse)
-async def post_stylize(req: StylizeRequest) -> StylizeResponse:
+async def post_stylize(
+    req: StylizeRequest,
+    current_user: UserResponse = Depends(require_pro_entitlement),
+) -> StylizeResponse:
     """Generate an AI-stylized makeup image from the user's photo.
 
     Accepts the user's photo (base64 data URI or URL) and returns a new image
@@ -50,7 +77,8 @@ async def post_stylize(req: StylizeRequest) -> StylizeResponse:
     try:
         sub_style_key = req.sub_style or "overall"
         logger.info(
-            "Stylize request: style=%s sub_style=%s",
+            "Stylize request: user=%s style=%s sub_style=%s",
+            current_user.id,
             req.style,
             sub_style_key,
         )

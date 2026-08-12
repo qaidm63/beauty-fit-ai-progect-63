@@ -132,6 +132,11 @@ class DatabaseManager:
                 "echo": settings.debug,
             }
 
+            # Supabase pooler (PgBouncer in transaction mode) rejects asyncpg's
+            # prepared-statement cache ("prepared statement already exists").
+            if "asyncpg" in database_url:
+                engine_kwargs["connect_args"] = {"statement_cache_size": 0}
+
             # Check if we're in a Lambda environment
             is_lambda = bool(
                 os.environ.get("AWS_LAMBDA_FUNCTION_NAME")

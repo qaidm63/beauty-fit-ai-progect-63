@@ -1,4 +1,5 @@
 import { getAPIBaseURL } from '@/lib/config';
+import { authHeaders } from '@/lib/auth';
 
 interface CreatePaymentSessionParams {
   plan: 'one_time' | 'monthly';
@@ -49,7 +50,8 @@ export async function createPaymentSession(
       `${baseUrl}/api/v1/payments/create_payment_session`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
         body: JSON.stringify(params),
       },
       15000
@@ -70,6 +72,9 @@ export async function createPaymentSession(
       .json()
       .catch(() => ({ detail: 'Payment failed' }));
     const detail: string = error.detail || 'Failed to create payment session';
+    if (response.status === 401) {
+      throw new Error('LOGIN_REQUIRED');
+    }
     // Provide a user-friendly message for Stripe configuration issues
     if (detail.toLowerCase().includes('stripe is not configured')) {
       throw new Error(
@@ -93,7 +98,8 @@ export async function verifyPayment(
       `${baseUrl}/api/v1/payments/verify_payment`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
         body: JSON.stringify({ session_id: sessionId }),
       },
       15000
@@ -111,6 +117,9 @@ export async function verifyPayment(
     const error = await response
       .json()
       .catch(() => ({ detail: 'Verification failed' }));
+    if (response.status === 401) {
+      throw new Error('LOGIN_REQUIRED');
+    }
     throw new Error(error.detail || 'Failed to verify payment');
   }
 

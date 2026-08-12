@@ -89,11 +89,34 @@ app = FastAPI(
 
 
 # MODULE_MIDDLEWARE_START
+def _resolve_cors_origins() -> list:
+    """Resolve the explicit CORS origin allowlist.
+
+    Priority: CORS_ORIGINS env var (comma-separated) > documented defaults.
+    Preview domains (Vercel + MonkeyCode preview) are matched via regex instead
+    of being hard-coded, so every ephemeral preview subdomain is covered.
+    """
+    env_value = os.environ.get("CORS_ORIGINS", "")
+    configured = [origin.strip() for origin in env_value.split(",") if origin.strip()]
+    if configured:
+        return configured
+
+    return [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://beautyfit.app",
+        "https://www.beautyfit.app",
+        "https://beautyfit.online",
+        "https://www.beautyfit.online",
+    ]
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r".*",
+    allow_origins=_resolve_cors_origins(),
+    allow_origin_regex=r"^https?://([a-z0-9-]+\.)?(vercel\.app|monkeycode-ai\.live)$",
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["*"],
     expose_headers=["*"],
 )

@@ -16,9 +16,21 @@ bearer_scheme = HTTPBearer(auto_error=False)
 async def get_bearer_token(
     request: Request, credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme)
 ) -> str:
-    """Extract bearer token from Authorization header."""
+    """Extract the bearer token from the Authorization header or HttpOnly cookie.
+
+    Priority:
+      1. `Authorization: Bearer <token>` header (used by dev/fallback clients).
+      2. `bf_access_token` HttpOnly cookie (primary path in production).
+
+    Tokens are intentionally NOT accepted from the URL query string, which
+    would leak them into logs and browser history.
+    """
     if credentials and credentials.scheme.lower() == "bearer":
         return credentials.credentials
+
+    cookie_token = request.cookies.get("bf_access_token")
+    if cookie_token:
+        return cookie_token
 
     logger.debug("Authentication required for request %s %s", request.method, request.url.path)
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication credentials were not provided")

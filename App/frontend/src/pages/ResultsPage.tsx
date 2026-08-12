@@ -319,28 +319,15 @@ export default function ResultsPage() {
   const topStyles = result.recommendations.slice(0, 3);
 
   const handleStyleCardClick = useCallback((styleId: string, styleName: string) => {
-    // Bypass payment — navigate directly to Pro tutorial as if paid
-    const rec = result.recommendations.find(r => r.style === styleId);
-    const desc = styleDescriptions[styleId] || styleDescriptions.natural;
-    navigate(`/style/${styleId}/pro`, {
+    // Route through the checkout/paywall instead of bypassing payment.
+    // Pro reports are gated server-side by the user's Entitlement.
+    navigate('/checkout/plan', {
       state: {
-        style: {
-          id: styleId,
-          name: styleName,
-          tagline: desc.tagline,
-          image: desc.image,
-          match: rec?.score || 0,
-          keyFocus: desc.keyFocus,
-        },
-        faceShape: result.face_shape,
-        eyeTags: result.eye_tags,
-        facialTags: result.facial_tags,
-        metrics: result.metrics,
-        styleScores: result.style_scores,
-        userImage,
+        styleId,
+        styleName,
       },
     });
-  }, [navigate, result, userImage]);
+  }, [navigate]);
 
   // Memoize score colors based on theme
   const scoreColors = useMemo(() => {
@@ -687,7 +674,7 @@ export default function ResultsPage() {
                 },
                 {
                   stat: "Pro-trained",
-                  label: "Makeup &amp; style AI",
+                  label: "Makeup & style AI",
                   desc: "Fine-tuned with working makeup artists and stylists — not a generic LLM.",
                 },
                 {
@@ -713,8 +700,9 @@ export default function ResultsPage() {
                     }}>
                     {item.stat}
                   </div>
-                  <div className="font-body text-[11px] font-bold text-[#C9A96E] uppercase tracking-[0.15em] mb-2"
-                    dangerouslySetInnerHTML={{ __html: item.label }} />
+                  <div className="font-body text-[11px] font-bold text-[#C9A96E] uppercase tracking-[0.15em] mb-2">
+                    {item.label}
+                  </div>
                   <p className="font-body text-[12px] text-[#B8C4D8]/70 leading-snug">
                     {item.desc}
                   </p>
@@ -768,27 +756,15 @@ function ProPromoSection({ theme, topStyles, result, userImage }: ProPromoSectio
   const bestStyle = topStyles[0];
 
   const handleGoToCheckout = useCallback(() => {
-    // Bypass payment — navigate directly to Pro tutorial as if paid
-    const desc = styleDescriptions[bestStyle?.style || 'natural'] || styleDescriptions.natural;
-    navigate(`/style/${bestStyle?.style || 'elegant'}/pro`, {
+    // Route through the checkout/paywall. Pro reports require a server-side
+    // entitlement (granted after payment), not client-side navigation.
+    navigate('/checkout/plan', {
       state: {
-        style: {
-          id: bestStyle?.style || '',
-          name: bestStyle?.style_name || 'Pro',
-          tagline: desc.tagline,
-          image: desc.image,
-          match: bestStyle?.score || 0,
-          keyFocus: desc.keyFocus,
-        },
-        faceShape: result.face_shape,
-        eyeTags: result.eye_tags,
-        facialTags: result.facial_tags,
-        metrics: result.metrics,
-        styleScores: result.style_scores,
-        userImage,
+        styleId: bestStyle?.style || '',
+        styleName: bestStyle?.style_name || 'Pro',
       },
     });
-  }, [navigate, bestStyle, result, userImage]);
+  }, [navigate, bestStyle]);
 
   if (!bestStyle) return null;
   const bestDesc =

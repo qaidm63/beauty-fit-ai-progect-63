@@ -1,10 +1,34 @@
 import { useEffect } from 'react';
-import { client } from '../lib/api';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { setAuthToken } from '../lib/auth';
 
+/**
+ * Handles the backend OIDC callback redirect: `${backend}/auth/callback?token=...`.
+ *
+ * The backend sets the app JWT as an HttpOnly cookie (primary path). For
+ * development environments where the cookie cannot be set cross-origin, we also
+ * persist the token to sessionStorage as a fallback that the HTTP client sends
+ * via the Authorization header.
+ */
 export default function AuthCallback() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    client.auth.login();
-  }, []);
+    const token = searchParams.get('token');
+    if (token) {
+      setAuthToken(token);
+    }
+    const expiresAt = searchParams.get('expires_at');
+    if (expiresAt) {
+      try {
+        sessionStorage.setItem('bf_expires_at', expiresAt);
+      } catch {
+        /* ignore */
+      }
+    }
+    navigate('/', { replace: true });
+  }, [searchParams, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

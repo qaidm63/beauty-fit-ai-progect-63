@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { verifyPayment } from '@/api/payments';
+import { useAuth } from '@/contexts/AuthContext';
 import Navbar from '@/components/Navbar';
 import { CheckCircle2, Loader2, XCircle, ArrowRight } from 'lucide-react';
 
 export default function CheckoutSuccessPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { login } = useAuth();
   const sessionId = searchParams.get('session_id');
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [plan, setPlan] = useState('');
   const [styleId, setStyleId] = useState('');
+  const [loginRequired, setLoginRequired] = useState(false);
 
   useEffect(() => {
     if (!sessionId) {
@@ -29,7 +32,11 @@ export default function CheckoutSuccessPage() {
           setStatus('error');
         }
       })
-      .catch(() => {
+      .catch((err: unknown) => {
+        // Payment verification requires an authenticated session.
+        if (err instanceof Error && err.message === 'LOGIN_REQUIRED') {
+          setLoginRequired(true);
+        }
         setStatus('error');
       });
   }, [sessionId]);
@@ -96,15 +103,28 @@ export default function CheckoutSuccessPage() {
               Payment Issue
             </h2>
             <p className="font-body text-base text-[#5C4A42] leading-relaxed">
-              We couldn't verify your payment. If you were charged, please contact support.
+              {loginRequired
+                ? 'You need to be signed in to claim your purchase. Sign in below and your Pro access will unlock automatically.'
+                : "We couldn't verify your payment. If you were charged, please contact support."}
             </p>
-            <button
-              onClick={() => navigate('/results')}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 text-sm font-semibold font-body transition-all !bg-transparent"
-              style={{ borderColor: 'rgba(184,112,106,0.4)', color: '#B8706A' }}
-            >
-              Back to Results
-            </button>
+            {loginRequired ? (
+              <button
+                onClick={() => login()}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white text-sm font-semibold font-body shadow-md hover:shadow-lg transition-all"
+                style={{ background: 'linear-gradient(135deg, #B8706A 0%, #8E9CC3 50%, #C9A96E 100%)' }}
+              >
+                Sign in to claim access
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate('/results')}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 text-sm font-semibold font-body transition-all !bg-transparent"
+                style={{ borderColor: 'rgba(184,112,106,0.4)', color: '#B8706A' }}
+              >
+                Back to Results
+              </button>
+            )}
           </div>
         )}
       </div>

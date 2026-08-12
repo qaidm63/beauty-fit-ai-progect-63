@@ -3,9 +3,17 @@ import os
 from pathlib import Path
 from typing import Any
 
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 logger = logging.getLogger(__name__)
+
+# Load the project .env into os.environ (in addition to pydantic-settings) so
+# dynamic settings lookups and direct os.environ reads (e.g. CORS_ORIGINS during
+# middleware setup) see the same values regardless of import order.
+_env_file = Path(__file__).resolve().parent.parent / ".env"
+if _env_file.exists():
+    load_dotenv(_env_file, override=False)
 
 
 class Settings(BaseSettings):

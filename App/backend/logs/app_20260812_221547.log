@@ -1,0 +1,54 @@
+2026-08-12 22:15:47,063 - __main__ - INFO - === Logging system initialized ===
+2026-08-12 22:15:47,064 - __main__ - INFO - Log file: logs/app_20260812_221547.log
+2026-08-12 22:15:47,064 - __main__ - INFO - Log level: INFO
+2026-08-12 22:15:47,064 - __main__ - INFO - Timestamp: 20260812_221547
+2026-08-12 22:15:57,448 - __main__ - INFO - Included router: routers.aihub.router
+2026-08-12 22:15:57,771 - __main__ - INFO - Included router: routers.auth.router
+2026-08-12 22:15:57,886 - __main__ - INFO - Included router: routers.face_analysis.router
+2026-08-12 22:15:57,967 - __main__ - INFO - Included router: routers.health.router
+2026-08-12 22:16:00,201 - routers.lipsticks - INFO - Loaded 6190 lipstick records from /workspace/App/backend/data/lipstick_enriched.json
+2026-08-12 22:16:00,362 - __main__ - INFO - Included router: routers.lipsticks.router
+2026-08-12 22:16:01,446 - __main__ - INFO - Included router: routers.payments.router
+2026-08-12 22:16:02,154 - services.pro_tutorial - INFO - [GeminiKeyManager] Initialized with 1 API key(s).
+2026-08-12 22:16:02,163 - __main__ - INFO - Included router: routers.pro_tutorial.router
+2026-08-12 22:16:02,274 - __main__ - INFO - Included router: routers.settings.router
+2026-08-12 22:16:02,700 - __main__ - INFO - Included router: routers.storage.router
+2026-08-12 22:16:02,892 - __main__ - INFO - Included router: routers.user.router
+2026-08-12 22:16:06,445 - __main__ - INFO - === Application startup initiated ===
+2026-08-12 22:16:06,447 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-12 22:16:06,447 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-12 22:16:06,448 - core.database - INFO - Starting database initialization...
+2026-08-12 22:16:06,448 - core.database - INFO - Normalizing database URL for async compatibility...
+2026-08-12 22:16:06,449 - core.database - WARNING - Adjusted database URL driver for async compatibility
+2026-08-12 22:16:06,450 - core.database - INFO - Creating async database engine...
+2026-08-12 22:16:06,450 - core.database - INFO - Using QueuePool with connection pooling for non-Lambda environment
+2026-08-12 22:16:08,848 - core.database - INFO - Database engine created successfully
+2026-08-12 22:16:08,849 - core.database - INFO - Creating async session maker...
+2026-08-12 22:16:08,849 - core.database - INFO - Async session maker created successfully
+2026-08-12 22:16:08,849 - core.database - INFO - Database connection initialized successfully
+2026-08-12 22:16:08,849 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-12 22:16:08,849 - services.database - INFO - Database initialized successfully
+2026-08-12 22:16:08,951 - services.database - DEBUG - [DB_OP] Database initialization completed in 2.4020s
+2026-08-12 22:16:08,951 - services.mock_data - INFO - mock_data directory not found, skipping mock initialization
+2026-08-12 22:16:08,951 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-12 22:16:08,951 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-12 22:16:08,951 - core.database - INFO - Starting database initialization...
+2026-08-12 22:16:08,951 - core.database - INFO - Database already initialized
+2026-08-12 22:16:08,952 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-12 22:16:08,952 - services.database - INFO - Database initialized successfully
+2026-08-12 22:16:08,952 - services.database - DEBUG - [DB_OP] Database initialization completed in 0.0004s
+2026-08-12 22:16:09,053 - services.auth - WARNING - Admin user ID or email not configured, skipping admin initialization
+2026-08-12 22:16:09,053 - __main__ - INFO - === Application startup completed successfully ===
+2026-08-12 22:16:30,444 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/auth/me
+2026-08-12 22:16:53,778 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/payments/entitlement
+2026-08-12 22:17:57,869 - services.face_analysis - INFO - [BeautyFit v2.1] img=450x800 Metrics: face_ratio=1.124, jaw_angle=144.5, jaw_ratio=1.426, forehead_ratio=0.947, chin_ratio=0.292, EAR=0.4124, eye_aspect_ratio=2.325, eye_tilt_angle=0.11, lid_visibility=0.538, nose_bridge_height=0.0281, lip_height_ratio=0.0982, cupid_bow_ratio=0.095
+2026-08-12 22:18:39,293 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-12 22:19:00,492 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-12 22:19:05,046 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-12 22:19:12,108 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-12 22:19:24,818 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-12 22:26:43,094 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/auth/me
+2026-08-12 22:27:06,704 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/auth/me
+2026-08-12 22:27:49,836 - services.face_analysis - INFO - [BeautyFit v2.1] img=450x800 Metrics: face_ratio=1.113, jaw_angle=145.6, jaw_ratio=1.409, forehead_ratio=0.945, chin_ratio=0.3, EAR=0.3932, eye_aspect_ratio=2.439, eye_tilt_angle=1.59, lid_visibility=0.497, nose_bridge_height=0.0256, lip_height_ratio=0.1046, cupid_bow_ratio=0.099
+2026-08-12 22:33:49,714 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-12 22:35:58,316 - services.face_analysis - INFO - [BeautyFit v2.1] img=800x800 Metrics: face_ratio=1.114, jaw_angle=146.7, jaw_ratio=1.354, forehead_ratio=0.925, chin_ratio=0.316, EAR=0.325, eye_aspect_ratio=2.95, eye_tilt_angle=-0.78, lid_visibility=0.479, nose_bridge_height=0.024, lip_height_ratio=0.1586, cupid_bow_ratio=0.061

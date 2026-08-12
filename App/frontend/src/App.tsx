@@ -14,9 +14,9 @@ import SpinWheelPage from './pages/SpinWheelPage';
 import CardTestPage from './pages/CardTestPage';
 import AuthCallback from './pages/AuthCallback';
 import AuthError from './pages/AuthError';
+import LogoutCallbackPage from './pages/LogoutCallbackPage';
 import CheckoutSuccessPage from './pages/CheckoutSuccessPage';
 import CheckoutPlanPage from './pages/CheckoutPlanPage';
-import TestSupabase from './pages/TestSupabase';
 import BlogRoutes from './blog-routes';
 import { AuthProvider } from './contexts/AuthContext';
 import PageLayout from './components/PageLayout';
@@ -35,12 +35,11 @@ const AppRoutes = () => (
     <Route path="/history" element={<PageLayout><HistoryPage /></PageLayout>} />
     <Route path="/lipstick-fit" element={<PageLayout><LipstickFitPage /></PageLayout>} />
     <Route path="/spin-wheel" element={<PageLayout><SpinWheelPage /></PageLayout>} />
-    <Route path="/test-supabase" element={<PageLayout><TestSupabase /></PageLayout>} />
-
 
     <Route path="/card-test" element={<PageLayout><CardTestPage /></PageLayout>} />
     <Route path="/auth/callback" element={<AuthCallback />} />
     <Route path="/auth/error" element={<AuthError />} />
+    <Route path="/logout-callback" element={<LogoutCallbackPage />} />
     <Route path="/checkout/plan" element={<PageLayout><CheckoutPlanPage /></PageLayout>} />
     <Route path="/checkout/success" element={<PageLayout><CheckoutSuccessPage /></PageLayout>} />
     <Route path="/blog/*" element={<PageLayout><BlogRoutes /></PageLayout>} />

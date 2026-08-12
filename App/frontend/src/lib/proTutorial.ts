@@ -182,28 +182,27 @@ function extractErrorMessage(anyErr: {
   return anyErr.message || 'Failed to generate Pro tutorial';
 }
 
-const PRO_FLAG_KEY = 'beautyfit_pro_entitlement_v1';
-
-export function hasProEntitlement(): boolean {
+/**
+ * Fetch the current user's Pro entitlement status from the backend.
+ *
+ * This is the authoritative check: Pro access is granted server-side after
+ * payment (Stripe webhook / verify) and stored in the database. The old
+ * client-side localStorage flag has been removed because it could be forged.
+ */
+export async function getProEntitlement(): Promise<boolean> {
   try {
-    return localStorage.getItem(PRO_FLAG_KEY) === '1';
-  } catch {
+    const resp = await httpClient.get<{
+      has_pro?: boolean;
+      plan?: string;
+      expires_at?: string | null;
+    }>(`${getAPIBaseURL()}/api/v1/payments/entitlement`);
+    return resp.data?.has_pro === true;
+  } catch (err) {
+    const anyErr = err as { response?: { status?: number } };
+    if (anyErr.response?.status === 401) {
+      return false;
+    }
+    // Fail closed: if we cannot verify entitlement, treat as not entitled.
     return false;
-  }
-}
-
-export function grantProEntitlement(): void {
-  try {
-    localStorage.setItem(PRO_FLAG_KEY, '1');
-  } catch {
-    /* ignore */
-  }
-}
-
-export function revokeProEntitlement(): void {
-  try {
-    localStorage.removeItem(PRO_FLAG_KEY);
-  } catch {
-    /* ignore */
   }
 }
