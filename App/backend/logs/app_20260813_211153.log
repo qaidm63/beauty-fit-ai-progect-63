@@ -1,0 +1,48 @@
+2026-08-13 21:11:53,475 - main - INFO - === Logging system initialized ===
+2026-08-13 21:11:53,476 - main - INFO - Log file: logs/app_20260813_211153.log
+2026-08-13 21:11:53,476 - main - INFO - Log level: INFO
+2026-08-13 21:11:53,476 - main - INFO - Timestamp: 20260813_211153
+2026-08-13 21:11:58,708 - main - INFO - Included router: routers.aihub.router
+2026-08-13 21:11:58,722 - main - INFO - Included router: routers.auth.router
+2026-08-13 21:11:58,744 - main - INFO - Included router: routers.face_analysis.router
+2026-08-13 21:11:58,745 - main - INFO - Included router: routers.health.router
+2026-08-13 21:11:58,949 - routers.lipsticks - INFO - Loaded 6190 lipstick records from /workspace/App/backend/data/lipstick_enriched.json
+2026-08-13 21:11:58,977 - main - INFO - Included router: routers.lipsticks.router
+2026-08-13 21:11:59,037 - main - INFO - Included router: routers.payments.router
+2026-08-13 21:11:59,140 - services.pro_tutorial - INFO - [GeminiKeyManager] Initialized with 1 API key(s).
+2026-08-13 21:11:59,148 - main - INFO - Included router: routers.pro_tutorial.router
+2026-08-13 21:11:59,166 - main - INFO - Included router: routers.settings.router
+2026-08-13 21:11:59,213 - main - INFO - Included router: routers.storage.router
+2026-08-13 21:11:59,220 - main - INFO - Included router: routers.user.router
+2026-08-13 21:11:59,308 - main - INFO - === Application startup initiated ===
+2026-08-13 21:11:59,308 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-13 21:11:59,308 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-13 21:11:59,308 - core.database - INFO - Starting database initialization...
+2026-08-13 21:11:59,309 - core.database - INFO - Normalizing database URL for async compatibility...
+2026-08-13 21:11:59,310 - core.database - WARNING - Adjusted database URL driver for async compatibility
+2026-08-13 21:11:59,310 - core.database - INFO - Creating async database engine...
+2026-08-13 21:11:59,310 - core.database - INFO - Using QueuePool with connection pooling for non-Lambda environment
+2026-08-13 21:11:59,385 - core.database - INFO - Database engine created successfully
+2026-08-13 21:11:59,386 - core.database - INFO - Creating async session maker...
+2026-08-13 21:11:59,386 - core.database - INFO - Async session maker created successfully
+2026-08-13 21:11:59,386 - core.database - INFO - Database connection initialized successfully
+2026-08-13 21:11:59,386 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-13 21:11:59,386 - services.database - INFO - Database initialized successfully
+2026-08-13 21:11:59,386 - services.database - DEBUG - [DB_OP] Database initialization completed in 0.0778s
+2026-08-13 21:11:59,386 - services.mock_data - INFO - mock_data directory not found, skipping mock initialization
+2026-08-13 21:11:59,386 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-13 21:11:59,386 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-13 21:11:59,386 - core.database - INFO - Starting database initialization...
+2026-08-13 21:11:59,386 - core.database - INFO - Database already initialized
+2026-08-13 21:11:59,386 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-13 21:11:59,386 - services.database - INFO - Database initialized successfully
+2026-08-13 21:11:59,387 - services.database - DEBUG - [DB_OP] Database initialization completed in 0.0004s
+2026-08-13 21:11:59,387 - services.auth - WARNING - Admin user ID or email not configured, skipping admin initialization
+2026-08-13 21:11:59,387 - main - INFO - === Application startup completed successfully ===
+2026-08-13 21:12:13,114 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/auth/me
+2026-08-13 21:14:29,486 - core.config - DEBUG - Read dynamic attribute jwt_secret_key from environment variable JWT_SECRET_KEY
+2026-08-13 21:14:29,500 - core.config - DEBUG - Read dynamic attribute jwt_algorithm from environment variable JWT_ALGORITHM
+2026-08-13 21:14:29,506 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 21:14:29,506 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 21:14:29,507 - core.config - DEBUG - Read dynamic attribute supabase_jwt_secret from environment variable SUPABASE_JWT_SECRET
+2026-08-13 21:14:29,507 - core.auth - WARNING - Supabase token validation failed: JWTClaimsError

@@ -1,0 +1,78 @@
+2026-08-13 21:30:46,555 - main - INFO - === Logging system initialized ===
+2026-08-13 21:30:46,555 - main - INFO - Log file: logs/app_20260813_213046.log
+2026-08-13 21:30:46,555 - main - INFO - Log level: INFO
+2026-08-13 21:30:46,555 - main - INFO - Timestamp: 20260813_213046
+2026-08-13 21:30:55,821 - main - INFO - Included router: routers.aihub.router
+2026-08-13 21:30:55,844 - main - INFO - Included router: routers.auth.router
+2026-08-13 21:30:55,869 - main - INFO - Included router: routers.face_analysis.router
+2026-08-13 21:30:55,870 - main - INFO - Included router: routers.health.router
+2026-08-13 21:30:56,083 - routers.lipsticks - INFO - Loaded 6190 lipstick records from /workspace/App/backend/data/lipstick_enriched.json
+2026-08-13 21:30:56,116 - main - INFO - Included router: routers.lipsticks.router
+2026-08-13 21:30:56,200 - main - INFO - Included router: routers.payments.router
+2026-08-13 21:30:56,232 - services.pro_tutorial - INFO - [GeminiKeyManager] Initialized with 1 API key(s).
+2026-08-13 21:30:56,241 - main - INFO - Included router: routers.pro_tutorial.router
+2026-08-13 21:30:56,263 - main - INFO - Included router: routers.settings.router
+2026-08-13 21:30:56,313 - main - INFO - Included router: routers.storage.router
+2026-08-13 21:30:56,321 - main - INFO - Included router: routers.user.router
+2026-08-13 21:30:56,405 - main - INFO - === Application startup initiated ===
+2026-08-13 21:30:56,405 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-13 21:30:56,405 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-13 21:30:56,405 - core.database - INFO - Starting database initialization...
+2026-08-13 21:30:56,405 - core.database - INFO - Normalizing database URL for async compatibility...
+2026-08-13 21:30:56,407 - core.database - WARNING - Adjusted database URL driver for async compatibility
+2026-08-13 21:30:56,407 - core.database - INFO - Creating async database engine...
+2026-08-13 21:30:56,407 - core.database - INFO - Using QueuePool with connection pooling for non-Lambda environment
+2026-08-13 21:30:56,468 - core.database - INFO - Database engine created successfully
+2026-08-13 21:30:56,468 - core.database - INFO - Creating async session maker...
+2026-08-13 21:30:56,468 - core.database - INFO - Async session maker created successfully
+2026-08-13 21:30:56,468 - core.database - INFO - Database connection initialized successfully
+2026-08-13 21:30:56,468 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-13 21:30:56,468 - services.database - INFO - Database initialized successfully
+2026-08-13 21:30:56,468 - services.database - DEBUG - [DB_OP] Database initialization completed in 0.0633s
+2026-08-13 21:30:56,469 - services.mock_data - INFO - mock_data directory not found, skipping mock initialization
+2026-08-13 21:30:56,469 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-13 21:30:56,469 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-13 21:30:56,469 - core.database - INFO - Starting database initialization...
+2026-08-13 21:30:56,469 - core.database - INFO - Database already initialized
+2026-08-13 21:30:56,469 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-13 21:30:56,469 - services.database - INFO - Database initialized successfully
+2026-08-13 21:30:56,469 - services.database - DEBUG - [DB_OP] Database initialization completed in 0.0004s
+2026-08-13 21:30:56,469 - services.auth - WARNING - Admin user ID or email not configured, skipping admin initialization
+2026-08-13 21:30:56,469 - main - INFO - === Application startup completed successfully ===
+2026-08-13 21:31:07,031 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/auth/me
+2026-08-13 21:33:00,629 - core.config - DEBUG - Read dynamic attribute jwt_secret_key from environment variable JWT_SECRET_KEY
+2026-08-13 21:33:00,634 - core.config - DEBUG - Read dynamic attribute jwt_algorithm from environment variable JWT_ALGORITHM
+2026-08-13 21:33:00,641 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 21:33:00,641 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 21:33:00,641 - core.config - DEBUG - Read dynamic attribute supabase_jwt_secret from environment variable SUPABASE_JWT_SECRET
+2026-08-13 21:33:00,766 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 21:33:00,766 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 21:35:45,879 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/auth/me
+2026-08-13 22:10:50,098 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 22:10:50,099 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 22:10:50,099 - core.auth - WARNING - Supabase token validation failed: JWTError
+2026-08-13 22:10:50,764 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 22:10:50,764 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 22:10:50,764 - core.auth - WARNING - Supabase token validation failed: JWTError
+2026-08-13 22:11:39,098 - services.face_analysis - INFO - [BeautyFit v2.1] img=800x800 Metrics: face_ratio=1.114, jaw_angle=146.7, jaw_ratio=1.354, forehead_ratio=0.925, chin_ratio=0.316, EAR=0.325, eye_aspect_ratio=2.95, eye_tilt_angle=-0.78, lid_visibility=0.479, nose_bridge_height=0.024, lip_height_ratio=0.1586, cupid_bow_ratio=0.061
+2026-08-13 22:11:52,503 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-13 22:11:55,312 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-13 22:12:23,205 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 22:12:23,205 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 22:12:23,205 - core.auth - WARNING - Supabase token validation failed: JWTError
+2026-08-13 22:12:23,917 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 22:12:23,918 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 22:12:23,918 - core.auth - WARNING - Supabase token validation failed: JWTError
+2026-08-13 22:16:01,639 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 22:16:01,640 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 22:16:01,640 - core.auth - WARNING - Supabase token validation failed: JWTError
+2026-08-13 22:16:02,414 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 22:16:02,414 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 22:16:02,414 - core.auth - WARNING - Supabase token validation failed: JWTError
+2026-08-13 22:16:37,217 - services.face_analysis - INFO - [BeautyFit v2.1] img=450x800 Metrics: face_ratio=1.125, jaw_angle=148.1, jaw_ratio=1.496, forehead_ratio=0.952, chin_ratio=0.274, EAR=0.4309, eye_aspect_ratio=2.214, eye_tilt_angle=5.48, lid_visibility=0.588, nose_bridge_height=0.021, lip_height_ratio=0.0979, cupid_bow_ratio=0.093
+2026-08-13 22:17:17,775 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-13 22:19:10,213 - services.face_analysis - INFO - [BeautyFit v2.1] img=450x800 Metrics: face_ratio=1.058, jaw_angle=141.4, jaw_ratio=1.417, forehead_ratio=0.929, chin_ratio=0.285, EAR=0.3246, eye_aspect_ratio=2.896, eye_tilt_angle=170.65, lid_visibility=0.436, nose_bridge_height=0.0327, lip_height_ratio=0.1214, cupid_bow_ratio=0.066
+2026-08-13 22:20:04,593 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-13 22:20:49,884 - core.auth - WARNING - Token validation failed: JWTError
+2026-08-13 22:20:49,884 - dependencies.auth - DEBUG - App-token validation failed (AccessTokenError); trying Supabase token
+2026-08-13 22:20:49,885 - core.auth - WARNING - Supabase token validation failed: JWTError

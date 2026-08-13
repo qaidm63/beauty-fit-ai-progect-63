@@ -3,3 +3,7 @@ assets/videos/
 .env
 .env.local
 .env
+venv/
+backend/venv/
+backend/logs/*.log
+*.db

@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { verifyPayment } from '@/api/payments';
-import { useAuth } from '@/contexts/AuthContext';
 import Navbar from '@/components/Navbar';
 import { CheckCircle2, Loader2, XCircle, ArrowRight } from 'lucide-react';
 
 export default function CheckoutSuccessPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { login } = useAuth();
   const sessionId = searchParams.get('session_id');
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
@@ -109,7 +107,7 @@ export default function CheckoutSuccessPage() {
             </p>
             {loginRequired ? (
               <button
-                onClick={() => login()}
+                onClick={() => navigate('/login')}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white text-sm font-semibold font-body shadow-md hover:shadow-lg transition-all"
                 style={{ background: 'linear-gradient(135deg, #B8706A 0%, #8E9CC3 50%, #C9A96E 100%)' }}
               >

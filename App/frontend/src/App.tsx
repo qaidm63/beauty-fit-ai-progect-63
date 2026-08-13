@@ -14,6 +14,7 @@ import SpinWheelPage from './pages/SpinWheelPage';
 import CardTestPage from './pages/CardTestPage';
 import AuthCallback from './pages/AuthCallback';
 import AuthError from './pages/AuthError';
+import AuthPage from './pages/AuthPage';
 import LogoutCallbackPage from './pages/LogoutCallbackPage';
 import CheckoutSuccessPage from './pages/CheckoutSuccessPage';
 import CheckoutPlanPage from './pages/CheckoutPlanPage';
@@ -39,6 +40,7 @@ const AppRoutes = () => (
     <Route path="/card-test" element={<PageLayout><CardTestPage /></PageLayout>} />
     <Route path="/auth/callback" element={<AuthCallback />} />
     <Route path="/auth/error" element={<AuthError />} />
+    <Route path="/login" element={<AuthPage />} />
     <Route path="/logout-callback" element={<LogoutCallbackPage />} />
     <Route path="/checkout/plan" element={<PageLayout><CheckoutPlanPage /></PageLayout>} />
     <Route path="/checkout/success" element={<PageLayout><CheckoutSuccessPage /></PageLayout>} />

@@ -13,7 +13,13 @@ let supabaseInstance: SupabaseClient | null = null;
 function ensureClient(): SupabaseClient | null {
   if (supabaseInstance) return supabaseInstance;
   if (supabaseUrl && supabaseAnonKey) {
-    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
+    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    });
   }
   return supabaseInstance;
 }

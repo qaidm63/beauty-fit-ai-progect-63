@@ -132,6 +132,13 @@ export default function Navbar() {
         {/* CTA + Mobile Toggle */}
         <div className="flex items-center gap-4">
           <Link
+            to="/login"
+            className="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[#5C4A42] text-sm font-semibold font-body border transition-all duration-300 hover:text-[#8E9CC3]"
+            style={{ borderColor: 'rgba(184,112,106,0.35)' }}
+          >
+            Sign in
+          </Link>
+          <Link
             to="/analyze"
             className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-semibold font-body shadow-md hover:shadow-lg hover:brightness-110 transition-all duration-300"
             style={{ background: "linear-gradient(135deg, #B8706A 0%, #8E9CC3 50%, #C9A96E 100%)" }}
@@ -218,7 +225,14 @@ export default function Navbar() {
             >
               Blog
             </Link>
-            <div className="pt-2 border-t border-[#E8DDD6]">
+            <div className="pt-2 border-t border-[#E8DDD6] flex flex-col gap-2">
+              <Link
+                to="/login"
+                className="flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-semibold font-body border transition-colors"
+                style={{ borderColor: 'rgba(184,112,106,0.35)', color: '#5C4A42' }}
+              >
+                Sign in
+              </Link>
               <Link
                 to="/analyze"
                 className="flex items-center justify-center gap-2 px-5 py-3 rounded-full text-white text-sm font-semibold font-body shadow-md"

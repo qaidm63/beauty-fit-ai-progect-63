@@ -2,13 +2,18 @@ import axios, { AxiosInstance } from 'axios';
 import { getAPIBaseURL } from './config';
 
 /**
- * Fallback storage for the access token used during development when the
- * HttpOnly cookie cannot be set (e.g. cross-origin local preview). In
- * production the HttpOnly cookie set by the backend is the primary path.
+ * Auth token store.
+ *
+ * The frontend authenticates against Supabase Auth. The resulting `access_token`
+ * is persisted to sessionStorage (plus an in-memory mirror so synchronous call
+ * sites like the axios interceptor never depend on storage availability). Every
+ * outbound API request attaches it as `Authorization: Bearer <token>`.
  */
 export const AUTH_TOKEN_FALLBACK_KEY = 'bf_access_token_fallback';
 
-export function getAuthToken(): string | null {
+let memoryToken: string | null = null;
+
+function readStorage(): string | null {
   try {
     return sessionStorage.getItem(AUTH_TOKEN_FALLBACK_KEY);
   } catch {
@@ -16,23 +21,33 @@ export function getAuthToken(): string | null {
   }
 }
 
-export function setAuthToken(token: string): void {
+function writeStorage(token: string | null): void {
   try {
-    sessionStorage.setItem(AUTH_TOKEN_FALLBACK_KEY, token);
+    if (token) {
+      sessionStorage.setItem(AUTH_TOKEN_FALLBACK_KEY, token);
+    } else {
+      sessionStorage.removeItem(AUTH_TOKEN_FALLBACK_KEY);
+    }
   } catch {
-    /* ignore */
+    /* ignore — in-memory mirror still holds the token for this session */
   }
+}
+
+export function getAuthToken(): string | null {
+  return memoryToken ?? readStorage();
+}
+
+export function setAuthToken(token: string): void {
+  memoryToken = token;
+  writeStorage(token);
 }
 
 export function clearAuthToken(): void {
-  try {
-    sessionStorage.removeItem(AUTH_TOKEN_FALLBACK_KEY);
-  } catch {
-    /* ignore */
-  }
+  memoryToken = null;
+  writeStorage(null);
 }
 
-/** Authorization header derived from the fallback token (dev only). */
+/** Authorization header derived from the current session token. */
 export function authHeaders(): Record<string, string> {
   const token = getAuthToken();
   return token ? { Authorization: `Bearer ${token}` } : {};
@@ -49,7 +64,7 @@ class RPApi {
       },
     });
 
-    // Attach the dev fallback token to every request if present.
+    // Attach the session access token to every request if present.
     this.client.interceptors.request.use((config) => {
       const token = getAuthToken();
       if (token && !config.headers.Authorization) {
@@ -58,7 +73,7 @@ class RPApi {
       return config;
     });
 
-    // On 401, drop the stale fallback token so the user can re-login.
+    // On 401, drop the stale token so the user can re-login.
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
@@ -87,42 +102,6 @@ class RPApi {
       throw new Error(
         error.response?.data?.detail || 'Failed to get user info'
       );
-    }
-  }
-
-  async login() {
-    try {
-      const response = await this.client.get(
-        `${this.getBaseURL()}/api/v1/auth/login`
-      );
-      // The backend returns the OIDC authorization URL as JSON.
-      const redirectUrl = response.data?.redirect_url;
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
-      } else {
-        throw new Error('Login URL missing from response');
-      }
-    } catch (error) {
-      throw new Error(
-        error.response?.data?.detail || 'Failed to initiate login'
-      );
-    }
-  }
-
-  async logout() {
-    try {
-      const response = await this.client.get(
-        `${this.getBaseURL()}/api/v1/auth/logout`
-      );
-      // Clear the dev fallback token regardless of the OIDC redirect.
-      clearAuthToken();
-      const redirectUrl = response.data?.redirect_url;
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
-      }
-    } catch (error) {
-      clearAuthToken();
-      throw new Error(error.response?.data?.detail || 'Failed to logout');
     }
   }
 }

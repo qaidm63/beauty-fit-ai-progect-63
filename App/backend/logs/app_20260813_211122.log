@@ -1,0 +1,16 @@
+2026-08-13 21:11:22,790 - main - INFO - === Logging system initialized ===
+2026-08-13 21:11:22,790 - main - INFO - Log file: logs/app_20260813_211122.log
+2026-08-13 21:11:22,790 - main - INFO - Log level: INFO
+2026-08-13 21:11:22,790 - main - INFO - Timestamp: 20260813_211122
+2026-08-13 21:11:32,785 - main - INFO - Included router: routers.aihub.router
+2026-08-13 21:11:32,864 - main - INFO - Included router: routers.auth.router
+2026-08-13 21:11:32,893 - main - INFO - Included router: routers.face_analysis.router
+2026-08-13 21:11:32,896 - main - INFO - Included router: routers.health.router
+2026-08-13 21:11:34,052 - routers.lipsticks - INFO - Loaded 6190 lipstick records from /workspace/App/backend/data/lipstick_enriched.json
+2026-08-13 21:11:34,084 - main - INFO - Included router: routers.lipsticks.router
+2026-08-13 21:11:34,888 - main - INFO - Included router: routers.payments.router
+2026-08-13 21:11:38,074 - services.pro_tutorial - INFO - [GeminiKeyManager] Initialized with 1 API key(s).
+2026-08-13 21:11:38,083 - main - INFO - Included router: routers.pro_tutorial.router
+2026-08-13 21:11:38,107 - main - INFO - Included router: routers.settings.router
+2026-08-13 21:11:38,161 - main - INFO - Included router: routers.storage.router
+2026-08-13 21:11:38,179 - main - INFO - Included router: routers.user.router

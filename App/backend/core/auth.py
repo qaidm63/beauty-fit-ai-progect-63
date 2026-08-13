@@ -101,6 +101,36 @@ def create_access_token(claims: Dict[str, Any], expires_minutes: Optional[int] =
     return token
 
 
+def decode_supabase_access_token(token: str) -> Optional[Dict[str, Any]]:
+    """Decode and validate a Supabase access token.
+
+    Supabase access tokens are JWTs signed with the project's `SUPABASE_JWT_SECRET`
+    (HS256). The BeautyFit frontend authenticates directly against Supabase Auth
+    (`signInWithPassword` / `signUp` / `signInWithOAuth`) and forwards the resulting
+    access token as `Authorization: Bearer <token>`. This decoder lets the backend
+    trust those tokens without any additional round-trip to Supabase.
+
+    Returns None when the secret is unconfigured, the token is invalid, or it fails
+    signature/expiry validation.
+    """
+    jwt_secret = getattr(settings, "supabase_jwt_secret", None)
+    if not jwt_secret:
+        logger.debug("SUPABASE_JWT_SECRET not configured; Supabase tokens cannot be validated")
+        return None
+    try:
+        # `verify_aud` is disabled because Supabase access tokens always carry
+        # `aud: "authenticated"`, which python-jose would otherwise reject.
+        # Signature and expiry are still fully verified.
+        return jwt.decode(token, jwt_secret, algorithms=["HS256"], options={"verify_aud": False})
+    except ExpiredSignatureError:
+        logger.info("Supabase access token has expired")
+        return None
+    except JWTError as exc:
+        # Log error type only, not the full exception which may contain sensitive token data
+        logger.warning("Supabase token validation failed: %s", type(exc).__name__)
+        return None
+
+
 def decode_access_token(token: str) -> Dict[str, Any]:
     """Decode and validate JWT access token."""
     if not settings.jwt_secret_key:
