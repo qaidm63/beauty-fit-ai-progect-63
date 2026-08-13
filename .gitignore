@@ -2,3 +2,4 @@
 assets/videos/
 .env
 .env.local
+.env
