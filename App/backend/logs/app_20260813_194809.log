@@ -1,0 +1,515 @@
+2026-08-13 19:48:09,728 - __main__ - INFO - === Logging system initialized ===
+2026-08-13 19:48:09,729 - __main__ - INFO - Log file: logs/app_20260813_194809.log
+2026-08-13 19:48:09,729 - __main__ - INFO - Log level: INFO
+2026-08-13 19:48:09,729 - __main__ - INFO - Timestamp: 20260813_194809
+2026-08-13 19:48:15,888 - __main__ - INFO - Included router: routers.aihub.router
+2026-08-13 19:48:15,907 - __main__ - INFO - Included router: routers.auth.router
+2026-08-13 19:48:15,946 - __main__ - INFO - Included router: routers.face_analysis.router
+2026-08-13 19:48:15,948 - __main__ - INFO - Included router: routers.health.router
+2026-08-13 19:48:16,200 - routers.lipsticks - INFO - Loaded 6190 lipstick records from /workspace/App/backend/data/lipstick_enriched.json
+2026-08-13 19:48:16,243 - __main__ - INFO - Included router: routers.lipsticks.router
+2026-08-13 19:48:16,442 - __main__ - INFO - Included router: routers.payments.router
+2026-08-13 19:48:16,470 - services.pro_tutorial - INFO - [GeminiKeyManager] Initialized with 1 API key(s).
+2026-08-13 19:48:16,481 - __main__ - INFO - Included router: routers.pro_tutorial.router
+2026-08-13 19:48:16,501 - __main__ - INFO - Included router: routers.settings.router
+2026-08-13 19:48:16,564 - __main__ - INFO - Included router: routers.storage.router
+2026-08-13 19:48:16,571 - __main__ - INFO - Included router: routers.user.router
+2026-08-13 19:48:16,644 - __main__ - INFO - === Application startup initiated ===
+2026-08-13 19:48:16,682 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-13 19:48:16,682 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-13 19:48:16,682 - core.database - INFO - Starting database initialization...
+2026-08-13 19:48:16,682 - core.database - INFO - Normalizing database URL for async compatibility...
+2026-08-13 19:48:16,684 - core.database - WARNING - Adjusted database URL driver for async compatibility
+2026-08-13 19:48:16,684 - core.database - INFO - Creating async database engine...
+2026-08-13 19:48:16,684 - core.database - INFO - Using QueuePool with connection pooling for non-Lambda environment
+2026-08-13 19:48:16,776 - core.database - INFO - Database engine created successfully
+2026-08-13 19:48:16,777 - core.database - INFO - Creating async session maker...
+2026-08-13 19:48:16,777 - core.database - INFO - Async session maker created successfully
+2026-08-13 19:48:16,777 - core.database - INFO - Database connection initialized successfully
+2026-08-13 19:48:16,777 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-13 19:48:16,777 - services.database - INFO - Database initialized successfully
+2026-08-13 19:48:16,777 - services.database - DEBUG - [DB_OP] Database initialization completed in 0.0954s
+2026-08-13 19:48:16,777 - services.mock_data - INFO - mock_data directory not found, skipping mock initialization
+2026-08-13 19:48:16,778 - services.database - DEBUG - [DB_OP] Starting database initialization
+2026-08-13 19:48:16,778 - services.database - INFO - 🔧 Starting database initialization...
+2026-08-13 19:48:16,778 - core.database - INFO - Starting database initialization...
+2026-08-13 19:48:16,778 - core.database - INFO - Database already initialized
+2026-08-13 19:48:16,778 - services.database - INFO - 🔧 Database connection initialized; skipping table creation in Supabase mode
+2026-08-13 19:48:16,778 - services.database - INFO - Database initialized successfully
+2026-08-13 19:48:16,778 - services.database - DEBUG - [DB_OP] Database initialization completed in 0.0005s
+2026-08-13 19:48:16,778 - services.auth - WARNING - Admin user ID or email not configured, skipping admin initialization
+2026-08-13 19:48:16,778 - __main__ - INFO - === Application startup completed successfully ===
+2026-08-13 19:48:27,823 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/auth/me
+2026-08-13 19:48:31,895 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/auth/me
+2026-08-13 19:48:35,269 - dependencies.auth - DEBUG - Authentication required for request GET /api/v1/payments/entitlement
+2026-08-13 19:48:35,299 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-13 19:48:57,021 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-08-13 19:48:57,023 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0015s
+2026-08-13 19:48:58,284 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2026-08-13 19:48:58,284 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2026-08-13 19:48:58,870 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2026-08-13 19:48:58,870 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2026-08-13 19:48:59,608 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2026-08-13 19:48:59,608 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2026-08-13 19:49:00,176 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2026-08-13 19:49:00,187 - sqlalchemy.engine.Engine - INFO - DELETE FROM oidc_states WHERE oidc_states.expires_at < $1::TIMESTAMP WITH TIME ZONE
+2026-08-13 19:49:00,188 - sqlalchemy.engine.Engine - INFO - [generated in 0.00655s] (datetime.datetime(2026, 8, 13, 19, 48, 57, 25723, tzinfo=datetime.timezone.utc),)
+2026-08-13 19:49:00,764 - sqlalchemy.engine.Engine - INFO - INSERT INTO oidc_states (state, nonce, code_verifier, expires_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::TIMESTAMP WITH TIME ZONE) RETURNING oidc_states.id, oidc_states.created_at
+2026-08-13 19:49:00,764 - sqlalchemy.engine.Engine - INFO - [generated in 0.00056s] ('aOz2CdhdW0Ii4LIrA131BWOATLw0meHdcuXW5eGIUzg', 'EEfBSotwvaDjljvJU_SbCKSl-wn3uo1KJDQdaQhhoRI', 'BIdMc2OV3tOKH0LT8bEDh6_xkd8vGkYzQ-oPhLS0r-ntN6qqbyli8wz63JMIrxVjBOeJ-hG12MYyJwMYnvVUro9EMZxZK6xMwPXUdpHGDoUH77mTT1HGag1H6jPlPvmv', datetime.datetime(2026, 8, 13, 19, 59, 0, 757715, tzinfo=datetime.timezone.utc))
+2026-08-13 19:49:01,153 - sqlalchemy.engine.Engine - INFO - COMMIT
+2026-08-13 19:49:01,383 - routers.auth - DEBUG - [get_dynamic_backend_url] mgx-external-domain=None, x-forwarded-host=None, host=localhost:8000, scheme=https, dynamic_url=https://localhost:8000
+2026-08-13 19:49:01,383 - routers.auth - INFO - [login] Starting OIDC flow with redirect_uri=https://localhost:8000/api/v1/auth/callback
+2026-08-13 19:49:01,384 - core.database - ERROR - Database session error: 'Settings' object has no attribute 'oidc_client_id'
+Traceback (most recent call last):
+  File "/workspace/App/backend/core/database.py", line 573, in get_db
+    yield session
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/auth.py", line 97, in login
+    auth_url = build_authorization_url(state, nonce, code_challenge, redirect_uri=redirect_uri)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/core/auth.py", line 240, in build_authorization_url
+    "client_id": settings.oidc_client_id,
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/core/config.py", line 87, in __getattr__
+    raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+AttributeError: 'Settings' object has no attribute 'oidc_client_id'
+2026-08-13 19:49:01,416 - core.database - DEBUG - [DB_OP] Database session cleanup after 4.3949s
+2026-08-13 19:49:01,420 - core.database - ERROR - Failed to create database session: 'Settings' object has no attribute 'oidc_client_id'
+Traceback (most recent call last):
+  File "/workspace/App/backend/core/database.py", line 573, in get_db
+    yield session
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/auth.py", line 97, in login
+    auth_url = build_authorization_url(state, nonce, code_challenge, redirect_uri=redirect_uri)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/core/auth.py", line 240, in build_authorization_url
+    "client_id": settings.oidc_client_id,
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/core/config.py", line 87, in __getattr__
+    raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+AttributeError: 'Settings' object has no attribute 'oidc_client_id'
+2026-08-13 19:49:01,428 - __main__ - ERROR - Exception: AttributeError: 'Settings' object has no attribute 'oidc_client_id'
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/middleware/cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.11/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.11/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/auth.py", line 97, in login
+    auth_url = build_authorization_url(state, nonce, code_challenge, redirect_uri=redirect_uri)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/core/auth.py", line 240, in build_authorization_url
+    "client_id": settings.oidc_client_id,
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/core/config.py", line 87, in __getattr__
+    raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+AttributeError: 'Settings' object has no attribute 'oidc_client_id'
+
+2026-08-13 19:49:06,280 - services.face_analysis - INFO - [BeautyFit v2.1] img=800x800 Metrics: face_ratio=1.114, jaw_angle=146.7, jaw_ratio=1.354, forehead_ratio=0.925, chin_ratio=0.316, EAR=0.325, eye_aspect_ratio=2.95, eye_tilt_angle=-0.78, lid_visibility=0.479, nose_bridge_height=0.024, lip_height_ratio=0.1586, cupid_bow_ratio=0.061
+2026-08-13 19:49:24,878 - core.config - DEBUG - Read dynamic attribute jwt_secret_key from environment variable JWT_SECRET_KEY
+2026-08-13 19:49:24,878 - core.config - DEBUG - Read dynamic attribute jwt_algorithm from environment variable JWT_ALGORITHM
+2026-08-13 19:49:24,901 - core.auth - DEBUG - Authentication token validated for user hash: aa5670d9
+2026-08-13 19:49:24,909 - core.auth - DEBUG - Authentication token validated for user hash: aa5670d9
+2026-08-13 19:49:24,909 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-08-13 19:49:24,910 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0008s
+2026-08-13 19:49:25,651 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2026-08-13 19:49:25,660 - sqlalchemy.engine.Engine - INFO - SELECT entitlements.user_id, entitlements.plan, entitlements.status, entitlements.stripe_session_id, entitlements.stripe_customer_id, entitlements.stripe_subscription_id, entitlements.expires_at, entitlements.id, entitlements.created_at, entitlements.updated_at 
+FROM entitlements 
+WHERE entitlements.user_id = $1::VARCHAR AND entitlements.status = $2::VARCHAR ORDER BY entitlements.id DESC 
+ LIMIT $3::INTEGER
+2026-08-13 19:49:25,661 - sqlalchemy.engine.Engine - INFO - [generated in 0.00085s] ('test-user-001', 'active', 1)
+2026-08-13 19:49:26,246 - core.database - DEBUG - [DB_OP] Database session cleanup after 1.3361s
+2026-08-13 19:49:26,247 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2026-08-13 19:49:26,254 - core.auth - DEBUG - Authentication token validated for user hash: aa5670d9
+2026-08-13 19:49:26,254 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-08-13 19:49:26,254 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0003s
+2026-08-13 19:49:27,386 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2026-08-13 19:49:27,388 - sqlalchemy.engine.Engine - INFO - SELECT entitlements.user_id, entitlements.plan, entitlements.status, entitlements.stripe_session_id, entitlements.stripe_customer_id, entitlements.stripe_subscription_id, entitlements.expires_at, entitlements.id, entitlements.created_at, entitlements.updated_at 
+FROM entitlements 
+WHERE entitlements.user_id = $1::VARCHAR AND entitlements.status = $2::VARCHAR
+2026-08-13 19:49:27,388 - sqlalchemy.engine.Engine - INFO - [generated in 0.00042s] ('test-user-001', 'active')
+2026-08-13 19:49:27,912 - routers.pro_tutorial - INFO - Pro access denied for user (no active entitlement)
+2026-08-13 19:49:27,912 - core.database - ERROR - Database session error: 403: Pro access required. Please purchase a plan to unlock this report.
+Traceback (most recent call last):
+  File "/workspace/App/backend/core/database.py", line 573, in get_db
+    yield session
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/dependencies/utils.py", line 674, in solve_dependencies
+    solved = await call(**solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/pro_tutorial.py", line 41, in require_pro_entitlement
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 403: Pro access required. Please purchase a plan to unlock this report.
+2026-08-13 19:49:27,916 - core.database - DEBUG - [DB_OP] Database session cleanup after 1.6614s
+2026-08-13 19:49:27,916 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2026-08-13 19:49:28,091 - core.database - ERROR - Failed to create database session: 403: Pro access required. Please purchase a plan to unlock this report.
+Traceback (most recent call last):
+  File "/workspace/App/backend/core/database.py", line 573, in get_db
+    yield session
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/dependencies/utils.py", line 674, in solve_dependencies
+    solved = await call(**solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/pro_tutorial.py", line 41, in require_pro_entitlement
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 403: Pro access required. Please purchase a plan to unlock this report.
+2026-08-13 19:49:28,098 - core.auth - DEBUG - Authentication token validated for user hash: aa5670d9
+2026-08-13 19:49:28,098 - core.config - DEBUG - Read dynamic attribute frontend_url from environment variable FRONTEND_URL
+2026-08-13 19:49:28,100 - services.payment - INFO - create checkout session with request: amount=Decimal('1.8') currency='usd' stripe_price_id=None quantity=1 mode='payment' ui_mode='hosted' return_url=None success_url='http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}' cancel_url='http://localhost:3000/results' metadata={'plan': 'one_time', 'style_id': '', 'user_id': 'test-user-001', 'email': 'test@beautyfit.dev'} idempotency_key=None
+2026-08-13 19:49:28,101 - services.payment - INFO - Stripe API key loaded from environment
+2026-08-13 19:49:28,101 - services.payment - INFO - Calling Stripe API to create checkout session...
+2026-08-13 19:49:28,326 - stripe - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2026-08-13 19:49:28,327 - stripe - DEBUG - api_version=2026-07-29.dahlia message='Post details' post_data=line_items[0][price_data][currency]=usd&line_items[0][price_data][product_data][name]=Payment&line_items[0][price_data][unit_amount]=180&line_items[0][quantity]=1&mode=payment&metadata[plan]=one_time&metadata[style_id]=&metadata[user_id]=test-user-001&metadata[email]=test%40beautyfit.dev&success_url=http%3A%2F%2Flocalhost%3A3000%2Fcheckout%2Fsuccess%3Fsession_id%3D%7BCHECKOUT_SESSION_ID%7D&cancel_url=http%3A%2F%2Flocalhost%3A3000%2Fresults
+2026-08-13 19:49:28,329 - httpcore.connection - DEBUG - connect_tcp.started host='api.stripe.com' port=443 local_address=None timeout=80 socket_options=None
+2026-08-13 19:49:28,354 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f023c0c0a50>
+2026-08-13 19:49:28,354 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7f023915a3c0> server_hostname='api.stripe.com' timeout=80
+2026-08-13 19:49:28,379 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f0239259ad0>
+2026-08-13 19:49:28,380 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-13 19:49:28,381 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-13 19:49:28,381 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-13 19:49:28,381 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-13 19:49:28,381 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-13 19:49:30,139 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Date', b'Thu, 13 Aug 2026 19:49:30 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'3351'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Credentials', b'true'), (b'Access-Control-Allow-Methods', b'GET, HEAD, PUT, PATCH, POST, DELETE'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required'), (b'Access-Control-Max-Age', b'300'), (b'Cache-Control', b'no-cache, no-store'), (b'Content-Security-Policy', b"base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=BV19FaqVyJJEiNGC8fbdGQofm3LHat8xTehoMBkhS50ks2y8IeOavESfai9Z-Jg7xSLCfIwRZUxurn1_; report-to csp"), (b'Idempotency-Key', b'd01559f8-659d-3d79-6471-88f283406993'), (b'Original-Request', b'req_34OqopmdBNPkHE'), (b'Report-To', b'{"group":"csp","max_age":8640,"endpoints":[{"url":"https://q.stripe.com/csp-report-v2?q=BV19FaqVyJJEiNGC8fbdGQofm3LHat8xTehoMBkhS50ks2y8IeOavESfai9Z-Jg7xSLCfIwRZUxurn1_&t=1"}],"include_subdomains":true}'), (b'Reporting-Endpoints', b'csp="https://q.stripe.com/csp-report-v2?q=BV19FaqVyJJEiNGC8fbdGQofm3LHat8xTehoMBkhS50ks2y8IeOavESfai9Z-Jg7xSLCfIwRZUxurn1_&t=1"'), (b'Request-Id', b'req_34OqopmdBNPkHE'), (b'Stripe-Should-Retry', b'false'), (b'Stripe-Version', b'2026-07-29.dahlia'), (b'Vary', b'Origin'), (b'X-Stripe-Priority-Routing-Enabled', b'true'), (b'X-Stripe-Routing-Context-Priority-Tier', b'api-testmode'), (b'X-Wc', b'3c3'), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains; preload')])
+2026-08-13 19:49:30,141 - httpx - INFO - HTTP Request: POST https://api.stripe.com/v1/checkout/sessions "HTTP/1.1 200 OK"
+2026-08-13 19:49:30,141 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-13 19:49:30,142 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-13 19:49:30,142 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-13 19:49:30,142 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-13 19:49:30,142 - stripe - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2026-08-13 19:49:30,142 - stripe - DEBUG - body='{\n  "id": "cs_test_a1sB6ORKB6q7DZGHl8fQ7KOjUglTH6eN5BN7Ot8cFOVsvrVkrvWGxDbSc3",\n  "object": "checkout.session",\n  "adaptive_pricing": {\n    "enabled": true\n  },\n  "after_expiration": null,\n  "allow_promotion_codes": null,\n  "amount_subtotal": 180,\n  "amount_total": 180,\n  "automatic_tax": {\n    "enabled": false,\n    "liability": null,\n    "provider": null,\n    "status": null\n  },\n  "billing_address_collection": null,\n  "branding_settings": {\n    "background_color": "#ffffff",\n    "border_style": "rounded",\n    "button_color": "#0074d4",\n    "display_name": "BeautyFit sandbox",\n    "font_family": "default",\n    "icon": null,\n    "logo": null\n  },\n  "cancel_url": "http://localhost:3000/results",\n  "client_reference_id": null,\n  "client_secret": null,\n  "collected_information": null,\n  "consent": null,\n  "consent_collection": null,\n  "created": 1786650570,\n  "currency": "usd",\n  "currency_conversion": null,\n  "custom_fields": [],\n  "custom_text": {\n    "after_submit": null,\n    "shipping_address": null,\n    "submit": null,\n    "terms_of_service_acceptance": null\n  },\n  "customer": null,\n  "customer_account": null,\n  "customer_creation": "if_required",\n  "customer_details": null,\n  "customer_email": null,\n  "discounts": [],\n  "expires_at": 1786736969,\n  "integration_identifier": null,\n  "invoice": null,\n  "invoice_creation": {\n    "enabled": false,\n    "invoice_data": {\n      "account_tax_ids": null,\n      "custom_fields": null,\n      "description": null,\n      "footer": null,\n      "issuer": null,\n      "metadata": {},\n      "rendering_options": null\n    }\n  },\n  "livemode": false,\n  "locale": null,\n  "managed_payments": {\n    "enabled": false\n  },\n  "metadata": {\n    "email": "test@beautyfit.dev",\n    "plan": "one_time",\n    "style_id": "",\n    "user_id": "test-user-001"\n  },\n  "mode": "payment",\n  "origin_context": null,\n  "payment_intent": null,\n  "payment_link": null,\n  "payment_method_collection": "if_required",\n  "payment_method_configuration_details": {\n    "id": "pmc_1U3h0yFICqy1pS7lzMN1wWtD",\n    "parent": null\n  },\n  "payment_method_options": {\n    "card": {\n      "request_three_d_secure": "automatic"\n    }\n  },\n  "payment_method_types": [\n    "card",\n    "klarna",\n    "link",\n    "cashapp",\n    "amazon_pay"\n  ],\n  "payment_status": "unpaid",\n  "permissions": null,\n  "phone_number_collection": {\n    "enabled": false\n  },\n  "recovered_from": null,\n  "saved_payment_method_options": null,\n  "setup_intent": null,\n  "shipping_address_collection": null,\n  "shipping_cost": null,\n  "shipping_options": [],\n  "status": "open",\n  "submit_type": null,\n  "subscription": null,\n  "success_url": "http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}",\n  "total_details": {\n    "amount_discount": 0,\n    "amount_shipping": 0,\n    "amount_tax": 0\n  },\n  "ui_mode": "hosted_page",\n  "url": "https://checkout.stripe.com/c/pay/cs_test_a1sB6ORKB6q7DZGHl8fQ7KOjUglTH6eN5BN7Ot8cFOVsvrVkrvWGxDbSc3#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdicGRmZGhqaWBTZHdsZGtxJz8nZmprcXdqaScpJ2R1bE5gfCc%2FJ3VuWnFgdnFaMDRQNm01VUNMRnR8NHVWMmlAVz1oMU1TUGlqSDZOSE4wN0MxQzUwUzVORjdkMUtdUmtDT1RDbkBfYjJDbHNncnNgSHR%2FXVdqRlJ%2FYGtXU2l2f2A2f1BjZDA1NWtcMGtSPFZ9JyknY3dqaFZgd3Ngdyc%2FcXdwYCknZ2RmbmJ3anBrYUZqaWp3Jz8nJmNjY2NjYycpJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl",\n  "wallet_options": null\n}' message='API response body'
+2026-08-13 19:49:30,143 - stripe - DEBUG - link=https://dashboard.stripe.com/test/logs/req_34OqopmdBNPkHE message='Dashboard link for request'
+2026-08-13 19:49:35,384 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-13 19:49:38,762 - dependencies.auth - DEBUG - Authentication required for request POST /api/v1/payments/create_payment_session
+2026-08-13 19:49:52,936 - core.auth - DEBUG - Authentication token validated for user hash: aa5670d9
+2026-08-13 19:49:52,937 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-08-13 19:49:52,938 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0010s
+2026-08-13 19:49:53,690 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2026-08-13 19:49:53,693 - sqlalchemy.engine.Engine - INFO - SELECT entitlements.user_id, entitlements.plan, entitlements.status, entitlements.stripe_session_id, entitlements.stripe_customer_id, entitlements.stripe_subscription_id, entitlements.expires_at, entitlements.id, entitlements.created_at, entitlements.updated_at 
+FROM entitlements 
+WHERE entitlements.user_id = $1::VARCHAR AND entitlements.status = $2::VARCHAR ORDER BY entitlements.id DESC 
+ LIMIT $3::INTEGER
+2026-08-13 19:49:53,693 - sqlalchemy.engine.Engine - INFO - [cached since 28.03s ago] ('test-user-001', 'active', 1)
+2026-08-13 19:49:54,072 - core.database - DEBUG - [DB_OP] Database session cleanup after 1.1356s
+2026-08-13 19:49:54,073 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2026-08-13 19:49:54,081 - core.auth - DEBUG - Authentication token validated for user hash: aa5670d9
+2026-08-13 19:49:54,081 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-08-13 19:49:54,081 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0003s
+2026-08-13 19:49:54,792 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2026-08-13 19:49:54,793 - sqlalchemy.engine.Engine - INFO - SELECT entitlements.user_id, entitlements.plan, entitlements.status, entitlements.stripe_session_id, entitlements.stripe_customer_id, entitlements.stripe_subscription_id, entitlements.expires_at, entitlements.id, entitlements.created_at, entitlements.updated_at 
+FROM entitlements 
+WHERE entitlements.user_id = $1::VARCHAR AND entitlements.status = $2::VARCHAR
+2026-08-13 19:49:54,793 - sqlalchemy.engine.Engine - INFO - [cached since 27.41s ago] ('test-user-001', 'active')
+2026-08-13 19:49:55,141 - routers.pro_tutorial - INFO - Generating pro tutorial: user=test-user-001 style=elegant
+2026-08-13 19:49:55,142 - services.style_guide_parser - INFO - [style_guide_parser] Found style guides dir at: /workspace/App/backend/assets/uploads
+2026-08-13 19:49:55,142 - services.style_guide_parser - INFO - [style_guide_parser] Found style guides dir at: /workspace/App/backend/assets/uploads
+2026-08-13 19:49:55,143 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Sweet' from file: BeautyFit_Sweet_Style_Guide.docx
+2026-08-13 19:49:55,380 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Natural' from file: BeautyFit_Natural_Style_Guide (1).docx
+2026-08-13 19:49:55,477 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Sexy' from file: BeautyFit_Sexy_Style_Guide.docx
+2026-08-13 19:49:56,160 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Androgynous' from file: BeautyFit_Androgynous_Style_Guide.docx
+2026-08-13 19:49:56,248 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Elegant' from file: BeautyFit_Elegant_Style_Guide (2).docx
+2026-08-13 19:49:56,345 - services.style_guide_parser - INFO - [style_guide_parser] attempting to parse style 'Mature' from file: BeautyFit_Mature_Style_Guide (2).docx
+2026-08-13 19:49:56,432 - services.style_guide_parser - INFO - [style_guide_parser] loaded catalog from docx for 6 styles: {'sweet': 5, 'natural': 5, 'sexy': 5, 'androgynous': 5, 'elegant': 5, 'mature': 5}
+2026-08-13 19:49:56,432 - services.pro_tutorial - INFO - [pro_tutorial] start style=elegant sub_styles=5
+2026-08-13 19:49:57,472 - openai._base_client - DEBUG - Request options: {'method': 'post', 'url': '/chat/completions', 'files': None, 'idempotency_key': 'stainless-python-retry-45b4e818-77fc-4610-8eac-f6487e9e33fd', 'content': None, 'json_data': {'messages': [{'role': 'system', 'content': "You are a senior professional makeup artist. Given a user's facial profile and the candidate sub-styles within a target makeup style, pick the ONE sub-style that best fits the user, and write a short, warm personalized explanation. Always return STRICT JSON — no markdown, no prose outside JSON."}, {'role': 'user', 'content': 'USER FACIAL PROFILE:\nTarget style: Elegant\n\nCANDIDATE SUB-STYLES WITHIN Elegant:\n- Quiet Luxury\n- French Girl\n- Classic Liner\n- Soft Neutral Glam\n- Chinese Elegance (Zhong Shi You Ya)\n\nTASK: Pick the single best-matching sub-style for this user and write the personalization text.\n\nOUTPUT FORMAT:\nReturn a JSON object with EXACTLY these fields:\n{\n  "overview": "2-3 sentences describing the style for this user at a high level",\n  "personalized_analysis": "4-6 sentences connecting the user\'s face shape, eye tags, facial tags and key metrics to why this style works for them and which sub-style suits them best",\n  "recommended_sub_style": one of ["Quiet Luxury" | "French Girl" | "Classic Liner" | "Soft Neutral Glam" | "Chinese Elegance (Zhong Shi You Ya)"]\n}\nDo not include any other fields.'}], 'model': 'deepseek-chat', 'max_tokens': 4096, 'stream': False, 'temperature': 0.7}}
+2026-08-13 19:49:57,473 - openai._base_client - DEBUG - Sending HTTP Request: POST https://api.deepseek.com/v1/chat/completions
+2026-08-13 19:49:57,474 - httpcore.connection - DEBUG - connect_tcp.started host='api.deepseek.com' port=443 local_address=None timeout=5.0 socket_options=None
+2026-08-13 19:49:57,479 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f023f728390>
+2026-08-13 19:49:57,479 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x7f02386a40e0> server_hostname='api.deepseek.com' timeout=5.0
+2026-08-13 19:49:57,488 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f023e969350>
+2026-08-13 19:49:57,488 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-08-13 19:49:57,489 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-08-13 19:49:57,489 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-08-13 19:49:57,489 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-08-13 19:49:57,490 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-08-13 19:49:57,904 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Content-Type', b'application/json'), (b'Content-Length', b'111'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 13 Aug 2026 19:49:58 GMT'), (b'Server', b'elb'), (b'vary', b'origin, access-control-request-method, access-control-request-headers'), (b'access-control-allow-credentials', b'true'), (b'x-ds-trace-id', b'ac2b24ff1539fff202fe21611fd7bb83'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'X-Content-Type-Options', b'nosniff'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 f30ae33e7f432f1da54834a01d28df26.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'CGK51-P1'), (b'X-Amz-Cf-Id', b'AypLrXKe0Q8Kgxz8KytZTJ583Bxcs6Wd6WgGbWv9d3uCMlku0HzDxQ==')])
+2026-08-13 19:49:57,904 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-08-13 19:49:57,905 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-08-13 19:49:57,905 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-08-13 19:49:57,906 - httpcore.http11 - DEBUG - response_closed.started
+2026-08-13 19:49:57,906 - httpcore.http11 - DEBUG - response_closed.complete
+2026-08-13 19:49:57,906 - openai._base_client - DEBUG - HTTP Response: POST https://api.deepseek.com/v1/chat/completions "402 Payment Required" Headers({'content-type': 'application/json', 'content-length': '111', 'connection': 'keep-alive', 'date': 'Thu, 13 Aug 2026 19:49:58 GMT', 'server': 'elb', 'vary': 'origin, access-control-request-method, access-control-request-headers', 'access-control-allow-credentials': 'true', 'x-ds-trace-id': 'ac2b24ff1539fff202fe21611fd7bb83', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'x-content-type-options': 'nosniff', 'x-cache': 'Error from cloudfront', 'via': '1.1 f30ae33e7f432f1da54834a01d28df26.cloudfront.net (CloudFront)', 'x-amz-cf-pop': 'CGK51-P1', 'x-amz-cf-id': 'AypLrXKe0Q8Kgxz8KytZTJ583Bxcs6Wd6WgGbWv9d3uCMlku0HzDxQ=='})
+2026-08-13 19:49:57,907 - openai._base_client - DEBUG - request_id: None
+2026-08-13 19:49:57,907 - openai._base_client - DEBUG - Encountered httpx.HTTPStatusError
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/openai/_base_client.py", line 1646, in request
+    response.raise_for_status()
+  File "/usr/local/lib/python3.11/dist-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '402 Payment Required' for url 'https://api.deepseek.com/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-08-13 19:49:57,911 - openai._base_client - DEBUG - Not retrying
+2026-08-13 19:49:57,911 - openai._base_client - DEBUG - Re-raising status error
+2026-08-13 19:49:57,913 - services.aihub - ERROR - gentxt error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-08-13 19:49:57,913 - services.pro_tutorial - ERROR - [pro_tutorial] personalization gentxt failed: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+Traceback (most recent call last):
+  File "/workspace/App/backend/services/pro_tutorial.py", line 272, in _personalize
+    raw = await asyncio.wait_for(service.gentxt(gentxt_req), timeout=30.0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/tasks.py", line 479, in wait_for
+    return fut.result()
+           ^^^^^^^^^^^^
+  File "/workspace/App/backend/services/aihub.py", line 168, in gentxt
+    response = await client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/openai/resources/chat/completions/completions.py", line 2678, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/openai/_base_client.py", line 1881, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/openai/_base_client.py", line 1666, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-08-13 19:49:57,919 - services.pro_tutorial - INFO - [pro_tutorial] using default personalization (LLM unavailable/failed)
+2026-08-13 19:49:57,920 - services.pro_tutorial - INFO - [pro_tutorial] done style=elegant chosen=Quiet Luxury elapsed=2.78s
+2026-08-13 19:49:57,921 - core.database - DEBUG - [DB_OP] Database session cleanup after 3.8393s
+2026-08-13 19:49:57,925 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2026-08-13 19:50:14,850 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-08-13 19:50:14,851 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0018s
+2026-08-13 19:50:14,852 - core.config - DEBUG - Read dynamic attribute stripe_webhook_secret from environment variable STRIPE_WEBHOOK_SECRET
+2026-08-13 19:50:14,859 - routers.payments - ERROR - Webhook signature verification failed: No signatures found matching the expected signature for payload
+2026-08-13 19:50:14,860 - core.database - ERROR - Database session error: 400: Invalid signature
+Traceback (most recent call last):
+  File "/workspace/App/backend/routers/payments.py", line 245, in stripe_webhook
+    event = stripe.Webhook.construct_event(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_webhook.py", line 75, in construct_event
+    WebhookSignature.verify_header(payload, sig_header, secret, tolerance)
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_webhook.py", line 160, in verify_header
+    raise SignatureVerificationError(
+stripe._error.SignatureVerificationError: No signatures found matching the expected signature for payload
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/App/backend/core/database.py", line 573, in get_db
+    yield session
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/payments.py", line 255, in stripe_webhook
+    raise HTTPException(status_code=400, detail="Invalid signature")
+fastapi.exceptions.HTTPException: 400: Invalid signature
+2026-08-13 19:50:14,864 - core.database - DEBUG - [DB_OP] Database session cleanup after 0.0140s
+2026-08-13 19:50:14,864 - core.database - ERROR - Failed to create database session: 400: Invalid signature
+Traceback (most recent call last):
+  File "/workspace/App/backend/routers/payments.py", line 245, in stripe_webhook
+    event = stripe.Webhook.construct_event(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_webhook.py", line 75, in construct_event
+    WebhookSignature.verify_header(payload, sig_header, secret, tolerance)
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_webhook.py", line 160, in verify_header
+    raise SignatureVerificationError(
+stripe._error.SignatureVerificationError: No signatures found matching the expected signature for payload
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/App/backend/core/database.py", line 573, in get_db
+    yield session
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/payments.py", line 255, in stripe_webhook
+    raise HTTPException(status_code=400, detail="Invalid signature")
+fastapi.exceptions.HTTPException: 400: Invalid signature
+2026-08-13 19:50:14,872 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-08-13 19:50:14,873 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0003s
+2026-08-13 19:50:14,903 - core.database - ERROR - Database session error: get
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 171, in __getattr__
+    return self[k]
+           ~~~~^^^
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 224, in __getitem__
+    raise err
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 203, in __getitem__
+    return self._data[k]
+           ~~~~~~~~~~^^^
+KeyError: 'get'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/App/backend/core/database.py", line 573, in get_db
+    yield session
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/payments.py", line 257, in stripe_webhook
+    event_type = event.get("type", "")
+                 ^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 173, in __getattr__
+    raise AttributeError(*err.args) from err
+AttributeError: get
+2026-08-13 19:50:14,906 - core.database - DEBUG - [DB_OP] Database session cleanup after 0.0340s
+2026-08-13 19:50:14,907 - core.database - ERROR - Failed to create database session: get
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 171, in __getattr__
+    return self[k]
+           ~~~~^^^
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 224, in __getitem__
+    raise err
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 203, in __getitem__
+    return self._data[k]
+           ~~~~~~~~~~^^^
+KeyError: 'get'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/App/backend/core/database.py", line 573, in get_db
+    yield session
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/payments.py", line 257, in stripe_webhook
+    event_type = event.get("type", "")
+                 ^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 173, in __getattr__
+    raise AttributeError(*err.args) from err
+AttributeError: get
+2026-08-13 19:50:14,911 - __main__ - ERROR - Exception: AttributeError: get
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 171, in __getattr__
+    return self[k]
+           ~~~~^^^
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 224, in __getitem__
+    raise err
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 203, in __getitem__
+    return self._data[k]
+           ~~~~~~~~~~^^^
+KeyError: 'get'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/middleware/cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.11/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/usr/local/lib/python3.11/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.11/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/App/backend/routers/payments.py", line 257, in stripe_webhook
+    event_type = event.get("type", "")
+                 ^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/stripe/_stripe_object.py", line 173, in __getattr__
+    raise AttributeError(*err.args) from err
+AttributeError: get
+

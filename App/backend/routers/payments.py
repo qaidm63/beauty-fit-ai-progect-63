@@ -247,6 +247,10 @@ async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
             signature,
             webhook_secret,
         )
+        # In stripe>=15, construct_event returns a StripeObject (not a plain
+        # dict), so normalize it with to_dict() before accessing .get() keys.
+        if hasattr(event, "to_dict"):
+            event = event.to_dict()
     except ValueError as exc:
         logger.error("Webhook payload parse failed: %s", exc)
         raise HTTPException(status_code=400, detail="Invalid payload")
