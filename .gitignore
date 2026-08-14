@@ -7,3 +7,10 @@ venv/
 backend/venv/
 backend/logs/*.log
 *.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Vite deps cache
+frontend/node_modules/.vite/
