@@ -114,7 +114,7 @@ def _resolve_cors_origins() -> list:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_resolve_cors_origins(),
-    allow_origin_regex=r"^https?://([a-z0-9-]+\.)?(vercel\.app|monkeycode-ai\.live)$",
+    allow_origin_regex=r"^https?://([a-z0-9-]+\.)?(vercel\.app|monkeycode-ai\.live|all-hands\.dev)$",
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["*"],

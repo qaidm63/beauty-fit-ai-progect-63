@@ -4,6 +4,13 @@ assets/videos/
 .env.local
 .env
 venv/
-backend/venv/
-backend/logs/*.log
+**/venv/
+**/logs/*.log
 *.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Vite deps cache
+**/node_modules/.vite/
