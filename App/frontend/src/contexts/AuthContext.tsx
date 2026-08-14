@@ -103,7 +103,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       syncAccessToken(session.access_token);
 
-      const userData = await authApi.getCurrentUser();
+      // Try the backend for role enrichment; fall back to the Supabase session
+      // user so a transient backend failure doesn't log the user out.
+      let userData: User | null = null;
+      try {
+        userData = await authApi.getCurrentUser();
+      } catch {
+        // Backend unreachable; fall through.
+      }
+      if (!userData && session.user) {
+        userData = {
+          id: session.user.id,
+          email: session.user.email ?? '',
+          name:
+            (session.user.user_metadata?.name as string | undefined) ||
+            (session.user.email ? session.user.email.split('@')[0] : undefined),
+          role: 'user',
+        };
+      }
       if (!mountedRef.current) return;
       setUser(userData);
     } catch (err) {
@@ -132,7 +149,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (data.session?.access_token) {
           syncAccessToken(data.session.access_token);
         }
-        const userData = await authApi.getCurrentUser();
+
+        // Try to enrich with the backend's view of the user (includes role).
+        // If the backend is temporarily unreachable or returns 401, fall back
+        // to the Supabase session data so the user is NOT null — setting user
+        // to null here would cause protected pages to redirect back to login,
+        // creating the closed login loop.
+        let userData: User | null = null;
+        try {
+          userData = await authApi.getCurrentUser();
+        } catch {
+          // Backend call failed; fall through to Supabase-derived user.
+        }
+        if (!userData && data.user) {
+          userData = {
+            id: data.user.id,
+            email: data.user.email ?? email,
+            name:
+              (data.user.user_metadata?.name as string | undefined) ||
+              (data.user.email ? data.user.email.split('@')[0] : undefined),
+            role: 'user',
+          };
+        }
         if (mountedRef.current) setUser(userData);
         return { ok: true };
       } catch (err) {
@@ -171,7 +209,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         if (data.session?.access_token) {
           syncAccessToken(data.session.access_token);
-          const userData = await authApi.getCurrentUser();
+          // Try the backend for role info; fall back to Supabase data so the
+          // user is never null after a successful sign-up.
+          let userData: User | null = null;
+          try {
+            userData = await authApi.getCurrentUser();
+          } catch {
+            // Backend unreachable; fall through.
+          }
+          if (!userData && data.user) {
+            userData = {
+              id: data.user.id,
+              email: data.user.email ?? email,
+              name:
+                (data.user.user_metadata?.name as string | undefined) ||
+                (data.user.email ? data.user.email.split('@')[0] : undefined),
+              role: 'user',
+            };
+          }
           if (mountedRef.current) setUser(userData);
           return { ok: true };
         }
@@ -243,19 +298,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.access_token) {
         syncAccessToken(session.access_token);
         // Keep the backend view of the user fresh after sign-in/refresh.
+        // Fall back to the Supabase session user if the backend is temporarily
+        // unavailable so the user is never null-ed out after a successful auth.
         authApi
           .getCurrentUser()
           .then((userData) => {
             if (mountedRef.current) setUser(userData);
           })
           .catch(() => {
-            if (mountedRef.current) setUser(null);
+            if (!mountedRef.current) return;
+            if (session.user) {
+              setUser({
+                id: session.user.id,
+                email: session.user.email ?? '',
+                name:
+                  (session.user.user_metadata?.name as string | undefined) ||
+                  (session.user.email
+                    ? session.user.email.split('@')[0]
+                    : undefined),
+                role: 'user',
+              });
+            }
           });
-      } else {
+      } else if (event === 'SIGNED_OUT') {
+        // Only clear the token on an explicit sign-out, not on transient
+        // events (e.g. INITIAL_SESSION with no cached session) that fire
+        // during normal navigation and would trap the user in a loop.
         syncAccessToken(null);
         if (mountedRef.current) setUser(null);
       }

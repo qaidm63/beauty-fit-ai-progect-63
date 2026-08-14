@@ -1,5 +1,6 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useCallback } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useCallback, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import { createPaymentSession } from "@/api/payments";
 import {
@@ -16,12 +17,45 @@ import {
 export default function CheckoutPlanPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { user, loading: authLoading } = useAuth();
 
-  const styleId = (location.state?.styleId as string) || "";
-  const styleName = (location.state?.styleName as string) || "Pro";
+  // styleId/styleName arrive from either router state (ResultsPage click) or
+  // from query params (reconstructing the URL after a login redirect).
+  const styleId =
+    (location.state?.styleId as string) ||
+    searchParams.get("style_id") ||
+    "";
+  const styleName =
+    (location.state?.styleName as string) ||
+    searchParams.get("style_name") ||
+    "Pro";
 
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Auth guard: if the user lands here without a session, send them to login
+  // with a return URL so they come straight back after authenticating.
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user) {
+      const params = new URLSearchParams({
+        return_to: "/checkout/plan",
+        style_id: styleId,
+        style_name: styleName,
+      });
+      navigate(`/login?${params.toString()}`, { replace: true });
+    }
+  }, [user, authLoading, styleId, styleName, navigate]);
+
+  const redirectToLogin = useCallback(() => {
+    const params = new URLSearchParams({
+      return_to: "/checkout/plan",
+      style_id: styleId,
+      style_name: styleName,
+    });
+    navigate(`/login?${params.toString()}`, { replace: true });
+  }, [styleId, styleName, navigate]);
 
   const handleCheckout = useCallback(
     async (plan: "one_time" | "monthly") => {
@@ -40,15 +74,32 @@ export default function CheckoutPlanPage() {
       } catch (err: unknown) {
         console.error("Checkout error:", err);
         const message =
-          err instanceof Error
-            ? err.message
-            : "Unable to start checkout. Please try again.";
+          err instanceof Error ? err.message : "Unable to start checkout.";
+
+        // If authentication is required, redirect to login preserving the
+        // checkout context so the user returns here after authenticating
+        // — instead of being dropped on the home page (which caused the
+        // closed login loop).
+        if (message === "LOGIN_REQUIRED") {
+          redirectToLogin();
+          return;
+        }
         setErrorMessage(message);
         setCheckoutLoading(null);
       }
     },
-    [styleId]
+    [styleId, redirectToLogin]
   );
+
+  // While the auth state is still loading, show a spinner instead of the
+  // plan cards (which would immediately redirect on a missing session).
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0F0D12]">
+        <Loader2 className="w-8 h-8 text-[#C9A96E] animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-[#0F0D12]">

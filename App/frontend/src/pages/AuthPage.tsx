@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import { useAuth, SocialProvider } from '@/contexts/AuthContext';
 import {
@@ -103,6 +103,7 @@ const GRADIENT_BTN =
 
 export default function AuthPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const {
     user,
     loading,
@@ -128,6 +129,27 @@ export default function AuthPage() {
 
   const effectiveError = formError ?? authError;
 
+  /**
+   * Resolve where to go after a successful auth. If the user was sent here
+   * from a protected page (e.g. checkout) via a `return_to` param, send them
+   * straight back — reconstructing the router state from the query params so
+   * the destination page (e.g. CheckoutPlanPage) retains its context
+   * (style_id, style_name). This breaks the closed login→checkout→login loop.
+   */
+  const navigateAfterAuth = () => {
+    const returnTo = searchParams.get('return_to');
+    if (returnTo) {
+      const styleId = searchParams.get('style_id');
+      const styleName = searchParams.get('style_name');
+      const state: Record<string, string> = {};
+      if (styleId) state.styleId = styleId;
+      if (styleName) state.styleName = styleName;
+      navigate(returnTo, { replace: true, state });
+      return;
+    }
+    navigate('/', { replace: true });
+  };
+
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setFormError(null);
@@ -138,7 +160,7 @@ export default function AuthPage() {
       setFormError(res.error ?? 'Login failed. Please try again.');
       return;
     }
-    navigate('/', { replace: true });
+    navigateAfterAuth();
   };
 
   const handleRegister = async (e: FormEvent) => {
@@ -159,7 +181,7 @@ export default function AuthPage() {
       setRegisteredPending(true);
       return;
     }
-    navigate('/', { replace: true });
+    navigateAfterAuth();
   };
 
   const handleOAuth = async (provider: SocialProvider) => {
@@ -190,6 +212,18 @@ export default function AuthPage() {
   }
 
   if (user) {
+    // Already authenticated — if there's a return_to, go back there,
+    // otherwise go home. This covers the case where the user navigates
+    // to /login while already having a valid session.
+    const returnTo = searchParams.get('return_to');
+    if (returnTo) {
+      const styleId = searchParams.get('style_id');
+      const styleName = searchParams.get('style_name');
+      const state: Record<string, string> = {};
+      if (styleId) state.styleId = styleId;
+      if (styleName) state.styleName = styleName;
+      return <Navigate to={returnTo} replace state={state} />;
+    }
     return <Navigate to="/" replace />;
   }
 

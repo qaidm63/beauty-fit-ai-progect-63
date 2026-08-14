@@ -53,6 +53,43 @@ export function authHeaders(): Record<string, string> {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+/**
+ * Attempt to refresh the Supabase session and sync the access token.
+ * Returns true if a valid session was recovered (new token stored),
+ * false if the session is genuinely gone.
+ *
+ * This is the single source of truth for "can we still authenticate?"
+ * — used by the axios 401 interceptor to avoid killing a still-valid
+ * session on a transient rejection.
+ */
+let refreshPromise: Promise<boolean> | null = null;
+
+export async function tryRefreshSession(): Promise<boolean> {
+  // De-duplicate concurrent refresh attempts.
+  if (refreshPromise) return refreshPromise;
+
+  refreshPromise = (async () => {
+    try {
+      const { getSupabase } = await import('./supabaseClient');
+      const supabase = getSupabase();
+      if (!supabase) return false;
+
+      const { data, error } = await supabase.auth.refreshSession();
+      if (error || !data.session?.access_token) {
+        return false;
+      }
+      setAuthToken(data.session.access_token);
+      return true;
+    } catch {
+      return false;
+    } finally {
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
+}
+
 class RPApi {
   private client: AxiosInstance;
 
@@ -73,11 +110,29 @@ class RPApi {
       return config;
     });
 
-    // On 401, drop the stale token so the user can re-login.
+    // On 401, attempt a Supabase session refresh before giving up. Only clear
+    // the token if the refresh fails — this prevents a single transient 401
+    // (e.g. during a token rotation) from killing the entire session and
+    // trapping the user in a login loop.
     this.client.interceptors.response.use(
       (response) => response,
-      (error) => {
-        if (error?.response?.status === 401) {
+      async (error) => {
+        const originalRequest = error?.config;
+        if (
+          error?.response?.status === 401 &&
+          !originalRequest?._retried
+        ) {
+          originalRequest._retried = true;
+          const refreshed = await tryRefreshSession();
+          if (refreshed) {
+            // Re-attach the (possibly new) token and replay the request.
+            const token = getAuthToken();
+            if (token) {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+            }
+            return this.client(originalRequest);
+          }
+          // Refresh failed — token is genuinely invalid; clear it.
           clearAuthToken();
         }
         return Promise.reject(error);
@@ -90,19 +145,10 @@ class RPApi {
   }
 
   async getCurrentUser() {
-    try {
-      const response = await this.client.get(
-        `${this.getBaseURL()}/api/v1/auth/me`
-      );
-      return response.data;
-    } catch (error) {
-      if (error.response?.status === 401) {
-        return null;
-      }
-      throw new Error(
-        error.response?.data?.detail || 'Failed to get user info'
-      );
-    }
+    const response = await this.client.get(
+      `${this.getBaseURL()}/api/v1/auth/me`
+    );
+    return response.data;
   }
 }
 
