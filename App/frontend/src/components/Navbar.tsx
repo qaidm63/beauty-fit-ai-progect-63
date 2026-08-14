@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Sparkles, Menu, X } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Sparkles, Menu, X, LogOut, User } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -131,13 +135,47 @@ export default function Navbar() {
 
         {/* CTA + Mobile Toggle */}
         <div className="flex items-center gap-4">
-          <Link
-            to="/login"
-            className="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[#5C4A42] text-sm font-semibold font-body border transition-all duration-300 hover:text-[#8E9CC3]"
-            style={{ borderColor: 'rgba(184,112,106,0.35)' }}
-          >
-            Sign in
-          </Link>
+          {user ? (
+            <div className="hidden md:block relative">
+              <button
+                onClick={() => setMenuOpen((v) => !v)}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[#5C4A42] text-sm font-semibold font-body border transition-all duration-300 hover:text-[#8E9CC3]"
+                style={{ borderColor: 'rgba(184,112,106,0.35)' }}
+              >
+                <User className="w-3.5 h-3.5" />
+                {user.name || user.email.split('@')[0]}
+              </button>
+              {menuOpen && (
+                <div
+                  className="absolute right-0 mt-2 w-48 rounded-xl glass-card-strong shadow-lg p-2 z-50"
+                  onMouseLeave={() => setMenuOpen(false)}
+                >
+                  <div className="px-3 py-2 text-[11px] text-[#8B7E78] font-body truncate" title={user.email}>
+                    {user.email}
+                  </div>
+                  <button
+                    onClick={async () => {
+                      setMenuOpen(false);
+                      await logout();
+                      navigate('/', { replace: true });
+                    }}
+                    className="w-full inline-flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-body text-[#5C4A42] hover:bg-[#F5EDE6] transition-colors"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[#5C4A42] text-sm font-semibold font-body border transition-all duration-300 hover:text-[#8E9CC3]"
+              style={{ borderColor: 'rgba(184,112,106,0.35)' }}
+            >
+              Sign in
+            </Link>
+          )}
           <Link
             to="/analyze"
             className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-semibold font-body shadow-md hover:shadow-lg hover:brightness-110 transition-all duration-300"
@@ -226,13 +264,32 @@ export default function Navbar() {
               Blog
             </Link>
             <div className="pt-2 border-t border-[#E8DDD6] flex flex-col gap-2">
-              <Link
-                to="/login"
-                className="flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-semibold font-body border transition-colors"
-                style={{ borderColor: 'rgba(184,112,106,0.35)', color: '#5C4A42' }}
-              >
-                Sign in
-              </Link>
+              {user ? (
+                <>
+                  <div className="px-4 py-2 text-[11px] text-[#8B7E78] font-body truncate" title={user.email}>
+                    {user.email}
+                  </div>
+                  <button
+                    onClick={async () => {
+                      await logout();
+                      navigate('/', { replace: true });
+                    }}
+                    className="flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-semibold font-body border transition-colors"
+                    style={{ borderColor: 'rgba(184,112,106,0.35)', color: '#5C4A42' }}
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    Sign out
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-semibold font-body border transition-colors"
+                  style={{ borderColor: 'rgba(184,112,106,0.35)', color: '#5C4A42' }}
+                >
+                  Sign in
+                </Link>
+              )}
               <Link
                 to="/analyze"
                 className="flex items-center justify-center gap-2 px-5 py-3 rounded-full text-white text-sm font-semibold font-body shadow-md"

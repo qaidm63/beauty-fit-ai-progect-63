@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import fs from 'fs';
@@ -38,8 +38,14 @@ process.env.VITE_APP_DESCRIPTION = escapeHtmlAttr(process.env.VITE_APP_DESCRIPTI
 process.env.VITE_APP_LOGO_URL ??= process.env.OVERVIEW_LOGO_URL ?? 'https://public-frontend-cos.metadl.com/mgx/img/favicon_atoms.ico';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
   const blogPrerenderRoutes = command === 'build' ? getBlogRoutes() : [];
+
+  // Load env for the current mode so VITE_PORT / VITE_API_TARGET are available
+  // in the dev server config (VITE_ prefix is Vite's public env namespace).
+  const env = loadEnv(mode, process.cwd(), 'VITE_');
+  const devPort = parseInt(env.VITE_PORT || process.env.VITE_PORT || '3000', 10);
+  const apiTarget = env.VITE_API_TARGET || 'http://localhost:8000';
 
   return {
     plugins: [
@@ -70,11 +76,11 @@ export default defineConfig(({ command }) => {
     },
     server: {
       host: '0.0.0.0', // Listen on all network interfaces.
-      port: parseInt(process.env.VITE_PORT || '3000'),
+      port: devPort,
       allowedHosts: ['.monkeycode-ai.live', '.all-hands.dev'],
       proxy: {
         '/api': {
-          target: `http://localhost:8000`,
+          target: apiTarget,
           changeOrigin: true,
         },
       },

@@ -2,6 +2,7 @@ import base64
 import hashlib
 import logging
 import secrets
+import time
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Optional
 
@@ -65,6 +66,119 @@ class IDTokenValidationError(Exception):
         super().__init__(self.message)
 
 
+# ---------------------------------------------------------------------------
+# Supabase Auth JWKS (asymmetric ES256 access tokens)
+# ---------------------------------------------------------------------------
+
+# In-process JWKS cache so we don't fetch Supabase's keys on every request.
+# Rotated rarely; refreshed when a key is missing or on a TTL miss.
+_SUPABASE_JWKS_CACHE: Dict[str, Any] = {"fetched_at": 0.0, "keys": {}}
+_SUPABASE_JWKS_TTL_SECONDS = 600  # 10 minutes
+
+
+def _base64url_decode(inp: str) -> bytes:
+    """Decode a base64url string (no padding), per RFC 7515."""
+    padding = 4 - (len(inp) % 4)
+    if padding != 4:
+        inp += "=" * padding
+    return base64.urlsafe_b64decode(inp)
+
+
+def _jwk_to_public_key(jwk: Dict[str, Any]):
+    """Convert a Supabase Auth JWKS entry to a cryptography public key object.
+
+    Supports EC (ES256, P-256) and RSA (RS256) keys. Returns the PEM-encoded key
+    that python-jose can consume.
+    """
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric import ec, rsa
+
+    kty = jwk.get("kty")
+    if kty == "EC":
+        crv_map = {"P-256": ec.SECP256R1(), "P-384": ec.SECP384R1(), "P-521": ec.SECP521R1()}
+        crv = crv_map.get(jwk.get("crv"))
+        if crv is None:
+            raise ValueError(f"Unsupported EC curve: {jwk.get('crv')}")
+        x = int.from_bytes(_base64url_decode(jwk["x"]), "big")
+        y = int.from_bytes(_base64url_decode(jwk["y"]), "big")
+        pub = ec.EllipticCurvePublicNumbers(x, y, crv).public_key()
+    elif kty == "RSA":
+        n = int.from_bytes(_base64url_decode(jwk["n"]), "big")
+        e = int.from_bytes(_base64url_decode(jwk["e"]), "big")
+        pub = rsa.RSAPublicNumbers(e, n).public_key()
+    else:
+        raise ValueError(f"Unsupported JWK kty: {kty}")
+
+    return pub.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo,
+    )
+
+
+def _fetch_supabase_jwks() -> Dict[str, bytes]:
+    """Fetch the Supabase Auth JWKS synchronously and cache it for the TTL window.
+
+    Uses a blocking httpx client because this is called from a synchronous decoder
+    context. The fetch is rare (TTL-cached + on rotation), so the brief blocking
+    call is acceptable and far simpler than thread-shimming onto the event loop.
+    """
+    supabase_url = getattr(settings, "supabase_url", None)
+    if not supabase_url:
+        return {}
+
+    jwks_url = f"{supabase_url.rstrip('/')}/auth/v1/.well-known/jwks.json"
+    try:
+        logger.info("Fetching Supabase Auth JWKS from: %s", jwks_url)
+        response = httpx.get(jwks_url, timeout=15.0)
+        response.raise_for_status()
+        data = response.json()
+    except httpx.TimeoutException as e:
+        logger.error("Timeout fetching Supabase JWKS from %s: %s", jwks_url, e)
+        return {}
+    except Exception as e:
+        logger.error("Failed to fetch Supabase JWKS from %s: %s", jwks_url, e)
+        return {}
+
+    keys_by_kid = {}
+    for key in data.get("keys", []):
+        kid = key.get("kid")
+        if not kid:
+            continue
+        try:
+            keys_by_kid[kid] = _jwk_to_public_key(key)
+        except Exception as e:
+            logger.warning("Skipping unreadable Supabase JWK kid=%s: %s", kid, e)
+
+    _SUPABASE_JWKS_CACHE["fetched_at"] = time.time()
+    _SUPABASE_JWKS_CACHE["keys"] = keys_by_kid
+    logger.info("Supabase Auth JWKS loaded with %d key(s)", len(keys_by_kid))
+    return keys_by_kid
+
+
+def _get_supabase_jwk(kid: Optional[str]):
+    """Return the cached public key for the given Supabase `kid`.
+
+    Refreshes the JWKS on a cache miss or TTL expiry, then retries once on a key
+    miss (to cover a Supabase key rotation that happened since the last fetch).
+    """
+    if not kid:
+        return None
+
+    keys = _SUPABASE_JWKS_CACHE["keys"]
+    now = time.time()
+
+    if not keys or (now - _SUPABASE_JWKS_CACHE["fetched_at"]) > _SUPABASE_JWKS_TTL_SECONDS:
+        keys = _fetch_supabase_jwks()
+
+    key = keys.get(kid)
+    if key:
+        return key
+
+    # Key missing — force a refresh (rotation) and retry once.
+    keys = _fetch_supabase_jwks()
+    return keys.get(kid)
+
+
 class AccessTokenError(Exception):
     """Custom exception for application JWT access token errors."""
 
@@ -104,30 +218,65 @@ def create_access_token(claims: Dict[str, Any], expires_minutes: Optional[int] =
 def decode_supabase_access_token(token: str) -> Optional[Dict[str, Any]]:
     """Decode and validate a Supabase access token.
 
-    Supabase access tokens are JWTs signed with the project's `SUPABASE_JWT_SECRET`
-    (HS256). The BeautyFit frontend authenticates directly against Supabase Auth
-    (`signInWithPassword` / `signUp` / `signInWithOAuth`) and forwards the resulting
-    access token as `Authorization: Bearer <token>`. This decoder lets the backend
-    trust those tokens without any additional round-trip to Supabase.
+    Supabase access tokens are JWTs. The BeautyFit frontend authenticates directly
+    against Supabase Auth (`signInWithPassword` / `signUp` / `signInWithOAuth`) and
+    forwards the resulting access token as `Authorization: Bearer <token>`. This
+    decoder lets the backend trust those tokens without any additional round-trip
+    to Supabase.
 
-    Returns None when the secret is unconfigured, the token is invalid, or it fails
-    signature/expiry validation.
+    Supabase may sign these tokens with either:
+      * HS256 — symmetric, verified with the project's `SUPABASE_JWT_SECRET`.
+      * ES256 — asymmetric ECDSA, verified with the project's JWKS public key
+        (selected by the token header `kid`). Newer Supabase projects issue
+        ES256 tokens, so the HS256-only path would silently reject every login.
+
+    Returns None when the secret/JWKS is unconfigured, the token is invalid, or it
+    fails signature/expiry validation.
     """
+    # Read the header first to pick the right verification strategy. A malformed
+    # token (no parseable header) is an immediate rejection.
+    try:
+        header = jwt.get_unverified_header(token)
+    except JWTError as exc:
+        logger.warning("Supabase token header unreadable: %s", type(exc).__name__)
+        return None
+
+    algorithm = (header.get("alg") or "").upper()
+
+    # ES256 (asymmetric) — verify against the project JWKS public key.
+    if algorithm == "ES256":
+        try:
+            jwk_key = _get_supabase_jwk(header.get("kid"))
+        except Exception as exc:  # pragma: no cover - defensive logging
+            logger.warning("Supabase JWKS lookup failed: %s", type(exc).__name__)
+            return None
+        if not jwk_key:
+            logger.warning("Supabase JWKS: no key for kid=%s", header.get("kid"))
+            return None
+        try:
+            # verify_aud disabled: Supabase access tokens carry aud="authenticated".
+            return jwt.decode(token, jwk_key, algorithms=["ES256"], options={"verify_aud": False})
+        except ExpiredSignatureError:
+            logger.info("Supabase access token (ES256) has expired")
+            return None
+        except JWTError as exc:
+            logger.warning("Supabase token validation failed (ES256): %s", type(exc).__name__)
+            return None
+
+    # HS256 (symmetric) — verify with the project JWT secret.
     jwt_secret = getattr(settings, "supabase_jwt_secret", None)
     if not jwt_secret:
-        logger.debug("SUPABASE_JWT_SECRET not configured; Supabase tokens cannot be validated")
+        logger.debug("SUPABASE_JWT_SECRET not configured; Supabase HS256 tokens cannot be validated")
         return None
     try:
-        # `verify_aud` is disabled because Supabase access tokens always carry
-        # `aud: "authenticated"`, which python-jose would otherwise reject.
-        # Signature and expiry are still fully verified.
+        # verify_aud is disabled because Supabase access tokens always carry
+        # aud: "authenticated", which python-jose would otherwise reject.
         return jwt.decode(token, jwt_secret, algorithms=["HS256"], options={"verify_aud": False})
     except ExpiredSignatureError:
-        logger.info("Supabase access token has expired")
+        logger.info("Supabase access token (HS256) has expired")
         return None
     except JWTError as exc:
-        # Log error type only, not the full exception which may contain sensitive token data
-        logger.warning("Supabase token validation failed: %s", type(exc).__name__)
+        logger.warning("Supabase token validation failed (HS256): %s", type(exc).__name__)
         return None
 
 
