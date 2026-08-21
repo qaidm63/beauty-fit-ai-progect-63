@@ -12,7 +12,7 @@ WORKDIR /app
 # --- Dev stage ---
 FROM base AS dev
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 COPY . .
 EXPOSE 5173
 CMD ["sh", "-c", "pnpm exec vite --host 0.0.0.0 --port ${VITE_PORT:-5173}"]
@@ -20,7 +20,7 @@ CMD ["sh", "-c", "pnpm exec vite --host 0.0.0.0 --port ${VITE_PORT:-5173}"]
 # --- Build stage ---
 FROM base AS build
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 COPY . .
 RUN pnpm exec tsc --noEmit && pnpm exec vite build
 
