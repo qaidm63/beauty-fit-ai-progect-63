@@ -22,7 +22,8 @@ FROM base AS build
 COPY package.json ./
 RUN npm install --legacy-peer-deps
 COPY . .
-RUN npm run build
+ENV ESBUILD_BINARY_PATH="/app/node_modules/esbuild/bin/esbuild"
+RUN npx vite build
 
 # --- Production stage ---
 FROM nginx:1.27-alpine AS prod
