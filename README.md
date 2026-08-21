@@ -6,14 +6,16 @@
 
 **تحليل ملامح الوجه بـ 478 نقطة داخل المتصفح · توصيات علمية للألوان · دروس احترافية مخصصة بالذكاء الاصطناعي**
 
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](App/backend)
+[![Python](https://img.shields.io/badge/Python-3.13%2B-3776AB?logo=python&logoColor=white)](App/backend)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.141-009688?logo=fastapi&logoColor=white)](App/backend)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](App/frontend)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](App/frontend)
 [![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](App/frontend)
 [![Supabase](https://img.shields.io/badge/Supabase-Postgres-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com)
 [![Stripe](https://img.shields.io/badge/Stripe-Payments-635BFF?logo=stripe&logoColor=white)](https://stripe.com)
-[![Tests](https://img.shields.io/badge/Tests-9%2F9%20passing-brightgreen)](App/backend/tests)
+[![Tests](https://img.shields.io/badge/Tests-42%2F42%20passing-brightgreen)](App/backend/tests)
+[![CI](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=githubactions&logoColor=white)](.github/workflows/ci.yml)
+[![Docker](https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white)](App/docker-compose.yml)
 
 </div>
 
@@ -49,29 +51,34 @@ BeautyFit-AI/
 │   │   ├── routers/             # REST endpoints (auto-discovered)
 │   │   ├── services/            # Business logic (face analysis · color engine · AI · payments)
 │   │   ├── dependencies/        # FastAPI DI: auth · database
-│   │   ├── middlewares/         # (Reserved for rate limiting)
+│   │   ├── middlewares/         # rate_limit.py — تحديد المعدل (60 req/min/IP)
 │   │   ├── alembic/             # DB migrations
-│   │   ├── tests/               # pytest suite (9 tests)
+│   │   ├── tests/               # pytest suite (42 tests)
 │   │   ├── data/                # lipstick_enriched.json — 6190 records (LAB colors)
+│   │   ├── Dockerfile           # صورة إنتاج متعددة المراحل (non-root + healthcheck)
 │   │   └── lambda_handler.py    # AWS Lambda entrypoint (mangum)
 │   │
 │   ├── frontend/                # React 18 · TypeScript · Vite 5 (الواجهة + تحليل الوجه)
 │   │   ├── src/
 │   │   │   ├── pages/           # Route components (analyze · results · checkout · auth · pro)
 │   │   │   ├── components/      # Navbar · PageLayout · shadcn/ui kit
-│   │   │   ├── lib/             # faceLandmarker (WASM) · auth · stylize · supabaseClient
+│   │   │   ├── lib/             # httpClient (العميل الموحد) · faceLandmarker · auth · stylize
 │   │   │   ├── contexts/        # AuthContext (session management)
-│   │   │   ├── api/             # payments · settings clients
-│   │   │   └── hooks/           # React hooks
+│   │   │   ├── api/             # payments · lipsticks · settings clients
+│   │   │   └── hooks/           # react-query hooks (useEntitlement · useProEntitlement)
 │   │   ├── e2e/                 # Playwright specs
 │   │   ├── prerender/           # Static blog prerendering + sitemap
+│   │   ├── Dockerfile           # dev (Vite) + prod (nginx) targets
+│   │   ├── nginx.conf           # reverse proxy للإنتاج
 │   │   └── seo/                 # SEO assets
 │   │
-│   ├── docs/                    # تقارير المرحلة 0 + التوثيق المعماري
+│   ├── docker-compose.yml       # stack محلي كامل: postgres + backend + frontend
+│   ├── docs/                    # تقارير المراحل + التوثيق المعماري
 │   └── start_app_v2.sh          # سكريبت تشغيل الواجهتين معاً
 │
 ├── assets/                      # أصول بصرية للمشروع
-└── .github/                     # CI / agent instructions
+├── PITCH_DECK.md                # عرض تقديمي للمستثمرين
+└── .github/workflows/ci.yml     # CI: اختبارات الخلفية + lint/typecheck/build للواجهة
 ```
 
 ### مخطط تدفق البيانات | Data Flow
@@ -156,7 +163,14 @@ Layer 3: Pollinations (free fallback)                            ──▶  guar
 
 ## 🔐 الأمان والمصادقة | Security & Authentication
 
-> تم تنفيذ إصلاحات المرحلة 0 (بوابة الدفع + الأمن + المصادقة) والتحقق منها فعلياً (9/9 اختبارات ناجحة).
+> تم تنفيذ إصلاحات المرحلة 0 (بوابة الدفع + الأمن + المصادقة) **والمرحلة 1 (الأمن والنزاهة)** والتحقق منها فعلياً (42/42 اختباراً ناجحاً).
+
+### تحصينات المرحلة 1 | Phase 1 Hardening
+- **Rate Limiting** — middleware بنافذة ثابتة لكل IP (`MAX_REQUESTS_PER_IP_PER_MIN=60`)، مسارات صحية معفاة، استجابة `429` مع `Retry-After`، ودعم اختياري لرؤوس البروكسي (`RATE_LIMIT_TRUST_PROXY`)
+- **عميل HTTP موحّد** — `src/lib/httpClient.ts`: مثيل axios وحيد للواجهة كاملة (auth · payments · lipsticks · settings · stylize) مع ربط التوكن تلقائياً، تجديد جلسة Supabase عند 401 وإعادة المحاولة مرة واحدة، وتوحيد الأخطاء عبر `ApiError`
+- **react-query مفعّل** — QueryClient بإعدادات افتراضية (retry · staleTime)، hooks للصلاحيات (`useEntitlement`) وفلترات أحمر الشفاه، و`useMutation` للتحقق من الدفع مع إبطال الكاش فوراً
+- **CI/CD** — GitHub Actions: اختبارات الخلفية + lint + typecheck + build للواجهة + فحص بناء Docker
+- **Docker** — صور إنتاج متعددة المراحل (backend non-root + healthcheck · frontend nginx) + `docker-compose.yml` stack محلي كامل
 
 ### نموذج الصلاحيات (Entitlement) — مصدر الحقيقة من الخادم
 جدول `entitlements` في قاعدة البيانات يحل محل العلم المحلي القابل للتزوير:
@@ -375,6 +389,16 @@ cd App
 bash start_app_v2.sh
 ```
 
+### 5) التشغيل عبر Docker | Docker Compose
+
+```bash
+cd App
+docker compose up --build
+```
+
+- Postgres محلي (منفذ 5433) + الخلفية (8000) + الواجهة (5173)
+- `DATABASE_URL` يُوجَّه تلقائياً لقاعدة البيانات المحلية داخل الشبكة
+
 - الواجهة الأمامية: `http://localhost:3000`
 - الواجهة الخلفية: `http://localhost:8000`
 - توثيق API: `http://localhost:8000/docs`
@@ -391,25 +415,24 @@ pytest tests/ -v
 ```
 
 ```
-tests/test_entitlement.py::test_grant_one_time_and_check_active        PASSED
-tests/test_entitlement.py::test_grant_is_idempotent_per_session        PASSED
-tests/test_entitlement.py::test_monthly_entitlement_expiry             PASSED
-tests/test_entitlement.py::test_revoke_by_subscription                 PASSED
-tests/test_entitlement.py::test_reject_unknown_plan                    PASSED
-tests/test_payment_entitlement_integration.py::test_payment_pro_flow   PASSED
-tests/test_pro_entitlement_gate.py::test_deny_without_grant            PASSED
-tests/test_pro_entitlement_gate.py::test_allow_after_grant             PASSED
-tests/test_pro_tutorial_stylize.py::test_render_stylized_preview       PASSED
-========================= 9 passed =========================
+tests/test_entitlement.py                            (5 tests)   PASSED
+tests/test_payment_entitlement_integration.py        (1 test)    PASSED
+tests/test_pro_entitlement_gate.py                   (2 tests)   PASSED
+tests/test_pro_tutorial_stylize.py                   (1 test)    PASSED
+tests/test_rate_limit.py                             (5 tests)   PASSED
+tests/test_security_and_health.py                    (7 tests)   PASSED
+tests/test_lipsticks_engine.py                       (21 tests)  PASSED
+========================= 42 passed =========================
 ```
 
-تغطي الاختبارات: نموذج الصلاحيات، Idempotency، انتهاء الاشتراك، الإلغاء، بوابة Pro، وتكامل الدفع الكامل.
+تغطي الاختبارات: نموذج الصلاحيات، Idempotency، انتهاء الاشتراك، الإلغاء، بوابة Pro، تكامل الدفع الكامل، **محدد المعدل (429/الإعفاءات/التعطيل)، قفل CORS (لا wildcard)، اكتشاف الراوترز، ومحرك الألوان (CIEDE2000 مُتحقق منه ضد مكتبة colormath المرجعية + سلامة بيانات 6190 سجلاً + نقاط النهاية)**.
 
 ### الواجهة الأمامية
 
 ```bash
 cd App/frontend
 pnpm run lint                    # ESLint (صفر أخطاء)
+pnpm run typecheck               # tsc --noEmit (صفر أخطاء)
 pnpm run build                   # Vite build + prerender + sitemap
 ```
 
@@ -438,7 +461,7 @@ npx playwright test              # E2E browser tests
 - [ ] توجيه Stripe webhook إلى `/api/v1/payments/webhook`
 - [ ] ضبط `OIDC_ISSUER_URL` / `OIDC_CLIENT_ID` / `OIDC_CLIENT_SECRET` من المنصة
 - [ ] تصحيح `vercel.json` (إزالة الخطأ الإملائي "progect")
-- [ ] تفعيل Rate Limiting (المرحلة 1)
+- [x] تفعيل Rate Limiting (المرحلة 1 — مكتمل)
 - [ ] تنظيف بيانات الاختبار من Supabase
 
 ---
@@ -468,6 +491,8 @@ npx playwright test              # E2E browser tests
 | shadcn/ui + Radix | — | مكوّنات الواجهة |
 | @mediapipe/tasks-vision | 0.10 | تحليل الوجه (WASM) |
 | @supabase/supabase-js | 2.35 | المصادقة |
+| @tanstack/react-query | 5 | إدارة حالة الخادم (queries/mutations) |
+| axios | 1.6 | عميل HTTP موحّد (httpClient.ts) |
 | react-router-dom | 6.30 | التوجيه |
 | recharts | 2.12 | الرسوم البيانية |
 | Playwright | 1.55 | E2E testing |
@@ -475,6 +500,8 @@ npx playwright test              # E2E browser tests
 ### البنية التحتية | Infrastructure
 | الخدمة | الاستخدام |
 |---|---|
+| Docker + docker-compose | بناء ونشر موحّد (dev + prod) |
+| GitHub Actions | CI: tests · lint · typecheck · build |
 | Supabase | PostgreSQL + Auth |
 | Stripe | المدفوعات + الاشتراكات |
 | Google Gemini (Imagen) | توليد الصور (الطبقة 1) |
@@ -495,11 +522,12 @@ npx playwright test              # E2E browser tests
 - [x] إصلاح انهيار Supabase عند الإقلاع
 - [x] إزالة XSS عبر dangerouslySetInnerHTML
 
-### 🔄 المرحلة 1 — الأمن والنزاهة
-- [ ] Rate Limiting
-- [ ] توحيد عميل HTTP واحد + إعادة تفعيل react-query
-- [ ] اختبارات أوسع + CI/CD + Docker
-- [ ] تجديد الجلسة + اعتراض مركزي لـ 401
+### ✅ المرحلة 1 — الأمن والنزاهة (مكتملة)
+- [x] Rate Limiting (middleware + اختبارات + إعدادات بيئة)
+- [x] توحيد عميل HTTP واحد (httpClient.ts) + إعادة تفعيل react-query
+- [x] اختبارات موسّعة (42 اختباراً) + CI (GitHub Actions) + Docker (backend + frontend + compose)
+- [x] تجديد الجلسة + اعتراض مركزي لـ 401 في العميل الموحد
+- [x] إصلاح بناء prerender (AuthProvider في SSR) + typecheck (tsconfig)
 - [ ] إزالة السيلفي من localStorage (Blob/ObjectURL)
 
 ### 🚀 المرحلة 2 — المنتج الجوهري
@@ -535,7 +563,9 @@ npx playwright test              # E2E browser tests
 
 ## 🤝 المساهمة | Contributing
 
-هذا مشروع ملكية. للمساهمة أو الإبلاغ عن مشكلات، يرجى التواصل مع فريق التطوير.
+هذا مشروع ملكية. للمساهمة أو الإبلاغ عن مشكلات أو الاستفسارات التجارية، يرجى التواصل مع فريق التطوير:
+
+📧 **mohamadalhothaify@gmail.com**
 
 ---
 
@@ -544,5 +574,7 @@ npx playwright test              # E2E browser tests
 **BeautyFit AI** — حُلّلت 478 نقطة وجه. صُمّمت توصية واحدة لك.
 
 Built with privacy by design · Powered by science · Delivered with care
+
+📧 mohamadalhothaify@gmail.com
 
 </div>
