@@ -1,0 +1,7 @@
+# pnpm build-script approvals — required for CI and Docker builds to run
+# platform binaries (esbuild/@swc/core) without interactive prompts.
+allowBuilds:
+  '@metagptx/vite-plugin-source-locator': true
+  '@swc/core': true
+  esbuild: true
+  simple-git-hooks: true

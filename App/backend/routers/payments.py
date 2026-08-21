@@ -58,6 +58,7 @@ class EntitlementResponse(BaseModel):
     has_pro: bool = False
     plan: str = ""
     expires_at: Optional[datetime] = None
+    is_developer: bool = False
 
 
 def _derive_origin(request: Request) -> str:
@@ -214,12 +215,25 @@ async def get_my_entitlement(
 ):
     """Return the current user's Pro entitlement status."""
     entitlement = await get_active_entitlement(db, current_user.id)
-    if entitlement is None:
-        return EntitlementResponse(has_pro=False)
+    has_pro = entitlement is not None
+    
+    # Check developer flag
+    from models.auth import User
+    from sqlalchemy import select
+    result = await db.execute(select(User).where(User.id == current_user.id))
+    user_row = result.scalar_one_or_none()
+    is_developer = user_row is not None and user_row.is_developer
+    
+    # Developer users have pro access via backend bypass
+    effective_has_pro = has_pro or is_developer
+    
+    if not effective_has_pro:
+        return EntitlementResponse(has_pro=False, is_developer=is_developer)
     return EntitlementResponse(
         has_pro=True,
-        plan=entitlement.plan,
-        expires_at=entitlement.expires_at,
+        plan=entitlement.plan if entitlement else "developer",
+        expires_at=entitlement.expires_at if entitlement else None,
+        is_developer=is_developer,
     )
 
 

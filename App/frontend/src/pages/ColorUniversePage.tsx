@@ -1,21 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Loader2, ChevronLeft, ChevronRight, Palette, Sparkles, Heart, Copy, Check } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import { getAPIBaseURL } from '@/lib/config';
-
-interface LipstickItem {
-  id: string;
-  color_hex: string;
-  brand: string;
-  shade_name: string;
-  product_line: string;
-  color_family: string;
-  undertone: string;
-  finish: string;
-  color_rgb: { r: number; g: number; b: number };
-  brightness: number;
-  saturation: number;
-}
+import { getColorUniverse, type LipstickItem } from '@/api/lipsticks';
 
 const COLOR_FAMILIES = [
   { id: 'nude', label: 'Nude', emoji: '🤎', color: '#C4A882', gradient: 'from-amber-100 to-orange-50', description: 'Effortless everyday elegance' },
@@ -49,9 +35,7 @@ export default function ColorUniversePage() {
   const fetchFamily = useCallback(async (family: string, pageNum: number) => {
     setLoading(true);
     try {
-      const baseUrl = getAPIBaseURL();
-      const res = await fetch(`${baseUrl}/api/lipsticks/color-universe/${family}?page=${pageNum}&page_size=60`);
-      const data = await res.json();
+      const data = await getColorUniverse(family, pageNum, 60);
       setLipsticks(data.items || []);
       setTotalPages(data.total_pages || 1);
       setTotalCount(data.total || 0);

@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { client } from "@/lib/api";
+import { api, ApiError } from "@/lib/httpClient";
 import { detectFaceLandmarks, loadImageFromBase64 } from "@/lib/faceLandmarker";
 import Navbar from "@/components/Navbar";
 import {
@@ -139,31 +139,35 @@ export default function AnalyzePage() {
 
         for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
           try {
-            response = await client.apiCall.invoke({
-              url: "/api/v1/face-analysis/analyze-landmarks",
-              method: "POST",
-              data: payload,
-              options: { timeout: 90000 },
-            });
+            response = await api.post(
+              "/api/v1/face-analysis/analyze-landmarks",
+              payload,
+              { timeout: 90000 }
+            );
             break;
           } catch (retryErr: unknown) {
             lastError = retryErr;
 
             // Pull whatever text we can out of the error to decide whether to
-            // retry. Transient platform errors show up in either .message,
-            // .data.message, or .data.detail depending on the error stage.
-            const errRec = retryErr as Record<string, unknown>;
-            const errData = (errRec?.data ?? {}) as Record<string, unknown>;
+            // retry. Transient platform errors surface via .message, .detail
+            // (ApiError) or .data.detail depending on the error stage.
+            const errRec = retryErr as {
+              message?: string;
+              detail?: string;
+              status?: number;
+              data?: { message?: string; detail?: string; status?: number };
+            };
             const errMsg = [
               errRec?.message,
-              errData?.message,
-              errData?.detail,
+              errRec?.detail,
+              errRec?.data?.message,
+              errRec?.data?.detail,
             ]
               .map((v) => (v == null ? "" : String(v)))
               .join(" ")
               .toLowerCase();
 
-            const status = Number(errRec?.status ?? errData?.status ?? 0);
+            const status = Number(errRec?.status ?? errRec?.data?.status ?? 0);
             const isTransient =
               errMsg.includes("dns") ||
               errMsg.includes("balancer") ||
@@ -201,10 +205,8 @@ export default function AnalyzePage() {
         clearInterval(interval);
         setProgress(100);
 
-        const result =
-          typeof response === "object" && response !== null && "data" in response
-            ? ((response as { data: Record<string, unknown> }).data ?? {})
-            : (response as Record<string, unknown>);
+        // `api.post` resolves with the parsed response body directly.
+        const result = (response ?? {}) as Record<string, unknown>;
         setState("done");
 
         // Cache the successful upload + analysis for quick re-testing.
@@ -223,23 +225,20 @@ export default function AnalyzePage() {
         clearInterval(interval);
         setProgress(0);
         setState("error");
-        const errObj = err as Record<string, unknown> | null;
-        const errData = errObj?.data as Record<string, unknown> | undefined;
-        const errResponse = errObj?.response as Record<string, unknown> | undefined;
-        const errResponseData = errResponse?.data as Record<string, unknown> | undefined;
+        const errObj = err as
+          | (Record<string, unknown> & { detail?: string })
+          | null;
         const rawDetail =
-          errData?.detail ??
-          errData?.message ??
-          errResponseData?.detail ??
-          (err as Record<string, unknown>)?.message ??
+          errObj?.detail ??
+          errObj?.data?.detail ??
+          errObj?.data?.message ??
+          errObj?.response?.data?.detail ??
+          errObj?.message ??
           "";
         const detailStr = String(rawDetail);
         const lowerDetail = detailStr.toLowerCase();
         const status = Number(
-          (err as Record<string, unknown>)?.status ??
-            errData?.status ??
-            errResponseData?.status ??
-            0
+          errObj?.status ?? errObj?.data?.status ?? errObj?.response?.data?.status ?? 0
         );
         const isTransient =
           lowerDetail.includes("dns") ||

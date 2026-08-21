@@ -23,7 +23,18 @@ import { AuthProvider } from './contexts/AuthContext';
 import PageLayout from './components/PageLayout';
 import ScrollToTop from './components/ScrollToTop';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      staleTime: 30_000,
+    },
+    mutations: {
+      retry: 0,
+    },
+  },
+});
 
 const AppRoutes = () => (
   <Routes>

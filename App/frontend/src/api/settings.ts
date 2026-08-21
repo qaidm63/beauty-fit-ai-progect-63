@@ -1,7 +1,4 @@
-import { getAPIBaseURL } from '../lib/config';
-
-// Don't cache the getAPIBase() URL, get it dynamically
-const getAPIBase = () => `${getAPIBaseURL()}/api/v1`;
+import { api } from '../lib/httpClient';
 
 export interface EnvVariable {
   key: string;
@@ -18,18 +15,19 @@ export interface EnvVariableUpdate {
   value: string;
 }
 
+async function settingsError(err: unknown, fallback: string): Promise<never> {
+  const message = err instanceof Error ? err.message : fallback;
+  throw new Error(message || fallback);
+}
+
 export const settingsApi = {
   // Fetch all configurations
   async getConfig(): Promise<EnvConfig> {
-    const response = await fetch(`${getAPIBase()}/admin/settings/`, {
-      credentials: 'include',
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch configuration');
+    try {
+      return await api.get<EnvConfig>('/api/v1/admin/settings/');
+    } catch (err) {
+      return settingsError(err, 'Failed to fetch configuration');
     }
-
-    return response.json();
   },
 
   // Update backend configuration
@@ -37,23 +35,14 @@ export const settingsApi = {
     key: string,
     value: string
   ): Promise<{ message: string }> {
-    const response = await fetch(
-      `${getAPIBase()}/admin/settings/backend/${key}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ value }),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to update backend configuration');
+    try {
+      return await api.put<{ message: string }>(
+        `/api/v1/admin/settings/backend/${key}`,
+        { value }
+      );
+    } catch (err) {
+      return settingsError(err, 'Failed to update backend configuration');
     }
-
-    return response.json();
   },
 
   // Update frontend configuration
@@ -61,23 +50,14 @@ export const settingsApi = {
     key: string,
     value: string
   ): Promise<{ message: string }> {
-    const response = await fetch(
-      `${getAPIBase()}/admin/settings/frontend/${key}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ value }),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to update frontend configuration');
+    try {
+      return await api.put<{ message: string }>(
+        `/api/v1/admin/settings/frontend/${key}`,
+        { value }
+      );
+    } catch (err) {
+      return settingsError(err, 'Failed to update frontend configuration');
     }
-
-    return response.json();
   },
 
   // Add backend configuration
@@ -85,23 +65,14 @@ export const settingsApi = {
     key: string,
     value: string
   ): Promise<{ message: string }> {
-    const response = await fetch(
-      `${getAPIBase()}/admin/settings/backend/${key}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ value }),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to add backend configuration');
+    try {
+      return await api.post<{ message: string }>(
+        `/api/v1/admin/settings/backend/${key}`,
+        { value }
+      );
+    } catch (err) {
+      return settingsError(err, 'Failed to add backend configuration');
     }
-
-    return response.json();
   },
 
   // Add frontend configuration
@@ -109,56 +80,35 @@ export const settingsApi = {
     key: string,
     value: string
   ): Promise<{ message: string }> {
-    const response = await fetch(
-      `${getAPIBase()}/admin/settings/frontend/${key}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ value }),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to add frontend configuration');
+    try {
+      return await api.post<{ message: string }>(
+        `/api/v1/admin/settings/frontend/${key}`,
+        { value }
+      );
+    } catch (err) {
+      return settingsError(err, 'Failed to add frontend configuration');
     }
-
-    return response.json();
   },
 
   // Delete backend configuration
   async deleteBackendConfig(key: string): Promise<{ message: string }> {
-    const response = await fetch(
-      `${getAPIBase()}/admin/settings/backend/${key}`,
-      {
-        method: 'DELETE',
-        credentials: 'include',
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to delete backend configuration');
+    try {
+      return await api.delete<{ message: string }>(
+        `/api/v1/admin/settings/backend/${key}`
+      );
+    } catch (err) {
+      return settingsError(err, 'Failed to delete backend configuration');
     }
-
-    return response.json();
   },
 
   // Delete frontend configuration
   async deleteFrontendConfig(key: string): Promise<{ message: string }> {
-    const response = await fetch(
-      `${getAPIBase()}/admin/settings/frontend/${key}`,
-      {
-        method: 'DELETE',
-        credentials: 'include',
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to delete frontend configuration');
+    try {
+      return await api.delete<{ message: string }>(
+        `/api/v1/admin/settings/frontend/${key}`
+      );
+    } catch (err) {
+      return settingsError(err, 'Failed to delete frontend configuration');
     }
-
-    return response.json();
   },
 };

@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { verifyPayment } from '@/api/payments';
+import { entitlementQueryKey } from '@/hooks/useEntitlement';
 import Navbar from '@/components/Navbar';
 import { CheckCircle2, Loader2, XCircle, ArrowRight } from 'lucide-react';
 
 export default function CheckoutSuccessPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const sessionId = searchParams.get('session_id');
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
@@ -14,29 +17,34 @@ export default function CheckoutSuccessPage() {
   const [styleId, setStyleId] = useState('');
   const [loginRequired, setLoginRequired] = useState(false);
 
+  const verifyMutation = useMutation({
+    mutationFn: verifyPayment,
+    onSuccess: (result) => {
+      if (result.payment_status === 'paid' || result.status === 'complete') {
+        setStatus('success');
+        setPlan(result.plan);
+        setStyleId(result.style_id);
+        // Invalidate entitlement so the Pro gate unlocks immediately.
+        queryClient.invalidateQueries({ queryKey: entitlementQueryKey });
+      } else {
+        setStatus('error');
+      }
+    },
+    onError: (err: unknown) => {
+      if (err instanceof Error && err.message === 'LOGIN_REQUIRED') {
+        setLoginRequired(true);
+      }
+      setStatus('error');
+    },
+  });
+
   useEffect(() => {
     if (!sessionId) {
       setStatus('error');
       return;
     }
-
-    verifyPayment(sessionId)
-      .then((result) => {
-        if (result.payment_status === 'paid' || result.status === 'complete') {
-          setStatus('success');
-          setPlan(result.plan);
-          setStyleId(result.style_id);
-        } else {
-          setStatus('error');
-        }
-      })
-      .catch((err: unknown) => {
-        // Payment verification requires an authenticated session.
-        if (err instanceof Error && err.message === 'LOGIN_REQUIRED') {
-          setLoginRequired(true);
-        }
-        setStatus('error');
-      });
+    setStatus('loading');
+    verifyMutation.mutate(sessionId);
   }, [sessionId]);
 
   return (

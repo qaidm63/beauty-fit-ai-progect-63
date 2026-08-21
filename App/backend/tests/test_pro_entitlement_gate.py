@@ -1,9 +1,14 @@
 """Tests for the Pro entitlement gate on the /api/v1/pro endpoints."""
 
+import os
 import sys
 from pathlib import Path
 
 import pytest
+
+# Disable the dev bypass so the tests exercise the real entitlement gate.
+os.environ["ENVIRONMENT"] = "test"
+os.environ["DEV_BYPASS_STRIPE"] = "false"
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 

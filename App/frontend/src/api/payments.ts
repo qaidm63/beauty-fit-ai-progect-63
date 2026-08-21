@@ -1,5 +1,4 @@
-import { getAPIBaseURL } from '@/lib/config';
-import { authHeaders } from '@/lib/auth';
+import { ApiError, api } from '@/lib/httpClient';
 
 interface CreatePaymentSessionParams {
   plan: 'one_time' | 'monthly';
@@ -20,108 +19,71 @@ interface VerifyPaymentResponse {
   style_id: string;
   amount_total: number;
   currency: string;
+  entitlement_granted: boolean;
 }
+
+const PAYMENT_TIMEOUT_MS = 15_000;
 
 /**
- * Fetch with a timeout. Rejects with an error if the request takes longer
- * than `timeoutMs` milliseconds.
+ * Create a Stripe checkout session for the given plan.
  */
-function fetchWithTimeout(
-  url: string,
-  options: RequestInit,
-  timeoutMs: number = 15000
-): Promise<Response> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-
-  return fetch(url, { ...options, signal: controller.signal }).finally(() =>
-    clearTimeout(timer)
-  );
-}
-
 export async function createPaymentSession(
   params: CreatePaymentSessionParams
 ): Promise<CreatePaymentSessionResponse> {
-  const baseUrl = getAPIBaseURL();
-
-  let response: Response;
   try {
-    response = await fetchWithTimeout(
-      `${baseUrl}/api/v1/payments/create_payment_session`,
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json', ...authHeaders() },
-        body: JSON.stringify(params),
-      },
-      15000
+    return await api.post<CreatePaymentSessionResponse>(
+      '/api/v1/payments/create_payment_session',
+      params,
+      { timeout: PAYMENT_TIMEOUT_MS }
     );
-  } catch (err: unknown) {
-    if (err instanceof Error && err.name === 'AbortError') {
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 401) {
+      throw new Error('LOGIN_REQUIRED');
+    }
+    if (err instanceof ApiError && err.status === 408) {
       throw new Error(
         'Payment request timed out. Please check your connection and try again.'
       );
     }
+    if (err instanceof ApiError) {
+      // Provide a user-friendly message for Stripe configuration issues.
+      if (err.detail.toLowerCase().includes('stripe is not configured')) {
+        throw new Error(
+          'Payments are being set up. Please try again after the site is published.'
+        );
+      }
+      throw new Error(err.detail || 'Failed to create payment session');
+    }
     throw new Error(
       'Unable to reach the payment server. Please try again later.'
     );
   }
-
-  if (!response.ok) {
-    const error = await response
-      .json()
-      .catch(() => ({ detail: 'Payment failed' }));
-    const detail: string = error.detail || 'Failed to create payment session';
-    if (response.status === 401) {
-      throw new Error('LOGIN_REQUIRED');
-    }
-    // Provide a user-friendly message for Stripe configuration issues
-    if (detail.toLowerCase().includes('stripe is not configured')) {
-      throw new Error(
-        'Payments are being set up. Please try again after the site is published.'
-      );
-    }
-    throw new Error(detail);
-  }
-
-  return response.json();
 }
 
+/**
+ * Verify a Stripe checkout session (grants the Pro entitlement server-side).
+ */
 export async function verifyPayment(
   sessionId: string
 ): Promise<VerifyPaymentResponse> {
-  const baseUrl = getAPIBaseURL();
-
-  let response: Response;
   try {
-    response = await fetchWithTimeout(
-      `${baseUrl}/api/v1/payments/verify_payment`,
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json', ...authHeaders() },
-        body: JSON.stringify({ session_id: sessionId }),
-      },
-      15000
+    return await api.post<VerifyPaymentResponse>(
+      '/api/v1/payments/verify_payment',
+      { session_id: sessionId },
+      { timeout: PAYMENT_TIMEOUT_MS }
     );
-  } catch (err: unknown) {
-    if (err instanceof Error && err.name === 'AbortError') {
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 401) {
+      throw new Error('LOGIN_REQUIRED');
+    }
+    if (err instanceof ApiError && err.status === 408) {
       throw new Error('Verification request timed out. Please try again.');
+    }
+    if (err instanceof ApiError) {
+      throw new Error(err.detail || 'Failed to verify payment');
     }
     throw new Error(
       'Unable to reach the payment server. Please try again later.'
     );
   }
-
-  if (!response.ok) {
-    const error = await response
-      .json()
-      .catch(() => ({ detail: 'Verification failed' }));
-    if (response.status === 401) {
-      throw new Error('LOGIN_REQUIRED');
-    }
-    throw new Error(error.detail || 'Failed to verify payment');
-  }
-
-  return response.json();
 }

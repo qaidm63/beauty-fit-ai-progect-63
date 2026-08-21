@@ -1,5 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
-import { getAPIBaseURL } from './config';
+import { api } from './httpClient';
 
 /**
  * Auth token store.
@@ -47,7 +46,12 @@ export function clearAuthToken(): void {
   writeStorage(null);
 }
 
-/** Authorization header derived from the current session token. */
+/**
+ * Authorization header derived from the current session token.
+ *
+ * @deprecated the unified httpClient attaches the token automatically; kept
+ * only for call sites that hand-roll requests.
+ */
 export function authHeaders(): Record<string, string> {
   const token = getAuthToken();
   return token ? { Authorization: `Bearer ${token}` } : {};
@@ -59,7 +63,7 @@ export function authHeaders(): Record<string, string> {
  * false if the session is genuinely gone.
  *
  * This is the single source of truth for "can we still authenticate?"
- * — used by the axios 401 interceptor to avoid killing a still-valid
+ * — used by the 401 interceptor to avoid killing a still-valid
  * session on a transient rejection.
  */
 let refreshPromise: Promise<boolean> | null = null;
@@ -90,66 +94,13 @@ export async function tryRefreshSession(): Promise<boolean> {
   return refreshPromise;
 }
 
-class RPApi {
-  private client: AxiosInstance;
-
-  constructor() {
-    this.client = axios.create({
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    // Attach the session access token to every request if present.
-    this.client.interceptors.request.use((config) => {
-      const token = getAuthToken();
-      if (token && !config.headers.Authorization) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    });
-
-    // On 401, attempt a Supabase session refresh before giving up. Only clear
-    // the token if the refresh fails — this prevents a single transient 401
-    // (e.g. during a token rotation) from killing the entire session and
-    // trapping the user in a login loop.
-    this.client.interceptors.response.use(
-      (response) => response,
-      async (error) => {
-        const originalRequest = error?.config;
-        if (
-          error?.response?.status === 401 &&
-          !originalRequest?._retried
-        ) {
-          originalRequest._retried = true;
-          const refreshed = await tryRefreshSession();
-          if (refreshed) {
-            // Re-attach the (possibly new) token and replay the request.
-            const token = getAuthToken();
-            if (token) {
-              originalRequest.headers.Authorization = `Bearer ${token}`;
-            }
-            return this.client(originalRequest);
-          }
-          // Refresh failed — token is genuinely invalid; clear it.
-          clearAuthToken();
-        }
-        return Promise.reject(error);
-      }
-    );
-  }
-
-  private getBaseURL() {
-    return getAPIBaseURL();
-  }
-
-  async getCurrentUser() {
-    const response = await this.client.get(
-      `${this.getBaseURL()}/api/v1/auth/me`
-    );
-    return response.data;
-  }
+/** Resolve the current user from the backend (`/api/v1/auth/me`). */
+export async function getCurrentUser(): Promise<{
+  id: string;
+  email: string;
+  name?: string | null;
+  role: string;
+  last_login?: string | null;
+}> {
+  return api.get('/api/v1/auth/me');
 }
-
-export const authApi = new RPApi();

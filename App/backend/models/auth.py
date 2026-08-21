@@ -1,6 +1,6 @@
 from models.base import Base
-from sqlalchemy import Column, DateTime, Integer, String
-from sqlalchemy.sql import func
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.sql import func, false
 
 
 class User(Base):
@@ -10,6 +10,7 @@ class User(Base):
     email = Column(String(255), nullable=False)
     name = Column(String(255), nullable=True)
     role = Column(String(50), default="user", nullable=False)  # user/admin
+    is_developer = Column(Boolean, nullable=False, default=False, server_default=false())
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     last_login = Column(DateTime(timezone=True), nullable=True)
 

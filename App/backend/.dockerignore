@@ -1,0 +1,11 @@
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+tests
+logs
+*.db
+*.sqlite3
+.env
+nohup.out
+beautyfit_mediapipe_478_spec.md

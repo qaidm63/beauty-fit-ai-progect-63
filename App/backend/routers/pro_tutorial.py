@@ -6,6 +6,7 @@ from typing import Any, Optional
 from core.database import get_db
 from dependencies.auth import get_current_user
 from fastapi import APIRouter, Depends, HTTPException, status
+from models.auth import User
 from schemas.auth import UserResponse
 from schemas.pro_tutorial import (
     ProTutorialRequest,
@@ -15,6 +16,7 @@ from schemas.pro_tutorial import (
 )
 from services.entitlement import has_active_entitlement
 from services.pro_tutorial import generate_pro_tutorial, stylize_user_photo
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
@@ -26,7 +28,20 @@ async def require_pro_entitlement(
     current_user: UserResponse = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> UserResponse:
-    """Require an authenticated user with an active Pro entitlement."""
+    """Require an authenticated user with an active Pro entitlement.
+
+    Bypass: developer flag persisted on the user record (is_developer=true).
+    Only specific users with this flag in the database can bypass the Stripe check.
+    """
+    # Bypass: developer flag on the user record.
+    try:
+        result = await db.execute(select(User).where(User.id == current_user.id))
+        user_row = result.scalar_one_or_none()
+        if user_row is not None and user_row.is_developer:
+            return current_user
+    except Exception as exc:
+        logger.exception("Developer flag lookup failed for user: %s", exc)
+
     try:
         has_pro = await has_active_entitlement(db, current_user.id)
     except Exception as exc:

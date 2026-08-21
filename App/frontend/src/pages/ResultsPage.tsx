@@ -1,7 +1,9 @@
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { useEffect, useMemo, useCallback } from "react";
+import { useEffect, useMemo, useCallback, useState } from "react";
 import Navbar from "@/components/Navbar";
 import FaceLandmarkDiagram from "@/components/FaceLandmarkDiagram";
+import { useProEntitlement } from "@/hooks/useProEntitlement";
+import { type EntitlementStatus } from "@/lib/proTutorial";
 import {
   Sparkles,
   ArrowRight,
@@ -318,16 +320,46 @@ export default function ResultsPage() {
   const theme = STYLE_THEMES[topStyle] || STYLE_THEMES.elegant;
   const topStyles = result.recommendations.slice(0, 3);
 
-  const handleStyleCardClick = useCallback((styleId: string, styleName: string) => {
-    // Route through the checkout/paywall instead of bypassing payment.
-    // Pro reports are gated server-side by the user's Entitlement.
-    navigate('/checkout/plan', {
-      state: {
-        styleId,
-        styleName,
-      },
+  const { checkEntitlement, isChecking, error: entitlementError, cachedStatus } = useProEntitlement();
+  const [checkingStyleId, setCheckingStyleId] = useState<string | null>(null);
+
+  const buildProTutorialState = useCallback((styleId: string, styleName: string) => {
+    const rec = result.recommendations.find((r) => r.style === styleId);
+    const styleScores: Record<string, number> = {};
+    result.recommendations.forEach((r) => {
+      styleScores[r.style] = r.score;
     });
-  }, [navigate]);
+    return {
+      style: {
+        id: styleId,
+        name: styleName,
+        tagline: styleDescriptions[styleId]?.tagline || '',
+        image: styleDescriptions[styleId]?.image || '',
+        match: rec?.score || 0,
+        keyFocus: styleDescriptions[styleId]?.keyFocus || [],
+      },
+      faceShape: result.face_shape,
+      eyeTags: result.eye_tags,
+      facialTags: result.facial_tags,
+      metrics: result.metrics as Record<string, number>,
+      styleScores,
+      userImage,
+    };
+  }, [result, userImage]);
+
+  const handleStyleCardClick = useCallback((styleId: string, styleName: string) => {
+    setCheckingStyleId(styleId);
+    checkEntitlement(styleId, styleName, (hasAccess) => {
+      setCheckingStyleId(null);
+      if (hasAccess) {
+        navigate(`/style/${styleId}/pro`, { state: buildProTutorialState(styleId, styleName) });
+      } else {
+        navigate('/checkout/plan', {
+          state: { styleId, styleName },
+        });
+      }
+    });
+  }, [checkEntitlement, navigate, buildProTutorialState]);
 
   // Memoize score colors based on theme
   const scoreColors = useMemo(() => {
@@ -528,11 +560,13 @@ export default function ResultsPage() {
             {result.recommendations.map((rec, i) => {
               const isTop = i === 0;
               const recTheme = STYLE_THEMES[rec.style] || STYLE_THEMES.elegant;
+              const isCheckingThis = checkingStyleId === rec.style;
               return (
                 <button
                   key={rec.style}
                   onClick={() => handleStyleCardClick(rec.style, rec.style_name)}
-                  className="group relative p-4 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl block text-left w-full cursor-pointer"
+                  disabled={isCheckingThis}
+                  className="group relative p-4 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl block text-left w-full cursor-pointer disabled:opacity-60 disabled:cursor-wait"
                   style={{
                     background: isTop ? theme.gradientSubtle : "rgba(255,255,255,0.6)",
                     border: `1px solid ${isTop ? theme.primary + "40" : theme.cardBorder}`,
@@ -721,6 +755,8 @@ export default function ResultsPage() {
           topStyles={topStyles}
           result={result}
           userImage={userImage}
+          checkEntitlement={checkEntitlement}
+          isChecking={isChecking}
         />
 
         {/* Bottom action — re-analyze */}
@@ -749,22 +785,50 @@ interface ProPromoSectionProps {
   topStyles: Recommendation[];
   result: AnalysisResult;
   userImage?: string;
+  checkEntitlement: (styleId: string, styleName: string, onSuccess: (hasAccess: boolean) => void) => Promise<void>;
+  isChecking: boolean;
 }
 
-function ProPromoSection({ theme, topStyles, result, userImage }: ProPromoSectionProps) {
+function ProPromoSection({ theme, topStyles, result, userImage, checkEntitlement, isChecking }: ProPromoSectionProps) {
   const navigate = useNavigate();
   const bestStyle = topStyles[0];
 
-  const handleGoToCheckout = useCallback(() => {
-    // Route through the checkout/paywall. Pro reports require a server-side
-    // entitlement (granted after payment), not client-side navigation.
-    navigate('/checkout/plan', {
-      state: {
-        styleId: bestStyle?.style || '',
-        styleName: bestStyle?.style_name || 'Pro',
-      },
+  const buildProTutorialState = useCallback((styleId: string, styleName: string) => {
+    const rec = result.recommendations.find((r) => r.style === styleId);
+    const styleScores: Record<string, number> = {};
+    result.recommendations.forEach((r) => {
+      styleScores[r.style] = r.score;
     });
-  }, [navigate, bestStyle]);
+    return {
+      style: {
+        id: styleId,
+        name: styleName,
+        tagline: styleDescriptions[styleId]?.tagline || '',
+        image: styleDescriptions[styleId]?.image || '',
+        match: rec?.score || 0,
+        keyFocus: styleDescriptions[styleId]?.keyFocus || [],
+      },
+      faceShape: result.face_shape,
+      eyeTags: result.eye_tags,
+      facialTags: result.facial_tags,
+      metrics: result.metrics as Record<string, number>,
+      styleScores,
+      userImage,
+    };
+  }, [result, userImage]);
+
+  const handleGoToCheckout = useCallback(() => {
+    if (!bestStyle) return;
+    checkEntitlement(bestStyle.style, bestStyle.style_name, (hasAccess) => {
+      if (hasAccess) {
+        navigate(`/style/${bestStyle.style}/pro`, { state: buildProTutorialState(bestStyle.style, bestStyle.style_name) });
+      } else {
+        navigate('/checkout/plan', {
+          state: { styleId: bestStyle.style, styleName: bestStyle.style_name },
+        });
+      }
+    });
+  }, [bestStyle, checkEntitlement, navigate, buildProTutorialState]);
 
   if (!bestStyle) return null;
   const bestDesc =
@@ -1022,7 +1086,8 @@ function ProPromoSection({ theme, topStyles, result, userImage }: ProPromoSectio
               {/* One-time plan */}
               <button
                 onClick={handleGoToCheckout}
-                className="group relative block w-full text-left rounded-2xl p-4 border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                disabled={isChecking}
+                className="group relative block w-full text-left rounded-2xl p-4 border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-60 disabled:cursor-wait"
                 style={{
                   background: "rgba(255,255,255,0.06)",
                   borderColor: "rgba(255,255,255,0.14)",
@@ -1051,17 +1116,27 @@ function ProPromoSection({ theme, topStyles, result, userImage }: ProPromoSectio
                   </div>
                 </div>
                 <div className="mt-3 flex items-center justify-between">
-                  <span className="font-body text-xs font-semibold text-[#E8D5A6] group-hover:text-white transition-colors">
-                    Unlock this report
-                  </span>
-                  <ArrowRight className="w-4 h-4 text-[#E8D5A6] group-hover:translate-x-1 group-hover:text-white transition-all" />
+                  {isChecking ? (
+                    <span className="flex items-center gap-2 font-body text-xs font-semibold text-[#E8D5A6]">
+                      <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      Checking access...
+                    </span>
+                  ) : (
+                    <>
+                      <span className="font-body text-xs font-semibold text-[#E8D5A6] group-hover:text-white transition-colors">
+                        Unlock this report
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-[#E8D5A6] group-hover:translate-x-1 group-hover:text-white transition-all" />
+                    </>
+                  )}
                 </div>
               </button>
 
               {/* Monthly subscription — recommended */}
               <button
                 onClick={handleGoToCheckout}
-                className="group relative block w-full text-left rounded-2xl p-4 border-2 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl"
+                disabled={isChecking}
+                className="group relative block w-full text-left rounded-2xl p-4 border-2 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl disabled:opacity-60 disabled:cursor-wait"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(184,112,106,0.22), rgba(142,156,195,0.16) 50%, rgba(201,169,110,0.22))",
@@ -1093,14 +1168,23 @@ function ProPromoSection({ theme, topStyles, result, userImage }: ProPromoSectio
                     <span className="font-body text-[10px] text-[#C9A96E]">Cancel anytime</span>
                   </div>
                 </div>
-                <div className="mt-3 inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 rounded-full text-white text-sm font-semibold font-body shadow-lg group-hover:brightness-110 transition-all"
+                <div className="mt-3 inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 rounded-full text-white text-sm font-semibold font-body shadow-lg group-hover:brightness-110 transition-all disabled:opacity-70"
                   style={{
                     background:
                       "linear-gradient(135deg, #B8706A 0%, #8E9CC3 50%, #C9A96E 100%)",
                   }}>
-                  <Gem className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                  Unlock Complete Report
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  {isChecking ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Checking access...
+                    </span>
+                  ) : (
+                    <>
+                      <Gem className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                      Unlock Complete Report
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
                 </div>
               </button>
 

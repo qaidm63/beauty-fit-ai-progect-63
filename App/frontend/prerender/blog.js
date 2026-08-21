@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { Route, Routes } from 'react-router-dom';
 import { StaticRouter } from 'react-router-dom/server';
 import BlogRoutes from '../src/blog-routes';
+import { AuthProvider } from '../src/contexts/AuthContext';
 import { getBlogPost, getPostSeoMeta } from '../src/lib/blog';
 
 function getHeadElements(url) {
@@ -158,16 +159,23 @@ function getHeadElements(url) {
 }
 
 export async function prerender({ url }) {
+  // Blog pages render Navbar (and other auth-aware components), so the static
+  // render must run inside AuthProvider. Its effects never run during SSR —
+  // the provider only supplies a null user to the render tree.
   const html = renderToString(
     React.createElement(
-      StaticRouter,
-      { location: url },
+      AuthProvider,
+      null,
       React.createElement(
-        Routes,
-        null,
+        StaticRouter,
+        { location: url },
         React.createElement(
-          Route,
-          { path: '/blog/*', element: React.createElement(BlogRoutes) },
+          Routes,
+          null,
+          React.createElement(
+            Route,
+            { path: '/blog/*', element: React.createElement(BlogRoutes) },
+          ),
         ),
       ),
     ),

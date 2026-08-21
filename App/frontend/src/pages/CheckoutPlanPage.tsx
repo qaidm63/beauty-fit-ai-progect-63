@@ -38,7 +38,9 @@ export default function CheckoutPlanPage() {
   // with a return URL so they come straight back after authenticating.
   useEffect(() => {
     if (authLoading) return;
-    if (!user) {
+    // Development bypass: allow access without auth if env var is set
+    const canBypassDev = import.meta.env.DEV && import.meta.env.VITE_DEV_BYPASS_STRIPE === 'true';
+    if (!user && !canBypassDev) {
       const params = new URLSearchParams({
         return_to: "/checkout/plan",
         style_id: styleId,

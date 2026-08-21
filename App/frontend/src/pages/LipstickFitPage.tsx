@@ -1,8 +1,19 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Upload, Search, Filter, X, Loader2, ChevronLeft, ChevronRight, Palette, Copy, Sparkles, ChevronDown, ChevronUp, Camera } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import { detectFaceLandmarks, loadImageFromBase64, type NormalizedLandmark } from '@/lib/faceLandmarker';
-import { getAPIBaseURL } from '@/lib/config';
+import {
+  findFromImage,
+  getDupes,
+  getFilters,
+  listLipsticks,
+  recommendBySkin,
+  searchByColor,
+  semanticSearch,
+  type FiltersData,
+  type LipstickItem,
+} from '@/api/lipsticks';
 
 // MediaPipe lip landmark indices (outer + inner lip)
 const OUTER_LIP_INDICES = [
@@ -17,43 +28,6 @@ const INNER_LIP_INDICES = [
 // Forehead/cheek landmark indices for skin tone detection
 const FOREHEAD_INDICES = [10, 67, 109, 151, 338, 297];
 const CHEEK_INDICES = [50, 101, 116, 280, 330, 345];
-
-interface LipstickItem {
-  id: string;
-  color_hex: string;
-  brand: string;
-  shade_name: string;
-  product_line: string;
-  product_type: string;
-  color_family: string;
-  undertone: string;
-  undertone_confidence: number;
-  color_depth: string;
-  finish: string;
-  finish_confidence: number;
-  color_rgb: { r: number; g: number; b: number };
-  color_hsl: { h: number; s: number; l: number };
-  brightness: number;
-  saturation: number;
-  hue_degree: number;
-  color_family_confidence: number;
-  recommended_skin_undertone: string[];
-  recommended_skin_depth: string[];
-  seasonal_palette: string;
-  distance?: number;
-  match_score?: number;
-  same_brand?: boolean;
-}
-
-interface FiltersData {
-  brands: string[];
-  color_families: string[];
-  undertones: string[];
-  finishes: string[];
-  color_depths: string[];
-  seasonal_palettes: string[];
-  total_count: number;
-}
 
 type ViewMode = 'browse' | 'dupes' | 'semantic' | 'category';
 
@@ -82,7 +56,14 @@ export default function LipstickFitPage() {
   // Lipstick browser state
   const [lipsticks, setLipsticks] = useState<LipstickItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState<FiltersData | null>(null);
+
+  // Filter options via react-query (cached across navigation).
+  const { data: filters } = useQuery({
+    queryKey: ['lipstick-filters'],
+    queryFn: getFilters,
+    staleTime: 5 * 60_000,
+    retry: 1,
+  });
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -139,15 +120,6 @@ export default function LipstickFitPage() {
   const [findShadeMatches, setFindShadeMatches] = useState<LipstickItem[]>([]);
   const findShadeCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Load filter options on mount
-  useEffect(() => {
-    const baseUrl = getAPIBaseURL();
-    fetch(`${baseUrl}/api/v1/lipsticks/filters`)
-      .then((r) => r.json())
-      .then((data) => setFilters(data))
-      .catch(() => {});
-  }, []);
-
   // Draw color palette canvas - load spectrum image
   useEffect(() => {
     const canvas = paletteCanvasRef.current;
@@ -170,13 +142,7 @@ export default function LipstickFitPage() {
     setLoading(true);
     setBrowseActive(true);
     try {
-      const baseUrl = getAPIBaseURL();
-      const params = new URLSearchParams();
-      params.set('page', String(pageNum));
-      params.set('page_size', '40');
-
-      const res = await fetch(`${baseUrl}/api/v1/lipsticks?${params.toString()}`);
-      const data = await res.json();
+      const data = await listLipsticks({ page: pageNum, page_size: 40 });
       setLipsticks(data.items || []);
       setTotalPages(data.total_pages || 1);
       setTotalCount(data.total || 0);
@@ -194,12 +160,11 @@ export default function LipstickFitPage() {
     setBrowseActive(true);
     setPaletteColor(hex);
     try {
-      const baseUrl = getAPIBaseURL();
-      const res = await fetch(`${baseUrl}/api/v1/lipsticks/search-by-color?hex=${encodeURIComponent(hex)}&limit=20`);
-      const data = await res.json();
-      setLipsticks(data.items || data.results || []);
+      const data = await searchByColor(hex, 20);
+      const items = data.items || data.results || [];
+      setLipsticks(items);
       setTotalPages(1);
-      setTotalCount(data.items?.length || data.results?.length || 0);
+      setTotalCount(items.length);
       setPage(1);
     } catch {
       setLipsticks([]);
@@ -308,13 +273,7 @@ export default function LipstickFitPage() {
       setSkinAnalysis({ undertone, depth });
 
       // Fetch recommendations
-      const baseUrl = getAPIBaseURL();
-      const res = await fetch(`${baseUrl}/api/v1/lipsticks/recommend-by-skin?page=1&page_size=40`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ undertone, depth }),
-      });
-      const data = await res.json();
+      const data = await recommendBySkin(undertone, depth, 1, 40);
 
       // Filter: only 95%+ match, or top 5 if none reach 95%
       let items: LipstickItem[] = data.items || [];
@@ -340,9 +299,7 @@ export default function LipstickFitPage() {
     setDupeSource(lipstick);
     setViewMode('dupes');
     try {
-      const baseUrl = getAPIBaseURL();
-      const res = await fetch(`${baseUrl}/api/v1/lipsticks/${lipstick.id}/dupes?limit=10`);
-      const data = await res.json();
+      const data = await getDupes(lipstick.id, 10);
       setLipsticks(data.dupes || []);
       setTotalPages(1);
       setTotalCount(data.dupes?.length || 0);
@@ -361,14 +318,7 @@ export default function LipstickFitPage() {
     setViewMode('semantic');
     setSemanticSearched(true);
     try {
-      const baseUrl = getAPIBaseURL();
-      const params = new URLSearchParams();
-      params.set('q', query.trim());
-      params.set('page', '1');
-      params.set('page_size', '10');
-
-      const res = await fetch(`${baseUrl}/api/v1/lipsticks/semantic-search?${params.toString()}`);
-      const data = await res.json();
+      const data = await semanticSearch(query.trim(), 1, 10);
       const items = (data.items || []).slice(0, 10);
       setLipsticks(items);
       setParsedQuery(data.parsed_query || null);
@@ -389,20 +339,17 @@ export default function LipstickFitPage() {
     setLoading(true);
     setCategorySearched(true);
     try {
-      const baseUrl = getAPIBaseURL();
-      const params = new URLSearchParams();
-      params.set('page', String(pageNum));
-      params.set('page_size', '40');
-      if (categoryKeyword.trim()) params.set('keyword', categoryKeyword.trim());
-      if (categoryFilters.brand) params.set('brand', categoryFilters.brand);
-      if (categoryFilters.color_family) params.set('color_family', categoryFilters.color_family);
-      if (categoryFilters.undertone) params.set('undertone', categoryFilters.undertone);
-      if (categoryFilters.finish) params.set('finish', categoryFilters.finish);
-      if (categoryFilters.color_depth) params.set('color_depth', categoryFilters.color_depth);
-      if (categoryFilters.seasonal_palette) params.set('seasonal_palette', categoryFilters.seasonal_palette);
-
-      const res = await fetch(`${baseUrl}/api/v1/lipsticks?${params.toString()}`);
-      const data = await res.json();
+      const data = await listLipsticks({
+        page: pageNum,
+        page_size: 40,
+        keyword: categoryKeyword.trim() || undefined,
+        brand: categoryFilters.brand || undefined,
+        color_family: categoryFilters.color_family || undefined,
+        undertone: categoryFilters.undertone || undefined,
+        finish: categoryFilters.finish || undefined,
+        color_depth: categoryFilters.color_depth || undefined,
+        seasonal_palette: categoryFilters.seasonal_palette || undefined,
+      });
       setLipsticks(data.items || []);
       setTotalPages(data.total_pages || 1);
       setTotalCount(data.total || 0);
@@ -581,13 +528,7 @@ export default function LipstickFitPage() {
 
         // Search for matches
         setFindShadeSearching(true);
-        const baseUrl = getAPIBaseURL();
-        const res = await fetch(`${baseUrl}/api/v1/lipsticks/find-from-image?limit=10`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(lipColor),
-        });
-        const data = await res.json();
+        const data = await findFromImage(lipColor, 10);
         setFindShadeMatches(data.matches || []);
       } catch (err) {
         setFindShadeError(err instanceof Error ? err.message : 'Processing failed');
@@ -622,13 +563,7 @@ export default function LipstickFitPage() {
       setExtractedLipColor(lipColor);
 
       setFindShadeSearching(true);
-      const baseUrl = getAPIBaseURL();
-      const res = await fetch(`${baseUrl}/api/v1/lipsticks/find-from-image?limit=10`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(lipColor),
-      });
-      const data = await res.json();
+      const data = await findFromImage(lipColor, 10);
       setFindShadeMatches(data.matches || []);
     } catch (err) {
       setFindShadeError(err instanceof Error ? err.message : 'Processing failed');

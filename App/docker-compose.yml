@@ -1,0 +1,54 @@
+# BeautyFit local development stack.
+#
+# Usage:
+#   docker compose up --build
+#
+# The backend reads its secrets from App/backend/.env (already present), while
+# DATABASE_URL here intentionally points at the local Postgres service so the
+# stack is fully self-contained — no Supabase dependency for local runs.
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: beautyfit
+      POSTGRES_PASSWORD: beautyfit
+      POSTGRES_DB: beautyfit
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U beautyfit"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://beautyfit:beautyfit@db:5432/beautyfit
+      PORT: 8000
+      RATE_LIMIT_ENABLED: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_TARGET: http://backend:8000
+      VITE_PORT: 5173
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata:

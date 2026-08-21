@@ -15,6 +15,9 @@ if TEST_DB.exists():
 os.environ["DATABASE_URL"] = f"sqlite+aiosqlite:///{TEST_DB}"
 os.environ["MGX_IGNORE_INIT_ADMIN"] = "1"
 os.environ["MGX_IGNORE_INIT_DATA"] = "1"
+# Disable the dev bypass so the tests exercise the real entitlement gate.
+os.environ["ENVIRONMENT"] = "test"
+os.environ["DEV_BYPASS_STRIPE"] = "false"
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 

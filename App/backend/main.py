@@ -11,6 +11,7 @@ from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
+from middlewares.rate_limit import RateLimitMiddleware
 
 # MODULE_IMPORTS_START
 from services.database import initialize_database, close_database
@@ -120,6 +121,7 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
+app.add_middleware(RateLimitMiddleware)
 # MODULE_MIDDLEWARE_END
 
 

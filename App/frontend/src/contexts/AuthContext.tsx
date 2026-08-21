@@ -7,7 +7,7 @@ import React, {
   useCallback,
   ReactNode,
 } from 'react';
-import { authApi, clearAuthToken, setAuthToken } from '../lib/auth';
+import { clearAuthToken, getCurrentUser, setAuthToken } from '../lib/auth';
 import { getSupabase } from '../lib/supabaseClient';
 
 interface User {
@@ -107,7 +107,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // user so a transient backend failure doesn't log the user out.
       let userData: User | null = null;
       try {
-        userData = await authApi.getCurrentUser();
+        userData = await getCurrentUser();
       } catch {
         // Backend unreachable; fall through.
       }
@@ -157,7 +157,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // creating the closed login loop.
         let userData: User | null = null;
         try {
-          userData = await authApi.getCurrentUser();
+          userData = await getCurrentUser();
         } catch {
           // Backend call failed; fall through to Supabase-derived user.
         }
@@ -213,7 +213,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           // user is never null after a successful sign-up.
           let userData: User | null = null;
           try {
-            userData = await authApi.getCurrentUser();
+            userData = await getCurrentUser();
           } catch {
             // Backend unreachable; fall through.
           }
@@ -304,8 +304,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Keep the backend view of the user fresh after sign-in/refresh.
         // Fall back to the Supabase session user if the backend is temporarily
         // unavailable so the user is never null-ed out after a successful auth.
-        authApi
-          .getCurrentUser()
+        getCurrentUser()
           .then((userData) => {
             if (mountedRef.current) setUser(userData);
           })
