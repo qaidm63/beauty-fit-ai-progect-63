@@ -19,10 +19,10 @@ CMD ["sh", "-c", "pnpm exec vite --host 0.0.0.0 --port ${VITE_PORT:-5173}"]
 
 # --- Build stage ---
 FROM base AS build
-COPY package.json pnpm-workspace.yaml ./
-RUN pnpm install
+COPY package.json ./
+RUN npm install --legacy-peer-deps
 COPY . .
-RUN pnpm exec tsc --noEmit && pnpm exec vite build
+RUN npm run build
 
 # --- Production stage ---
 FROM nginx:1.27-alpine AS prod
