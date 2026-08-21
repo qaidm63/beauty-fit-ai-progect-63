@@ -18,6 +18,9 @@ os.environ["MGX_IGNORE_INIT_DATA"] = "1"
 # Disable the dev bypass so the tests exercise the real entitlement gate.
 os.environ["ENVIRONMENT"] = "test"
 os.environ["DEV_BYPASS_STRIPE"] = "false"
+os.environ["JWT_SECRET_KEY"] = "test-secret-key-for-testing-only"
+os.environ["JWT_ALGORITHM"] = "HS256"
+os.environ["JWT_EXPIRE_MINUTES"] = "1440"
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
