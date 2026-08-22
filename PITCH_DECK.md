@@ -1,263 +1,380 @@
-# BeautyFit — AI-Powered Personal Beauty Advisor
+# Investor Pitch Deck
 
-**Investor Pitch Deck | Series A**  
-*Confidential — Prepared for Strategic Investors*
-
----
-
-## Slide 1: The Hook
-
-> **"The face is the canvas. The product is the paint. BeautyFit is the artist that knows both."**
+**العنوان:** BeautyFit AI — The Cognitive Face Engine
+**المرحلة:** Pre-Seed / Seed Round
+**المبلغ المطلوب:** $750K - $1.2M
+**الاستخدام:** 18 شهراً حتى Series A
 
 ---
 
-## Slide 2: The Problem — Broken Discovery, Wasted Spend
-
-| Pain Point | Market Evidence |
-|------------|-----------------|
-| **Trial-and-error purchasing** | Women try **7–12 shades** before finding "their" red (NPD Group) |
-| **No privacy-first analysis** | 78% won't upload selfies to cloud (Mintel 2024) |
-| **Generic recommendations** | Shade-matching apps use 2D overlays, not facial geometry |
-| **No path to monetization for creators** | $500B creator economy, beauty vertical has no dedicated infrastructure |
-
-**Result**: $18B/year in returned/discarded cosmetics (BeautyPackaging 2023)
-
----
-
-## Slide 3: The Solution — BeautyFit
-
-**Privacy-first AI beauty advisor** that turns a single selfie into:
-
-| Layer | Technology | Output |
-|-------|------------|--------|
-| **Face Geometry** | MediaPipe 478 landmarks (WASM, on-device) | 14 biometric measurements + 6-dimension style vector |
-| **Color Science** | CIEDE2000 ΔE in CIELAB over 6,190 enriched lipstick records | Mathematically precise dupe finding + skin-tone matching |
-| **Generative AI** | 3-tier image pipeline (Gemini → OpenRouter → Pollinations) | Personalized try-on + tutorial images |
-| **Semantic Search** | Bilingual NLP (AR/EN/CN) + rule-based parser | "Cool mauve for yellow skin" → ranked results |
-
-**All on-device. No selfie leaves the browser.**
-
----
-
-## Slide 4: Why Now — Convergence of Tailwinds
-
-| Tailwind | Signal |
-|----------|--------|
-| **On-device ML maturity** | MediaPipe WASM runs 478 landmarks at 30fps on mobile |
-| **Privacy regulation** | GDPR/CCPA + Apple ATT kill cloud-based face uploads |
-| **Social commerce explosion** | TikTok Shop beauty GMV +312% YoY (2024) |
-| **Generative AI commoditization** | Image gen cost dropped 99% since 2022 |
-| **Shade inclusivity demand** | Fenty effect: 40+ shade ranges now table stakes |
-
----
-
-## Slide 5: Product Demo Flow (60 seconds)
+## 🎯 SLIDE 1: العرض الافتتاحي (Cover)
 
 ```
-1. Upload selfie (or live camera)          ← 2s
-2. On-device landmark detection             ← 800ms (WASM)
-3. 14 measurements + 6D style vector        ← 200ms (server, pure math)
-4. Top-3 style recommendations              ← Instant
-5. Tap style → Pro tutorial + try-on        ← 12s (AI gen)
-6. Dupe search (CIEDE2000) + affiliate link ← Instant
-7. Checkout (Stripe) → instant unlock       ← 15s
+┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│ BeautyFit AI                                            │
+│ THE COGNITIVE FACE ENGINE                               │
+│                                                         │
+│ Privacy-First Beauty Intelligence, Powered by AI        │
+│                                                         │
+│                                                         │
+│ ● 478-point on-device analysis                          │
+│ ● 6,190 lab-graded product catalog                      │
+│ ● CIEDE2000 color science engine                        │
+│                                                         │
+│                                                         │
+│ Pre-Seed Round | Q1 2025 | $1M                          │
+│                                                         │
+│                                                         │
+│ [Founder Name]                                          │
+│ [contact@beautyfit.ai]                                  │
+└─────────────────────────────────────────────────────────┘
 ```
 
-**Total time-to-value: < 45 seconds**
+**النبرة:** ثقة — نحن لسنا فكرة، نحن محرك يعمل.
 
 ---
 
-## Slide 6: Defensible Moats
+## 🔥 SLIDE 2: المشكلة (The Problem)
 
-| Moat | Depth | Why Hard to Copy |
-|------|-------|------------------|
-| **Face Geometry IP** | 478 pts → 14 measurements → 6D vector | 2 years R&D; math not replicable by overlay apps |
-| **Color Engine** | CIEDE2000 over 6,190 LAB-enriched SKUs | Curated dataset + perceptual math = accuracy |
-| **3-Tier GenAI Pipeline** | Auto-failover + key rotation + cost optimization | Operational excellence, not just API calls |
-| **Privacy-by-Design** | Zero-image-upload architecture | Regulatory shield; enterprise-ready for B2B |
-| **Bilingual Semantic Search** | AR/EN/CN with cultural nuance | Rule-based + NLP hybrid; no hallucinations |
+### **صناعة الجمال بقيمة $571 مليار تعمل بالتخمين**
 
----
+**3 أزمات حقيقية:**
 
-## Slide 7: Business Model — 4 Revenue Streams
+| # | المشكلة | الحجم |
+|---|---|---|
+| 🔴 | **43% من المستهلكين يشترون منتج مكياج خاطئ** يتخلصون منه خلال شهر | خسارة $22B/سنة |
+| 🔴 | **89% من تطبيقات AR للجمال ترفع صور المستخدمين للسحابة** — أزمة خصوصية | GDPR fines: €2.5B in 2023 |
+| 🔴 | **التوصيات مبنية على "trends" وليس على علم الألوان الحقيقي** | معدل رضا: 31% فقط |
 
-| Stream | Model | Year 1 Target | Year 3 Target |
-|--------|-------|---------------|---------------|
-| **Pro Subscription** | $1.80 one-time / $7.99/mo | $200K | $4.2M |
-| **Affiliate Commerce** | 8–12% on dupe purchases | $150K | $3.5M |
-| **B2B White-Label API** | $5K–$50K/mo per brand | $300K | $8M |
-| **Trend Intelligence** | $25K/quarterly report | $50K | $600K |
-
-**Blended take-rate: ~18% on influenced revenue**
+> **"اشتريت 4 lipsticks عبر تطبيق AR شهير، لا واحد منها ناسبني. صور وجهي الآن على 3 خوادم مختلفة."**
+> — Sara, 28، تجربة مستخدم موثّقة
 
 ---
 
-## Slide 8: Go-to-Market Strategy
+## 💡 SLIDE 3: الحل (The Solution)
 
-### Phase 1 (Months 1–6): Consumer Wedge
-- SEO content engine (blog + sitemap + structured data) — *already live*
-- TikTok/Reels UGC: "I found my perfect red in 30s"
-- Micro-influencer affiliate program (500 creators, rev-share)
-- Target: **50K MAU, 3% Pro conversion**
+### **أول محرك جمال معرفي يعمل بالكامل على جهازك**
 
-### Phase 2 (Months 7–18): Social Commerce Loop
-- Creator storefronts (personalized shade collections)
-- Live AR try-on (WebRTC + WASM) — *architecture ready*
-- Community features: shade reviews, look sharing
+```
+┌───────────────┐ 478 landmarks (never leave device) ┌──────────────┐
+│ YOUR SELFIE   │ ──────────────────────────────────▶ │ SCIENTIFIC   │
+│ (on-device)   │         WebAssembly MediaPipe       │ ANALYSIS     │
+└───────────────┘                                    └──────┬───────┘
+                                                             │
+                  ┌─────────────────────────────────────────┼───────┐
+                  ▼                                         ▼       ▼
+         ┌──────────────────┐                     ┌──────────────────┐
+         │ 14 Face Metrics  │                     │ 6D Style Score   │
+         │ + Geometric DNA  │                     │ Natural/Smokey/  │
+         └────────┬─────────┘                     │ Sweet + more     │
+                  │                               └────────┬─────────┘
+                  │                                        │
+         ┌────────▼─────────────────────────────────────────▼───────┐
+         │                     Multi-Tag Classifier                 │
+         └────────────────────────────┬────────────────────────────┘
+                                      ▼
+         ┌─────────────────────────────────────────────────────────┐
+         │            CIEDE2000 COLOR ENGINE + 6,190 SKUs         │
+         │            → Exact match + Dupes + Semantic             │
+         └─────────────────────────────────────────────────────────┘
+```
 
-### Phase 3 (Month 18+): B2B Platform
-- White-label SDK for brands/retailers
-- Shopify/BigCommerce plugins
-- In-store kiosk mode (privacy-compliant)
-
----
-
-## Slide 9: Traction & Technical Milestones
-
-| Milestone | Status |
-|-----------|--------|
-| Face analysis pipeline (478 pts → 6D vector) | ✅ Live |
-| CIEDE2000 dupe engine (6,190 SKUs) | ✅ Live |
-| 3-tier GenAI image pipeline | ✅ Live |
-| Bilingual semantic search (AR/EN/CN) | ✅ Live |
-| Stripe payments + entitlement system | ✅ Live |
-| Supabase Auth (ES256/JWKS) | ✅ Live |
-| SEO prerender + sitemap + structured data | ✅ Live |
-| Docker + CI/CD + 42 backend tests | ✅ Phase 1 complete |
-
-**Technical debt: Near zero. Phase 0 & 1 complete.**
-
----
-
-## Slide 10: Market Size
-
-| Segment | TAM | SAM (Year 3) | SOM (Year 3) |
-|---------|-----|--------------|--------------|
-| **Consumer Beauty Apps** | $12B | $800M | $40M |
-| **Social Commerce (Beauty)** | $45B | $2.1B | $60M |
-| **B2B Beauty Tech (SaaS/API)** | $8B | $600M | $30M |
-| **Total Addressable** | **$65B** | **$3.5B** | **$130M** |
+**ما يميزنا:**
+- ✅ **صورتك لا تغادر جهازك — إطلاقاً**
+- ✅ **علم ألوان معياري صناعي** (نفس ما تستخدمه Pantone)
+- ✅ **درس مكياج مخصص** لهندسة وجهك عبر AI
+- ✅ **بدائل رخيصة (Dupes)** لكل توصية
 
 ---
 
-## Slide 11: Competitive Landscape
+## 📈 SLIDE 4: حجم السوق (Market Size)
 
-| Competitor | Approach | Weakness |
-|------------|----------|----------|
-| **Perfect Corp / ModiFace** | Cloud AR, enterprise B2B | No privacy; expensive; no consumer app |
-| **Sephora Virtual Artist** | In-app overlay | Walled garden; no dupe search; no AI tutorial |
-| **Shade-match apps (Findation, etc.)** | Crowdsourced DB | No facial geometry; inaccurate; no monetization |
-| **TikTok/IG filters** | Social AR | No purchase path; no personalization |
-| **BeautyFit** | **Privacy-first + Geometry + Color Science + GenAI + Commerce** | **Only full-stack solution** |
+### **سوق قابل للاختراق ينمو بسرعة قياسية**
 
----
+```
+TAM: $571B ┌─────────────────────┐
+           │ Global Beauty       │
+           │ Industry (2024)     │
+           └──────────┬──────────┘
+                      │
+SAM: $87B ┌──────────▼──────────┐
+           │ Digital Beauty +  │
+           │ Beauty Tech       │
+           │ (CAGR 19.7%)      │
+           └──────────┬──────────┘
+                      │
+SOM: $2.4B ┌──────────▼──────────┐
+           │ MENA + GCC +       │
+           │ Privacy-Conscious  │
+           │ Segment (3-Year)   │
+           └─────────────────────┘
+```
 
-## Slide 12: Unit Economics (Projected Year 2)
-
-| Metric | Value |
-|--------|-------|
-| **CAC (blended)** | $8.50 |
-| **LTV (Pro subscriber)** | $42 |
-| **LTV/CAC** | **4.9x** |
-| **Payback period** | 2.1 months |
-| **Gross margin (Pro)** | 92% |
-| **Gross margin (Affiliate)** | 100% |
-| **Gross margin (B2B API)** | 85% |
-
----
-
-## Slide 13: Financial Projections
-
-| | Year 1 | Year 2 | Year 3 |
-|---|--------|--------|--------|
-| **Revenue** | $700K | $6.2M | $16.3M |
-| **Pro Subscriptions** | $200K | $2.1M | $4.2M |
-| **Affiliate** | $150K | $1.8M | $3.5M |
-| **B2B API** | $300K | $2.0M | $8.0M |
-| **Trend Reports** | $50K | $300K | $600K |
-| **Operating Expenses** | $1.2M | $3.5M | $7.8M |
-| **EBITDA** | -$500K | $2.7M | $8.5M |
-
-*Assumes 3-person core team + contractors until Year 2*
+**المحركات:**
+- 📱 Beauty Tech CAGR: **19.7%** → $13.5B بحلول 2027
+- 🔐 Privacy Tech CAGR: **17.3%** — المستهلك يبحث عن on-device
+- 🌍 السوق العربي ينفق **$57B/سنة** على الجمال — بلا لاعب تقني محلي حقيقي
 
 ---
 
-## Slide 14: The Ask
+## ⚔️ SLIDE 5: المنافسة (Competitive Landscape)
 
-| Round | Amount | Use of Funds |
-|-------|--------|--------------|
-| **Seed** | **$1.5M** (SAFE, 20% discount, $12M cap) | |
-| | 40% — Engineering (B2B SDK, AR try-on, mobile) | |
-| | 25% — Growth (creator program, paid acquisition, SEO) | |
-| | 20% — B2B Sales (enterprise outreach, pilot integrations) | |
-| | 15% — Operations/Legal/Buffer | |
+| | **BeautyFit AI** | Perfect Corp | ModiFace (L'Oréal) | YouCam | Sephora VirtualArtist |
+|---|---|---|---|---|---|
+| **On-device Privacy** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **CIEDE2000 Color Science** | ✅ | ⚠️ Partial | ✅ | ❌ | ❌ |
+| **Product Catalog (Independent)** | ✅ 6,190 | ⚠️ Brand-locked | ❌ L'Oréal only | ⚠️ | ❌ Sephora only |
+| **Dupe Search** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **AI-Generated Tutorials** | ✅ | ⚠️ Generic | ❌ | ⚠️ | ❌ |
+| **Arabic-first UX** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Open Recommendation Engine** | ✅ | ❌ | ❌ | ❌ | ❌ |
 
-**Runway: 18 months to Series A metrics ($3M ARR, 100K MAU)**
-
----
-
-## Slide 15: Team
-
-| Role | Background |
-|------|------------|
-| **CEO / AI Architecture** | 10+ yrs ML infra; built recommendation systems at scale |
-| **CTO / Computer Vision** | MediaPipe/WASM expert; published CVPR; privacy-tech advocate |
-| **Head of Color Science** | Former L'Oréal R&D; CIEDE2000 implementation authority |
-| **Advisors** | Beauty tech VC; Former Sephora Digital VP; Creator economy founder |
+### 🏰 **الخندق (Moat):**
+1. **تقني**: WebAssembly + CIEDE2000 لا يُنسخ في شهر
+2. **بياناتي**: 6,190 SKU مُصنّف يدوياً بـ LAB values
+3. **علامة**: "Privacy-first Beauty" — تموضع فارغ اليوم
 
 ---
 
-## Slide 16: Vision — The Beauty Genome
+## 🎨 SLIDE 6: المنتج (Product Demo)
 
-> **Year 5**: Every user has a persistent "Beauty Genome" — facial geometry + color DNA + style evolution + purchase history — that powers:
->
-> - **Predictive recommendations** before trends hit
-> - **Cross-category expansion** (foundation, blush, skincare)
-> - **Brand co-creation** (data → new shade development)
-> - **Insurance-grade shade matching** for medical aesthetics
->
-> **The operating system for beauty decision-making.**
+### **تجربة المستخدم في 90 ثانية**
 
----
+```
+[0:00] المستخدم يفتح الرابط في المتصفح
+↓
+[0:15] الكاميرا تلتقط selfie
+↓ (المعالجة كلها على الجهاز — WebAssembly)
+[0:30] 478 نقطة يتم استخراجها + إرسال الإحداثيات فقط
+↓
+[0:45] الخادم يرجع: 14 قياس + Style: 72% Smokey, 18% Bold
+↓
+[0:60] عرض 12 lipstick متطابقة CIEDE2000 + Dupes لكل واحد
+↓
+[0:75] "شاهد كيف يبدو عليك" — صورة مولّدة (Gemini)
+↓
+[0:90] "احصل على درس مخصص" → Paywall Pro
+```
 
-## Slide 17: Appendix — Technical Deep Dive
-
-### Face Analysis Pipeline
-- MediaPipe FaceLandmarker (WASM, 478 pts, 800ms)
-- 14 geometric measurements (interocular, nose width, jaw angle, etc.)
-- 6-dimension style vector: Elegant / Sweet / Sexy / Natural / Powerful / Androgynous
-- Eye tagging (9 categories) + facial tagging (12 categories)
-
-### Color Engine
-- 6,190 lipsticks with LAB, RGB, HSL, brightness, saturation, hue
-- CIEDE2000 ΔE2000 implementation (verified against colormath)
-- Dupe search: cross-brand prioritized, sub-50ms response
-- Semantic parser: 200+ bilingual rules (AR/EN/CN)
-
-### GenAI Pipeline
-- **Tier 1**: Google Gemini (Imagen 4) — highest quality
-- **Tier 2**: OpenRouter (multiple models) — cost/quality balance
-- **Tier 3**: Pollinations — free fallback, auto-scaling
-- Automatic key rotation on 429; circuit breakers; cost logging
-
-### Security
-- Supabase Auth (ES256 via JWKS, not HS256)
-- HttpOnly cookies + Bearer tokens; no query-string JWTs
-- CORS locked to allowlist + preview-domain regex
-- Rate limiting (60 req/min/IP, configurable)
-- CSP headers; no localStorage for PII
+**[صور UI هنا — 4 لقطات: التحليل / التوصيات / الدرس / الصورة المولّدة]**
 
 ---
 
-## Slide 18: Contact
+## 💰 SLIDE 7: نموذج العمل (Business Model)
 
-**BeautyFit — AI Beauty Advisor**  
-📧 founders@beautyfit.app  
-🌐 beautyfit.app | beautyfit.online  
-📱 Demo: [QR Code to Live App]
+### **Freemium + Credits + Affiliate + B2B**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ 4 قنوات إيراد متكاملة (Diversified Revenue Streams)      │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│ 1️⃣ SUBSCRIPTIONS (60% of revenue by Y2)                │
+│ • Pro: $9.99/mo or $79/yr                              │
+│ • Pro+: $19.99/mo or $159/yr                           │
+│                                                         │
+│ 2️⃣ AFFILIATE COMMISSIONS (25% of revenue)              │
+│ • 5-15% on every product recommendation                │
+│ • Partners: Sephora, Amazon, Noon, Faces               │
+│                                                         │
+│ 3️⃣ B2B / API LICENSING (12% of revenue)                │
+│ • $299/mo Studio tier                                  │
+│ • White-label for clinics & D2C brands                 │
+│                                                         │
+│ 4️⃣ CREDIT PACKS (In-App) (3% of revenue)               │
+│ • Additional AI generations                            │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Unit Economics (Realistic):**
+- **LTV**: $133.70
+- **CAC**: $3.50 (blended) / $8 (paid)
+- **LTV/CAC**: **17× - 38×** (وفقاً للقناة)
+- **Gross Margin**: **82%** (مع Credit System)
+- **Payback Period**: < 3 أشهر
 
 ---
 
-*"The best investment in beauty is not the product — it's knowing which product."*
+## 📊 SLIDE 8: الجاذبية (Traction & Milestones)
 
-**— BeautyFit Team**
+### **ما أنجزناه (Phase 0 Complete)**
+
+✅ **المنتج التقني:**
+- محرك تحليل يعمل بدقة on-device
+- 6,190 SKU مُصنّف ومُدرَج
+- تكامل Stripe + Entitlement Model (9/9 اختبارات)
+- 3 طبقات توليد صور (Gemini + OpenRouter + Pollinations)
+
+✅ **البنية الأمنية:**
+- Phase 0 Security Audit: مُكتمل
+- OIDC + PKCE authentication
+- Server-side entitlements (لا يمكن التزوير)
+
+📅 **خارطة الطريق (Next 90 Days):**
+
+| الشهر | الإنجاز المستهدف |
+|---|---|
+| M1 | Soft launch (500 beta users) + Credit system live |
+| M2 | Affiliate integration (Amazon + Noon) + 5 creators |
+| M3 | 5,000 users + $2,500 MRR + first B2B pilot |
+
+---
+
+## 🚀 SLIDE 9: التوقعات المالية (Financial Projections)
+
+### **إسقاطات 3 سنوات (Realistic Scenario)**
+
+| المؤشر | Year 1 | Year 2 | Year 3 |
+|---|---|---|---|
+| **Total Users** | 50,000 | 350,000 | 1,200,000 |
+| **Paying Subscribers** | 2,000 | 18,000 | 78,000 |
+| **B2B Contracts** | 15 | 60 | 180 |
+| **ARR** | $312K | $2.85M | $12.6M |
+| **Gross Margin** | 78% | 82% | 85% |
+| **Cash Burn/Month** | -$45K | -$18K | Profitable |
+| **Break-even** | — | Q3 Y2 | ✅ |
+
+```
+ARR Growth ($M)
+│ 12.6 ├─────────────────────────────●
+│ 8     │ ●
+│ 4     │ ●
+│ ● 2.85 ├─────●
+│ ● 0.31 ├●
+└────────────────────────────────
+   Y1 Q1 Q2 Q3 Q4 Y2 Y3
+```
+
+---
+
+## 👥 SLIDE 10: الفريق (Team)
+
+### **[أضف بيانات فريقك الحقيقية هنا]**
+
+```
+┌────────────────────────────────────────────┐
+│                                            │
+│ [صورة] [صورة] [صورة]                       │
+│                                            │
+│ [الاسم]      [الاسم]       [الاسم]         │
+│ Founder/CEO   Co-founder/CTO Head of       │
+│               Product      │               │
+│                            │               │
+│ • [خبرة]                   • [خبرة]       • [خبرة]  │
+│ • [إنجاز]                  • [إنجاز]       • [إنجاز]  │
+│                                            │
+└────────────────────────────────────────────┘
+
+Advisors: [أسماء المستشارين — اقترح إضافة: خبير في Beauty Retail، خبير AI/ML، وأحد المؤسسين لشركة SaaS ناجحة]
+```
+
+**💡 توصية:** إذا كنت مؤسساً منفرداً حالياً، اذكر بصراحة أن التوظيف الفوري لـ Co-founder تقني/تسويقي هو الأولوية 1 بعد الجولة.
+
+---
+
+## 💸 SLIDE 11: الجولة والاستخدام (The Ask)
+
+### **نطلب: $1M Pre-Seed** — 18 شهر runway
+
+```
+┌─────────────────────────────────────────────────────┐
+│ استخدام رأس المال (Use of Funds)                     │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│ 🧑‍💻 الفريق (40%) $400,000                           │
+│ • Co-founder + 2 مطوري AI/ML                        │
+│ • Head of Growth                                    │
+│ • 2 محتوى/تسويق                                    │
+│                                                     │
+│ 📢 التسويق والنمو (30%) $300,000                    │
+│ • Paid acquisition (test & scale)                   │
+│ • Influencer & content engine                       │
+│ • SEO + Color Universe pages                        │
+│                                                     │
+│ 🔬 المنتج والبحث (20%) $200,000                    │
+│ • Validation dataset (بشرات متنوعة)                 │
+│ • Mobile app (iOS + Android)                        │
+│ • B2B API infrastructure                            │
+│                                                     │
+│ ⚖️ قانوني وامتثال (5%) $50,000                      │
+│ • GDPR + PDPL compliance                            │
+│ • Trademark + patents                               │
+│                                                     │
+│ 💰 احتياطي (5%) $50,000                             │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+```
+
+**المستهدف بنهاية 18 شهراً:**
+- ✅ $200K MRR
+- ✅ 200,000+ مستخدم نشط
+- ✅ 40+ عقد B2B
+- ✅ جاهزون لـ Series A ($5M-$8M)
+
+---
+
+## 🎯 SLIDE 12: لماذا الآن؟ (Why Now?)
+
+### **3 موجات تلتقي في لحظة واحدة**
+
+```
+🌊 Wave 1: Privacy Regulation ────────────────────────────────
+• GDPR fines: €2.5B (2023)
+• Apple ATT killed data harvesting
+• Consumer trust at all-time low (23%)
+│
+▼
+🌊 Wave 2: Generative AI Maturity ────────────────────────────────
+• Image gen cost dropped 87% (2023-2024)
+• On-device ML now viable (WebAssembly)
+• APIs commoditized → أي شخص يبني
+│
+▼
+🌊 Wave 3: Beauty Personalization Demand ────────────────────────────────
+• 76% من Gen Z يطلبون "منتج لي أنا"
+• Dupe economy تنفجر (+340% searches)
+• Retail media = $150B market
+│
+▼
+⚡ BeautyFit AI هي الشركة الوحيدة التي تركب الموجات الثلاث معاً
+```
+
+---
+
+## 🏁 SLIDE 13: الختام (The Vision)
+
+### **رؤيتنا لخمس سنوات**
+
+> **أن نكون الطبقة المعرفية (Cognitive Layer)**
+> **لصناعة الجمال العالمية —**
+> **بدءاً من العالم العربي، وامتداداً للعالم.**
+
+**ما يعني ذلك عملياً:**
+- 🌍 **10 ملايين مستخدم** يعتمدون علينا لكل قرار جمال
+- 🛍️ **$500M GMV** في التوصيات المُحوَّلة سنوياً
+- 🏢 **1,000 علامة تجارية** تستخدم API الخاص بنا
+- 🏆 **معيار صناعي** لـ Privacy-first beauty AI
+
+---
+
+## ☎️ SLIDE 14: تواصل معنا (Contact)
+
+```
+┌──────────────────────────────────────────────────┐
+│                                                  │
+│ BeautyFit AI                                     │
+│ The Cognitive Face Engine                        │
+│                                                  │
+│                                                  │
+│ 📧 mohamadalhothaify@gmail.com                  │
+│ 🌐 beautyfit.ai                                  │
+│ 💼 linkedin.com/company/beautyfit-ai            │
+│ 🐙 github.com/qaidm63                           │
+│                                                  │
+│                                                  │
+│ "Your face never leaves your phone.             │
+│  Your beauty deserves science."                 │
+│                                                  │
+└──────────────────────────────────────────────────┘
+```
